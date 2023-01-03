@@ -8,6 +8,8 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.2.0",
+    "@volar-plugins/vetur": "latest",
     "nuxt": "3.0.0"
   }
 }
