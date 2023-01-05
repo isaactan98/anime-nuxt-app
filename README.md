@@ -40,3 +40,7 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+
+<!-- insert sample image in readme --> 
+![sample image](https://github.com/isaactan98/anime-nuxt-app/blob/main/sample_img.png)

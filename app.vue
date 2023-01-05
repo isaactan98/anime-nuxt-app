@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen dark:bg-black">
-    <Navbar />
+    <Navbar class="sticky top-0" />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
