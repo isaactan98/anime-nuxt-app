@@ -6,4 +6,10 @@ export default defineNuxtConfig({
       titleTemplate: "%s - Anime Nuxt",
     },
   },
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
+      apiUrl2: process.env.NUXT_PUBLIC_API_URL2,
+    },
+  },
 });
