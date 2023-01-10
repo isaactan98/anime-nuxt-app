@@ -3,7 +3,7 @@
         <nav class="w-full bg-white dark:bg-black">
             <ul class="flex justify-between container list-none px-2 py-4 mx-auto">
                 <li class=" text-black dark:text-white">
-                    <button @click="toggleSidebar()">=</button>
+                    <button @click="toggleSidebar()" class="px-4 py-2 bg-white rounded-md text-black">=</button>
                 </li>
                 <li>
                     <a href="/about" class="text-2xl font-bold">
@@ -16,24 +16,13 @@
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
             <div class="bg-gray-200 dark:bg-zinc-800 w-3/4 lg:w-1/5" id="collapse-sidebar">
                 <ul class="list-none dark:text-white">
-                    <li>
-                        <a href="/about" class="text-2xl font-bold">About</a>
+                    <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700">
+                        <NuxtLink :to="item.route" class="text-lg font-bold">{{ item.name }}</NuxtLink>
                     </li>
-                    <li>
-                        <a href="/about" class="text-2xl font-bold">About</a>
-                    </li>
-                    <li>
-                        <a href="/about" class="text-2xl font-bold">About</a>
-                    </li>
-                    <li>
-                        <a href="/about" class="text-2xl font-bold">About</a>
-                    </li>
-                    <li>
-                        <a href="/about" class="text-2xl font-bold">About</a>
-                    </li>
+                    <NuxtLink to="/animes/1" class="text-white">Link</NuxtLink>
                 </ul>
             </div>
-            <div class="bg-black opacity-60 w-full min-h-screen absolute -z-10 animate" id="collapse-sidebar-bg"
+            <div class="bg-black opacity-60 w-full min-h-screen absolute -z-10" id="collapse-sidebar-bg"
                 @click="toggleSidebar()"></div>
         </div>
     </div>
@@ -41,6 +30,16 @@
 
 <script>
 export default {
+    data() {
+        return {
+            sidebar: false,
+            sidebar_item: [
+                { id: 'home', name: 'Home', route: '/newIndex' },
+                { id: 'about', name: 'About', route: '/about' },
+                { id: 'contact', name: 'Contact', route: '/contact' },
+            ]
+        }
+    },
     mounted() {
 
     },
@@ -52,9 +51,13 @@ export default {
             if (sidebar.classList.contains('fadeInFromLeft')) {
                 sidebar.classList.remove('fadeInFromLeft')
                 sidebar.classList.add('fadeInFromRight')
-                sidebar.parentElement.classList.add('hidden')
-                sidebar.parentElement.classList.remove('flex')
-                sidebarBg.classList.add('hidden')
+                if (sidebar.classList.contains('fadeInFromRight')) {
+                    setTimeout(() => {
+                        sidebar.parentElement.classList.add('hidden')
+                        sidebar.parentElement.classList.remove('flex')
+                        sidebarBg.classList.add('hidden')
+                    }, 380)
+                }
             } else {
                 sidebar.classList.remove('fadeInFromRight')
                 sidebar.classList.add('fadeInFromLeft')
@@ -76,11 +79,11 @@ export default {
 }
 
 .fadeInFromLeft {
-    animation: moveInFromLeft 0.5s ease-out;
+    animation: moveInFromLeft 0.4s ease-out;
 }
 
 .fadeInFromRight {
-    animation: moveInFromRight 0.5s ease-out;
+    animation: moveInFromRight 0.4s ease-out;
 }
 
 /* animation move in from left */

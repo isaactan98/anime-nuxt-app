@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss"],
   app: {
     head: {
-      titleTemplate: "%s - Anime Nuxt",
+      titleTemplate: "%s - ANA",
     },
   },
   runtimeConfig: {
