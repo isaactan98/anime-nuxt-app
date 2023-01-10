@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-black container px-4 mx-auto min-h-screen">
+    <div class="container px-4 mx-auto min-h-screen">
 
 
         <div class="text-white my-4 min-h-[20vh] flex items-center">
@@ -71,7 +71,7 @@ export default {
             await fetch(config.apiUrl2 + 'recent-episodes')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.results)
+                    // console.log(data.results)
                     this.recentRelease = data.results;
                 })
                 .catch(err => console.log(err));

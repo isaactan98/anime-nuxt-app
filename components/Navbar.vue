@@ -1,6 +1,6 @@
 <template>
     <div class="z-50">
-        <nav class="w-full bg-white dark:bg-black">
+        <nav class="w-full">
             <ul class="flex justify-between container list-none px-2 py-4 mx-auto">
                 <li class=" text-black dark:text-white">
                     <button @click="toggleSidebar()" class="px-4 py-2 bg-white rounded-md text-black">=</button>
@@ -16,10 +16,13 @@
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
             <div class="bg-gray-200 dark:bg-zinc-800 w-3/4 lg:w-1/5" id="collapse-sidebar">
                 <ul class="list-none dark:text-white">
-                    <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700">
+                    <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700"
+                        @click="toggleSidebar()">
                         <NuxtLink :to="item.route" class="text-lg font-bold">{{ item.name }}</NuxtLink>
                     </li>
-                    <NuxtLink to="/animes/1" class="text-white">Link</NuxtLink>
+                    <li class="py-4 px-4 border-b border-zinc-700">
+                        <NuxtLink to="/animes/the-eminence-in-shadow-17473" class="text-white">Link</NuxtLink>
+                    </li>
                 </ul>
             </div>
             <div class="bg-black opacity-60 w-full min-h-screen absolute -z-10" id="collapse-sidebar-bg"
