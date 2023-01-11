@@ -1,12 +1,12 @@
 <template>
-    <div class="z-50">
+    <div class="z-50 bg-zinc-900">
         <nav class="w-full">
             <ul class="flex justify-between container list-none px-2 py-4 mx-auto">
                 <li class=" text-black dark:text-white">
-                    <button @click="toggleSidebar()" class="px-4 py-2 bg-white rounded-md text-black">=</button>
+                    <button @click="toggleSidebar()" class="px-2 bg-white rounded-md text-black">=</button>
                 </li>
                 <li>
-                    <a href="/about" class="text-2xl font-bold">
+                    <a class="text-2xl font-bold">
                         <div class="rounded-full p-3 bg-black dark:bg-white"></div>
                     </a>
                 </li>
@@ -37,9 +37,7 @@ export default {
         return {
             sidebar: false,
             sidebar_item: [
-                { id: 'home', name: 'Home', route: '/newIndex' },
-                { id: 'about', name: 'About', route: '/about' },
-                { id: 'contact', name: 'Contact', route: '/contact' },
+                { id: 'home', name: 'Home', route: '/' },
             ]
         }
     },
