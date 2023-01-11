@@ -10,6 +10,7 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@volar-plugins/vetur": "latest",
-    "nuxt": "3.0.0"
+    "nuxt": "3.0.0",
+    "video.js": "^7.20.3"
   }
 }
