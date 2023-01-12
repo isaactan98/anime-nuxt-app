@@ -1,7 +1,7 @@
 <template>
     <div class="">
-        <video ref="videoPlayer" class="video-js" id="video_player">
-            <track kind="captions" :src="subtitle.url" srclang="en" label="English" default />
+        <video ref="videoPlayer" class="video-js" id="video_player" crossorigin="anonymous">
+            <track kind="captions" :src="subtitle" srclang="en" label="English" default />
         </video>
     </div>
 </template>
@@ -30,8 +30,6 @@ export default {
         if (this.videoDetails.sources) {
             var source = details.sources
 
-            console.log(source)
-
             this.url[1080].url = source[0].url
             this.url[720].url = source[1].url
             this.url[360].url = source[2].url
@@ -41,12 +39,9 @@ export default {
 
             this.subtitle = subtitle.url ?? ''
 
+            console.log(this.subtitle)
+
             this.video = videojs('video_player', {
-                html5: {
-                    hls: {
-                        withCredentials: true,
-                    }
-                },
                 controls: true,
                 autoplay: false,
                 preload: 'auto',

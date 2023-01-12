@@ -6,7 +6,7 @@
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
-                <span class="text-sm font-bold">Episode {{ thisEp.number }}</span>
+                <span class="text-sm font-bold text-purple-500">Episode {{ thisEp.number }}</span>
             </div>
 
             <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 flex gap-3">
