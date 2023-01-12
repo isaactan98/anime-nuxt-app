@@ -2,7 +2,7 @@
     <div class="z-50 bg-zinc-900">
         <nav class="w-full">
             <ul class="flex justify-between container list-none px-2 py-4 mx-auto">
-                <li class=" text-black dark:text-white">
+                <li class="text-white">
                     <button @click="toggleSidebar()" class="px-2 bg-white rounded-md text-black">=</button>
                 </li>
                 <li>
@@ -14,7 +14,7 @@
         </nav>
         <!-- collapse sidebar -->
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
-            <div class="bg-gray-200 dark:bg-zinc-800 w-3/4 lg:w-1/5" id="collapse-sidebar">
+            <div class="bg-zinc-800 w-3/4 lg:w-1/5" id="collapse-sidebar">
                 <ul class="list-none dark:text-white">
                     <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700"
                         @click="toggleSidebar()">

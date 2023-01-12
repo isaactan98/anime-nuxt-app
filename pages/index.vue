@@ -5,13 +5,13 @@
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your Favourite <br>
-                <span class="text-green-400">Anime</span>
+                <span class="text-purple-500">Anime</span>
             </h1>
         </div>
         <div class="flex overflow-x-auto w-full gap-3 py-4">
             <div v-for="g in genre" :key="g.id" class="">
-                <h1 class="text-xs px-4 py-2 rounded-full border-green-400 text-white"
-                    :class="g.id == 'all' ? 'bg-green-400' : 'bg-green-900'">
+                <h1 class="text-xs px-4 py-2 rounded-full border-purple-500 text-white"
+                    :class="g.id == 'all' ? 'bg-purple-500' : 'bg-purple-900'">
                     {{ g.name }}
                 </h1>
             </div>

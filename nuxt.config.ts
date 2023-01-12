@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss"],
   app: {
     head: {
-      title: "Shadow Anime - Shadow Garden",
-      titleTemplate: "%s - Shadow Garden",
+      title: "Shadow Anime - Shadow Garden Anime",
+      titleTemplate: "%s - Shadow Garden Anime",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         {
           hid: "og:title",
           property: "og:title",
-          content: "Anime Nuxt App - ANA",
+          content: "Shadow Anime - Shadow Garden Anime",
         },
         {
           hid: "og:description",

@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="p-4 flex justify-center w-full mt-4">
-                    <a :href="anime.url" target="_blank" class=" bg-green-400 w-full px-5 py-3 rounded-lg text-center">
+                    <a :href="anime.url" target="_blank" class=" bg-purple-500 w-full px-5 py-3 rounded-lg text-center">
                         View on Zoro.to
                     </a>
                 </div>
