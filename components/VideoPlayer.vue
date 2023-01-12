@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <video ref="videoPlayer" class="video-js" id="video_player" crossorigin="anonymous">
+        <video ref="videoPlayer" class="video-js" id="video_player">
             <track kind="captions" :src="subtitle" srclang="en" label="English" default />
         </video>
     </div>
@@ -39,9 +39,14 @@ export default {
 
             this.subtitle = subtitle.url ?? ''
 
-            console.log(this.subtitle)
+            // console.log(this.subtitle)
 
             this.video = videojs('video_player', {
+                html5: {
+                    hls: {
+                        nativeTextTracks: true
+                    }
+                },
                 controls: true,
                 autoplay: false,
                 preload: 'auto',
@@ -64,9 +69,11 @@ export default {
                         label: this.url.auto.quality
                     },
                 ],
-            }, () => {
-                this.video.log('onPlayerReady', this);
             });
+
+            this.video.on('error', (err) => {
+                console.log(err)
+            })
         }
     },
     beforeDestroy() {

@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss"],
   app: {
     head: {
-      title: "Shadow Anime - Shadow Garden Anime",
+      title: "Shadow Anime",
       titleTemplate: "%s - Shadow Garden Anime",
       meta: [
         { charset: "utf-8" },

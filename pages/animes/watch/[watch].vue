@@ -61,7 +61,7 @@ export default {
             await fetch(api + 'info?id=' + newId)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('data:', data)
+                    // console.log('data:', data)
                     this.info = data;
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
                 })
@@ -75,18 +75,18 @@ export default {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
                     'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization, X-Request-With',
-                    'Origin': 'localhost:3000'
+                    'Origin': '*'
                 }
             })
                 .then(res => {
                     if (!res.ok) {
-                        throw Error('Could not fetch the data for that resource')
+                        throw Error('Server is not responding. Please try again later.')
                     }
                     return res.json()
                 })
                 .then(data => {
                     this.video = JSON.parse(JSON.stringify(data));
-                    console.log('video', this.video)
+                    // console.log('video', this.video)
                 }).catch(err => {
                     alert(err)
                     console.log(err)
