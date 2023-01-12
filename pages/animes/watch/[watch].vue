@@ -69,6 +69,7 @@ export default {
         },
 
         async getEpisode(api, id) {
+            var newId = id.slice(0, -1).split('$')[0];
             await fetch(api + 'watch?episodeId=' + id, {
                 method: 'GET',
                 headers: {
@@ -80,6 +81,7 @@ export default {
             })
                 .then(res => {
                     if (!res.ok) {
+                        window.location.href = '/animes/' + newId
                         throw Error('Server is not responding. Please try again later.')
                     }
                     return res.json()
