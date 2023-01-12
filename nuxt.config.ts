@@ -29,7 +29,7 @@ export default defineNuxtConfig({
           hid: "og:image",
           property: "og:image",
           content:
-            "https://img.zorores.com/_r/300x400/100/bc/a4/bca4a71e271a30fb1b44d33d56db8f8f/bca4a71e271a30fb1b44d33d56db8f8f.jpg",
+            "https://static.wikia.nocookie.net/to-be-a-power-in-the-shadows/images/f/f7/Shadow-Garden-Anime.jpg/revision/latest?cb=20221031135138",
         },
         {
           hid: "robots",
