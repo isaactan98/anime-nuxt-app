@@ -1,8 +1,6 @@
 <template>
-    <div class=" bg-white min-h-screen">
+    <div class="">
         <video ref="videoPlayer" class="video-js" id="video_player"></video>
-
-        <video v-if="url != ''" :src="url.url"></video>
     </div>
 </template>
 
@@ -26,6 +24,10 @@ export default {
 
             var src = this.url.url ?? 'https://www.w3schools.com/html/mov_bbb.mp4'
 
+            var subtitle = { ...details.subtitles[0] }
+
+            var sub = subtitle.url ?? ''
+
             this.video = videojs('video_player', {
                 controls: true,
                 autoplay: false,
@@ -34,12 +36,12 @@ export default {
                 sources: [{
                     src: src,
                 }],
-                // track: [{
-                //     kind: 'captions',
-                //     src: 'https://www.w3schools.com/html/mov_bbb.vtt',
-                //     srclang: 'en',
-                //     label: 'English'
-                // }]
+                track: [{
+                    kind: 'captions',
+                    src: sub,
+                    srclang: 'en',
+                    label: 'English'
+                }]
             }, () => {
                 this.video.log('onPlayerReady', this);
             });
