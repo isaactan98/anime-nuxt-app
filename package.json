@@ -12,5 +12,8 @@
     "@volar-plugins/vetur": "latest",
     "nuxt": "3.0.0",
     "video.js": "^7.20.3"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.7"
   }
 }

@@ -6,9 +6,7 @@
                     <button @click="toggleSidebar()" class="px-2 bg-white rounded-md text-black">=</button>
                 </li>
                 <li>
-                    <a class="text-2xl font-bold">
-                        <div class="rounded-full p-3 bg-black dark:bg-white"></div>
-                    </a>
+                    <ProfileDropdown></ProfileDropdown>
                 </li>
             </ul>
         </nav>
@@ -32,6 +30,7 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
