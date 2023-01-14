@@ -48,20 +48,32 @@ export default {
     mounted() {
         const route = useRoute();
         const config = useRuntimeConfig();
-        var id = route.params.watch;
+        var id = route.query.id;
+        var epid = route.params.watch;
 
-        this.getInfo(config.apiUrl2, id);
-        this.getEpisode(config.apiUrl2, id);
+        console.log('id:', id)
+
+        var watchUrl = '';
+        var infoUrl = ''
+
+        if (localStorage.getItem('server') == 'gogoanime') {
+            infoUrl = config.apiUrl + 'info/' + id
+            watchUrl = config.apiUrl + 'watch/' + epid
+        } else {
+            infoUrl = config.apiUrl2 + 'info?id=' + id
+            watchUrl = config.apiUrl2 + 'watch?episodeId=' + epid
+        }
+
+        this.getInfo(infoUrl, epid);
+        this.getEpisode(watchUrl, id);
 
     },
     methods: {
         async getInfo(api, id) {
-            var newId = id.slice(0, -1).split('$')[0];
-            // console.log(newId)
-            await fetch(api + 'info?id=' + newId)
+            await fetch(api)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log('data:', data)
+                    console.log('data:', data)
                     this.info = data;
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
                 })
@@ -69,8 +81,7 @@ export default {
         },
 
         async getEpisode(api, id) {
-            var newId = id.slice(0, -1).split('$')[0];
-            await fetch(api + 'watch?episodeId=' + id, {
+            await fetch(api, {
                 method: 'GET',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -81,7 +92,7 @@ export default {
             })
                 .then(res => {
                     if (!res.ok) {
-                        window.location.href = '/animes/' + newId
+                        window.location.href = '/animes/' + id
                         throw Error('Server is not responding. Please try again later.')
                     }
                     return res.json()

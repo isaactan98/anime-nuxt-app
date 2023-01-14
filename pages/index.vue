@@ -1,6 +1,9 @@
 <template>
     <div class="container px-4 mx-auto min-h-screen">
 
+        <div v-if="isOpen">
+            <ServerModal :isOpenModal="isOpen"></ServerModal>
+        </div>
 
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
@@ -34,6 +37,7 @@ export default {
 
     data() {
         return {
+            isOpen: false,
             recentRelease: [],
             genre: [
                 // anime genre 
@@ -63,18 +67,34 @@ export default {
                 }
             ]
         })
-        this.getRecentRelease()
+        this.getServer()
+        if (this.isOpen) {
+            return
+        } else {
+            this.getRecentRelease()
+        }
     },
     methods: {
         async getRecentRelease() {
             const config = useRuntimeConfig();
-            await fetch(config.apiUrl2 + 'recent-episodes')
+
+            var url = ''
+
+            if (localStorage.getItem('server') == 'gogoanime') {
+                url = config.apiUrl + 'recent-episodes'
+            } else {
+                url = config.apiUrl2 + 'recent-episodes'
+            }
+
+            await fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data.results)
                     this.recentRelease = data.results;
                 })
                 .catch(err => console.log(err));
+        },
+        getServer() {
+            localStorage.getItem('server') ? this.isOpen = false : this.isOpen = true;
         }
     }
 }

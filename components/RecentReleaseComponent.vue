@@ -12,7 +12,7 @@
                         </h3>
                     </div>
                     <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-3">
-                        EP {{ release.episode }}
+                        EP {{ release.episode ?? release.episodeNumber }}
                     </span>
                 </div>
             </a>

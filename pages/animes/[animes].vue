@@ -28,10 +28,10 @@
                     </a>
                 </div>
 
-                <div class="p-4 lg:grid grid-cols-5 gap-4">
-                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id"
+                <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4">
+                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
                         class="border border-white py-2 rounded text-white text-center my-2 relative block truncate">
-                        <span class="w-3/4 mx-auto">(E{{ e.number }}) - {{ e.title }}</span>
+                        <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
             </div>
@@ -48,6 +48,7 @@ export default {
     data() {
         return {
             anime: {
+                id: '',
                 title: '',
                 description: '',
                 url: '',
@@ -64,10 +65,20 @@ export default {
         const route = useRoute();
         var id = route.params.animes;
         const config = useRuntimeConfig();
-        fetch(config.apiUrl2 + 'info?id=' + id)
+
+        var url = '';
+
+        if (localStorage.getItem('server') == 'gogoanime') {
+            url = config.apiUrl + 'info/' + id
+        } else {
+            url = config.apiUrl2 + 'info?id=' + id
+        }
+
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                this.anime.id = data.id;
                 this.anime.title = data.title;
                 this.anime.description = data.description;
                 this.anime.url = data.url;

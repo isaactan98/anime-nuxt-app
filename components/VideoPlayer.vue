@@ -1,7 +1,6 @@
 <template>
     <div class="">
         <video ref="videoPlayer" class="video-js" id="video_player">
-            <track kind="captions" :src="subtitle" srclang="en" label="English" default />
         </video>
     </div>
 </template>
@@ -34,12 +33,6 @@ export default {
             this.url[720].url = source[1].url
             this.url[360].url = source[2].url
             this.url.auto.url = source[3].url
-
-            var subtitle = { ...details.subtitles[0] }
-
-            this.subtitle = subtitle.url ?? ''
-
-            // console.log(this.subtitle)
 
             this.video = videojs('video_player', {
                 html5: {
