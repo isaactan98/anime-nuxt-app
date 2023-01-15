@@ -15,31 +15,45 @@
                         </svg>
                     </button>
 
-                    <ProfileDropdown v-if="userId || checkUserId"></ProfileDropdown>
-                    <LoginSignUpModal v-else></LoginSignUpModal>
+                    <div class="">
+                        <ProfileDropdown v-if="userId || checkUserId"></ProfileDropdown>
+                        <LoginSignUpModal v-else></LoginSignUpModal>
+                    </div>
                 </li>
             </ul>
         </nav>
         <!-- search input -->
-        <div class="absolute w-full" v-show="showSearch">
-            <div class="flex relative justify-center container mx-auto">
-                <input type="text" name="price" id="price"
-                    class="block w-full rounded-md border-gray-300 pl-7 pr-12 py-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    placeholder="Search anime ..." v-model="searchQuery">
-                <button class="absolute inset-y-0 right-3 flex items-center p-3" @click="searchAnime">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                        class="w-6 h-6 font-extrabold">
-                        <path fillRule="evenodd"
-                            d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                            clipRule="evenodd" />
-                    </svg>
-                </button>
+        <transition enter-active-class="ease-out duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100"
+            leave-active-class="ease-in duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+            <div class="absolute w-full" v-show="showSearch">
+                <div class="flex relative justify-center container mx-auto">
+                    <input type="text" name="price" id="price"
+                        class="block w-full rounded-md border-gray-300 pl-7 pr-12 py-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        placeholder="Search anime ..." v-model="searchQuery" autocomplete="off">
+                    <div class="absolute inset-y-0 right-0 flex items-center">
+                        <button class=" p-2" @click="searchAnime">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="w-6 h-6 font-extrabold">
+                                <path fillRule="evenodd"
+                                    d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                    clipRule="evenodd" />
+                            </svg>
+                        </button>
+                        <button class=" p-2 text-red-500" @click="toggleSearch">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </transition>
         <!-- collapse sidebar -->
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
             <div class="bg-gray-800 w-3/4 lg:w-1/5" id="collapse-sidebar">
-                <ul class="list-none dark:text-white">
+                <ul class="list-none text-white">
                     <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700"
                         @click="toggleSidebar()">
                         <NuxtLink :to="item.route" class="text-lg font-bold">{{ item.name }}</NuxtLink>
@@ -100,6 +114,7 @@ export default {
         },
         toggleSearch() {
             this.showSearch = !this.showSearch
+            this.searchQuery = ''
         },
         searchAnime() {
             // console.log('search anime')

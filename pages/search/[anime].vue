@@ -7,10 +7,10 @@
             </h1>
         </div>
 
-        <div v-if="animeList != null" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        <div v-if="animeList != null" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
             <div class="mb-5 relative" v-for="anime in animeList" :key="anime">
                 <a :href="'/animes/' + anime.id" class="relative">
-                    <div class="">
+                    <div class=" object-cover h-56 lg:h-96">
                         <img :src="anime.image" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
