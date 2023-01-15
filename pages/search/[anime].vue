@@ -20,7 +20,7 @@
                             </h3>
                         </div>
                         <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-3"
-                            v-if="anime.episode && anime.episodeNumber">
+                            v-if="anime.episode || anime.episodeNumber">
                             EP {{ anime.episode ?? anime.episodeNumber }}
                         </span>
                     </div>
