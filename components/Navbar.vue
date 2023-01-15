@@ -6,7 +6,7 @@
                     <button @click="toggleSidebar()" class="px-2 bg-white rounded-md text-black">=</button>
                 </li>
                 <li>
-                    <ProfileDropdown v-if="userId"></ProfileDropdown>
+                    <ProfileDropdown v-if="userId || checkUserId"></ProfileDropdown>
                     <LoginSignUpModal v-else></LoginSignUpModal>
                 </li>
             </ul>
@@ -39,11 +39,12 @@ export default {
             sidebar_item: [
                 { id: 'home', name: 'Home', route: '/' },
             ],
+            checkUserId: ''
         }
     },
     props: ['userId'],
     mounted() {
-
+        this.checkUserId = sessionStorage.getItem('userId')
     },
     methods: {
         toggleSidebar() {

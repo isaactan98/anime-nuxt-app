@@ -92,7 +92,7 @@ export default {
         }
     },
     methods: {
-        getRecentRelease() {
+        async getRecentRelease() {
             const config = useRuntimeConfig();
             var url = ''
 
@@ -102,7 +102,7 @@ export default {
                 url = config.apiUrl2 + 'recent-episodes'
             }
 
-            fetch(url)
+            await fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.results.length > 0) {
@@ -121,12 +121,12 @@ export default {
             localStorage.getItem('server') ? this.isOpen = false : this.isOpen = true;
         },
 
-        getTopAiring() {
+        async getTopAiring() {
             const config = useRuntimeConfig();
             var url = ''
             url = config.apiUrl + 'top-airing'
 
-            fetch(url)
+            await fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     // console.log(data)

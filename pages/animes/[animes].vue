@@ -18,13 +18,15 @@
                         <span class=" rounded-full bg-white px-2 text-sm ml-2 font-bold">{{ anime.type }}</span>
                     </span>
 
-                    <span class="text-zinc-400 text-sm block my-3" v-if="anime.genres">
+                    <div class="text-zinc-400 text-sm my-3" v-if="anime.genres">
                         Genres:
-                        <span v-for="g of anime.genres" :key="g"
-                            class="text-zinc-300 border border-zinc-300 rounded-full mx-2 px-2 text-xs">
-                            {{ g }}
-                        </span>
-                    </span>
+                        <div class="mt-1">
+                            <span v-for="g of anime.genres" :key="g"
+                                class="text-zinc-300 border border-zinc-300 rounded-full mr-2 px-2 text-xs inline-block">
+                                {{ g }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="p-4 overflow-y-auto max-h-28">
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>

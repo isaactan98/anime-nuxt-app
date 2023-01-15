@@ -8,14 +8,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+  const config = useRuntimeConfig();
+
   const firebaseConfig = {
-    apiKey: "AIzaSyAUfH0hiaNkb0L5izfuzXwK5Bqt_Y2fW6Y",
-    authDomain: "shadow-graden-anime.firebaseapp.com",
-    projectId: "shadow-graden-anime",
-    storageBucket: "shadow-graden-anime.appspot.com",
-    messagingSenderId: "677627459824",
-    appId: "1:677627459824:web:c6b249a5e855f95e5eaa35",
-    measurementId: "G-4C52XHMRFP",
+    apiKey: config.firebaseApiKey,
+    authDomain: config.firebaseAuthDomain,
+    projectId: config.firebaseProjectId,
+    storageBucket: config.firebaseStorageBucket,
+    messagingSenderId: config.firebaseMessageId,
+    appId: config.firebaseAppId,
+    measurementId: config.firebaseMeasurementId,
   };
 
   // Initialize Firebase
