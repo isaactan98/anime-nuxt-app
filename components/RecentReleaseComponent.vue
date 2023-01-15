@@ -11,7 +11,8 @@
                             {{ release.title }}
                         </h3>
                     </div>
-                    <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-3">
+                    <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-3"
+                        v-if="release.episode && release.episodeNumber">
                         EP {{ release.episode ?? release.episodeNumber }}
                     </span>
                 </div>

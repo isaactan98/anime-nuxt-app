@@ -12,10 +12,18 @@
             </div>
             <div class="z-10">
                 <div class="p-4 mt-4 mx-auto">
-                    <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.title }} - EP: {{ anime.totalEpisodes }}
+                    <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.title }} <br> EP: {{ anime.totalEpisodes }}
                     </h1>
-                    <span class="text-zinc-400 text-sm">Type:
+                    <span class="text-zinc-400 text-sm block my-3">Type:
                         <span class=" rounded-full bg-white px-2 text-sm ml-2 font-bold">{{ anime.type }}</span>
+                    </span>
+
+                    <span class="text-zinc-400 text-sm block my-3" v-if="anime.genres">
+                        Genres:
+                        <span v-for="g of anime.genres" :key="g"
+                            class="text-zinc-300 border border-zinc-300 rounded-full mx-2 px-2 text-xs">
+                            {{ g }}
+                        </span>
                     </span>
                 </div>
                 <div class="p-4 overflow-y-auto max-h-28">
@@ -24,7 +32,7 @@
 
                 <div class="p-4 flex justify-center w-full mt-4">
                     <a :href="anime.url" target="_blank" class=" bg-purple-500 w-full px-5 py-3 rounded-lg text-center">
-                        View on Zoro.to
+                        View on {{ server }}
                     </a>
                 </div>
 
@@ -55,8 +63,10 @@ export default {
                 img: '',
                 totalEpisodes: '',
                 type: '',
-                episode: []
-            }
+                episode: [],
+                genres: []
+            },
+            server: ""
         }
     },
     mounted() {
@@ -65,6 +75,8 @@ export default {
         const route = useRoute();
         var id = route.params.animes;
         const config = useRuntimeConfig();
+
+        this.server = localStorage.getItem('server') == 'gogoanime' ? 'Gogoanime' : 'Zoro.to';
 
         var url = '';
 
@@ -78,17 +90,22 @@ export default {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                this.anime.id = data.id;
-                this.anime.title = data.title;
-                this.anime.description = data.description;
-                this.anime.url = data.url;
-                this.anime.img = data.image;
-                this.anime.totalEpisodes = data.totalEpisodes;
-                this.anime.type = data.type;
-                this.sortEpisode(data.episodes);
-                this.anime.episode = data.episodes;
-                // console.log(data.episodes)
-                this.setTitle();
+                if (data.id != null) {
+                    this.anime.id = data.id;
+                    this.anime.title = data.otherName ?? data.title;
+                    this.anime.description = data.description;
+                    this.anime.url = data.url;
+                    this.anime.img = data.image;
+                    this.anime.totalEpisodes = data.totalEpisodes;
+                    this.anime.type = data.type;
+                    this.anime.genres = data.genres;
+                    this.sortEpisode(data.episodes);
+                    this.anime.episode = data.episodes;
+                    this.setTitle();
+                } else {
+                    alert('Server is down, please try again later.')
+                    window.location.href = '/'
+                }
 
             })
             .catch(err => console.log(err));

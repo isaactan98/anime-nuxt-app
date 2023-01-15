@@ -13,23 +13,24 @@
                         leave-to="opacity-0 scale-95">
                         <div
                             class="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-900 p-6 text-left align-middle shadow-xl transition-all">
-                            <div as="h3" class="text-lg font-medium leading-6 text-white">
+                            <div as="h3" class="text-lg font-medium leading-6 text-white mb-5">
                                 Please select a server
                             </div>
                             <div class="mt-2">
-                                <div class="bg-purple-800 active:bg-purple-700 focus:ring focus:ring-violet-700 text-white p-4 rounded-full mb-3"
-                                    v-for="server in serverList" :key="server">
-                                    <label class="w-full block ml-4" :for="server.id" @click="setServer(server.id)">
+                                <div class="active:bg-violet-500 hover:bg-violet-500 text-white px-4 py-2 rounded-full mb-3"
+                                    v-for="server in serverList" :key="server"
+                                    :class="activeServer == server.id ? 'bg-violet-500' : 'bg-purple-800'">
+                                    <label class="block ml-4" :for="server.id" @click="setServer(server.id)">
                                         {{ server.name }}
                                     </label>
                                 </div>
                             </div>
 
-                            <div class="mt-4">
+                            <div class="mt-5">
                                 <button type="button"
                                     class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     @click="closeModal">
-                                    Got it, thanks!
+                                    Confirm!
                                 </button>
                             </div>
                         </div>
@@ -58,7 +59,7 @@ const serverList = [
     { id: 'zoro', name: 'Zoro.to' },
 ]
 
-// var modalBtn = localStorage.getItem('server') ? false : true
+var activeServer = localStorage.getItem('server') == 'gogoanime' ? 'gogoanime' : 'zoro'
 
 function closeModal() {
     isOpen.value = false
@@ -69,8 +70,8 @@ function openModal() {
 }
 
 function setServer(server) {
-    console.log('setServer', server)
+    // console.log('setServer', server)
     localStorage.setItem('server', server)
-    // modalBtn = false
+    activeServer = server
 }
 </script>
