@@ -19,7 +19,8 @@
                     {{ item.name }}
                 </button>
                 <NuxtLink class="text-left text-sm font-light block py-4 rounded-full text-white"
-                    :class="item.id == 'logout' ? 'bg-red-500' : 'bg-gray-700'" v-else :to="item.route">
+                    :class="item.id == 'logout' ? 'bg-red-500' : 'bg-gray-700'" v-else :to="item.route"
+                    @click="logOut(item.id)">
                     {{ item.name }}
                 </NuxtLink>
                 </MenuItem>
@@ -34,19 +35,34 @@
 <script setup >
 
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { getAuth, signOut } from "firebase/auth";
 
 var sidebarItems = [
     { id: 'profile', name: 'Profile', route: '/profile' },
     { id: 'server', name: 'Server', route: '' },
     { id: 'continue_watch', name: 'Continue Watch', route: '/profile' },
     { id: 'watch_list', name: 'Watch List', route: '/profile' },
-    { id: 'logout', name: 'Logout', route: '/profile' },
+    { id: 'logout', name: 'Logout', route: '/' },
 ]
 
 var isOpen = false;
 
 function openModal() {
     isOpen = true
+}
+
+function logOut(id) {
+    console.log(id)
+    if (id == 'logout') {
+        console.log('logout')
+        const auth = getAuth();
+        signOut(auth).then(() => {
+            sessionStorage.removeItem('userId')
+            window.location.href = '/'
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
 }
 
 </script>

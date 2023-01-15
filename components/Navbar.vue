@@ -6,7 +6,8 @@
                     <button @click="toggleSidebar()" class="px-2 bg-white rounded-md text-black">=</button>
                 </li>
                 <li>
-                    <ProfileDropdown></ProfileDropdown>
+                    <ProfileDropdown v-if="userId"></ProfileDropdown>
+                    <LoginSignUpModal v-else></LoginSignUpModal>
                 </li>
             </ul>
         </nav>
@@ -37,9 +38,10 @@ export default {
             sidebar: false,
             sidebar_item: [
                 { id: 'home', name: 'Home', route: '/' },
-            ]
+            ],
         }
     },
+    props: ['userId'],
     mounted() {
 
     },
