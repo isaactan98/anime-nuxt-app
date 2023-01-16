@@ -3,16 +3,18 @@
         <div v-if="anime.title != ''">
             <div class="w-full object-cover">
                 <div class="w-full py-5">
-                    <img :src="anime.img" alt="" class="w-52 m-auto rounded-xl z-10 relative">
+                    <img :src="anime.img" alt="" class="w-60 m-auto rounded-xl z-10 relative">
                 </div>
                 <div class="w-full">
                     <img :src="anime.img" alt=""
-                        class="w-full lg:w-10/12 mx-auto absolute top-0 blur-lg h-96 object-cover object-center left-0 right-0">
+                        class="w-full lg:w-10/12 mx-auto absolute top-0 blur-lg h-[26rem] object-cover object-center left-0 right-0">
                 </div>
             </div>
             <div class="z-10">
                 <div class="p-4 mt-4 mx-auto">
-                    <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.title }} <br> EP: {{ anime.totalEpisodes }}
+                    <div v-if="anime.otherName" class="text-zinc-300 mb-4 text-xs">{{ anime.title }}</div>
+                    <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.otherName ?? anime.title }}
+                        <br> EP: {{ anime.totalEpisodes }}
                     </h1>
                     <span class="text-zinc-400 text-sm block my-3">Type:
                         <span class=" rounded-full bg-white px-2 text-sm ml-2 font-bold">{{ anime.type }}</span>
@@ -22,7 +24,7 @@
                         Genres:
                         <div class="mt-1">
                             <span v-for="g of anime.genres" :key="g"
-                                class="text-zinc-300 border border-zinc-300 rounded-full mr-2 px-2 text-xs inline-block">
+                                class="text-zinc-300 border border-zinc-300 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
                                 {{ g }}
                             </span>
                         </div>
@@ -32,10 +34,22 @@
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
-                <div class="p-4 flex justify-center w-full mt-4">
-                    <a :href="anime.url" target="_blank" class=" bg-purple-500 w-full px-5 py-3 rounded-lg text-center">
+                <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4">
+                    <a :href="anime.url" target="_blank"
+                        class=" bg-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center">
                         View on {{ server }}
                     </a>
+                    <button type="button"
+                        class="bg-white text-purple-500 w-1/2 px-5 py-3 rounded-lg text-center grid place-content-center"
+                        @click="addToList()" v-if="userId != null">
+                        <span v-if="addedList == 'false'">Add to favourite</span>
+                        <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="currentColor" class="w-6 h-6 mx-auto">
+                            <path
+                                d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                        </svg>
+                        <SpiningLoading v-if="addedList == ''" class="text-purple-600 m-0"></SpiningLoading>
+                    </button>
                 </div>
 
                 <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4">
@@ -53,6 +67,7 @@
 </template>
 
 <script>
+import { getFirestore, query, where, getDocs, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 
 export default {
     data() {
@@ -66,13 +81,18 @@ export default {
                 totalEpisodes: '',
                 type: '',
                 episode: [],
-                genres: []
+                genres: [],
+                otherName: ''
             },
-            server: ""
+            server: "",
+            addedList: 'false',
+            userId: ''
         }
     },
     mounted() {
         this.setTitle();
+
+        this.userId = sessionStorage.getItem('userId');
 
         const route = useRoute();
         var id = route.params.animes;
@@ -94,7 +114,8 @@ export default {
                 console.log(data)
                 if (data.id != null) {
                     this.anime.id = data.id;
-                    this.anime.title = data.otherName ?? data.title;
+                    this.anime.title = data.title;
+                    this.anime.otherName = data.otherName
                     this.anime.description = data.description;
                     this.anime.url = data.url;
                     this.anime.img = data.image;
@@ -104,6 +125,8 @@ export default {
                     this.sortEpisode(data.episodes);
                     this.anime.episode = data.episodes;
                     this.setTitle();
+                    this.getAddedList()
+                    console.log(this.addedList)
                 } else {
                     alert('Server is down, please try again later.')
                     window.location.href = '/'
@@ -124,6 +147,53 @@ export default {
             arr.sort((a, b) => {
                 return b.number - a.number;
             });
+        },
+        getAddedList() {
+            const db = getFirestore();
+            const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
+            const querySnapshot = getDocs(q);
+
+            querySnapshot.then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    if (doc.data().userId == sessionStorage.getItem('userId') && doc.data().server == localStorage.getItem('server')) {
+                        this.addedList = 'true';
+                    }
+                });
+            });
+        },
+        addToList() {
+            const db = getFirestore();
+            if (this.addedList != 'true') {
+                this.addedList = '';
+                try {
+                    addDoc(collection(db, "watch-list"), {
+                        animeId: this.anime.id,
+                        userId: sessionStorage.getItem('userId'),
+                        server: localStorage.getItem('server')
+                    });
+                    this.addedList = 'true';
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            if (this.addedList == 'true') {
+                this.addedList = '';
+                try {
+                    const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
+                    const querySnapshot = getDocs(q);
+
+                    querySnapshot.then((querySnapshot) => {
+                        querySnapshot.forEach((docs) => {
+                            if (docs.data().userId == sessionStorage.getItem('userId') && docs.data().server == localStorage.getItem('server')) {
+                                deleteDoc(doc(db, "watch-list", docs.id));
+                                this.addedList = 'false';
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }
     }
 }

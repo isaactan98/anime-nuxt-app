@@ -7,7 +7,7 @@
             </TransitionChild>
 
             <div class="fixed inset-0 overflow-y-auto z-50">
-                <div class="flex min-h-full items-center justify-center p-4 text-center">
+                <div class="flex min-h-full items-center justify-center p-4 text-center" @click="toggleModal">
                     <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
                         enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
                         leave-to="opacity-0 scale-95">
@@ -67,6 +67,10 @@ function closeModal() {
 }
 function openModal() {
     isOpen.value = true
+}
+
+function toggleModal() {
+    isOpen.value = !isOpen.value
 }
 
 function setServer(server) {

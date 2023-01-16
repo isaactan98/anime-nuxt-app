@@ -3,7 +3,7 @@
         <nav class="w-full">
             <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
                 <li class="text-white">
-                    <button @click="toggleSidebar()" class="px-2 bg-white rounded-md text-black">=</button>
+                    <button @click="toggleSidebar()" class="px-2 bg-gray-800 rounded-md text-white">=</button>
                 </li>
                 <li class="flex items-center gap-3">
                     <button @click="toggleSearch" v-show="!showSearch">
@@ -23,8 +23,10 @@
             </ul>
         </nav>
         <!-- search input -->
-        <transition enter-active-class="ease-out duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100"
-            leave-active-class="ease-in duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <transition enter-active-class="transition duration-100 ease-out"
+            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+            leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
+            leave-to-class="transform scale-95 opacity-0">
             <div class="absolute w-full" v-show="showSearch">
                 <div class="flex relative justify-center container mx-auto">
                     <input type="text" name="price" id="price"

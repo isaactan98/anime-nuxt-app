@@ -12,17 +12,21 @@
             leave-to-class="transform scale-95 opacity-0">
             <MenuItems class="absolute right-0 mt-2 mr-4 w-64 origin-top-right rounded-lg bg-gray-800 shadow-lg p-5">
                 <div class="text-white mb-5">Hello <span class="text-purple-400">User</span></div>
-                <MenuItem class="px-5 py-1 mb-3" v-for="item in sidebarItems" :key="item">
+                <MenuItem class="mb-3" v-for="item in sidebarItems" :key="item" as="div" v-slot="{ close }">
                 <button type="button"
-                    class="text-left w-full text-sm font-light block py-4 rounded-full bg-gray-700 text-white"
+                    class="text-left w-full text-sm font-light block py-2 px-5 rounded-full bg-gray-700 text-white"
                     v-if="item.id == 'server'" @click="openModal">
                     {{ item.name }}
                 </button>
-                <NuxtLink class="text-left text-sm font-light block py-4 rounded-full text-white"
-                    :class="item.id == 'logout' ? 'bg-red-500' : 'bg-gray-700'" v-else :to="item.route"
-                    @click="logOut(item.id)">
+                <NuxtLink class="bg-gray-700 text-left text-sm font-light block py-2 px-5 rounded-full text-white"
+                    v-if="item.id != 'server' && item.id != 'logout'" :to="item.route" @click="close">
                     {{ item.name }}
                 </NuxtLink>
+                <button type="button"
+                    class="text-left w-full text-sm font-light block py-2 px-5 rounded-full bg-red-500 text-white"
+                    v-if="item.id == 'logout'" @click="logOut(item.id)">
+                    {{ item.name }}
+                </button>
                 </MenuItem>
             </MenuItems>
         </transition>
@@ -39,9 +43,9 @@ import { getAuth, signOut } from "firebase/auth";
 
 var sidebarItems = [
     { id: 'profile', name: 'Profile', route: '/profile' },
-    { id: 'server', name: 'Server', route: '' },
+    { id: 'watch_list', name: 'Watch List', route: '/watch-list' },
     { id: 'continue_watch', name: 'Continue Watch', route: '/profile' },
-    { id: 'watch_list', name: 'Watch List', route: '/profile' },
+    { id: 'server', name: 'Server', route: '' },
     { id: 'logout', name: 'Logout', route: '/' },
 ]
 
@@ -52,7 +56,6 @@ function openModal() {
 }
 
 function logOut(id) {
-    console.log(id)
     if (id == 'logout') {
         console.log('logout')
         const auth = getAuth();
