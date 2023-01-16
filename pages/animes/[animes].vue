@@ -170,8 +170,9 @@ export default {
                         animeId: this.anime.id,
                         userId: sessionStorage.getItem('userId'),
                         server: localStorage.getItem('server')
-                    });
-                    this.addedList = 'true';
+                    }).then(() => {
+                        this.addedList = 'true';
+                    })
                 } catch (error) {
                     console.log(error)
                 }
@@ -185,8 +186,9 @@ export default {
                     querySnapshot.then((querySnapshot) => {
                         querySnapshot.forEach((docs) => {
                             if (docs.data().userId == sessionStorage.getItem('userId') && docs.data().server == localStorage.getItem('server')) {
-                                deleteDoc(doc(db, "watch-list", docs.id));
-                                this.addedList = 'false';
+                                deleteDoc(doc(db, "watch-list", docs.id)).then(() => {
+                                    this.addedList = 'false';
+                                })
                             }
                         });
                     });

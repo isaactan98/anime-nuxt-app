@@ -1,12 +1,17 @@
 <template>
-    <div class="container px-4 mx-auto min-h-screen">
+    <div class="container px-4 mx-auto min-h-screen" v-if="watchList.length > 0">
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your <br>
-                <span class="text-purple-500">Favourite List</span>
+                <span class="text-purple-500 flex items-center gap-3">Favourite List
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8">
+                        <path
+                            d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                    </svg>
+                </span>
             </h1>
         </div>
-        <div class="my-5 grid grid-cols-2 md:grid-cols-4 gap-3" v-if="watchList.length > 0">
+        <div class="my-5 grid grid-cols-2 md:grid-cols-4 gap-3" v-if="watchListResult.length > 0">
             <div v-for="list in watchListResult" :key="list" class="">
                 <a :href="'/animes/' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
@@ -30,6 +35,9 @@
         <div class="my-5 mx-auto grid place-content-center" v-else>
             <SpiningLoading></SpiningLoading>
         </div>
+    </div>
+    <div v-else class="text-white container px-4 mx-auto min-h-screen grid place-content-center -mt-20">
+        Loading...
     </div>
 </template>
 
@@ -71,7 +79,6 @@ export default {
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
 
             fetch(url).then(response => response.json()).then(data => {
-                console.log(data)
                 this.watchListResult.push(data)
             }).catch(err => {
                 console.log(err)
