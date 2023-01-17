@@ -8,13 +8,13 @@
         <div v-if="user.email != null && user.email != ''">
             <div class="bg-gray-800 p-5 rounded-lg">
                 <div class="mb-4">
-                    <label for="" class="block text-zinc-400 text-xs">DISPLAY NAME</label>
-                    <input type="email" name="" id="" v-model="user.name"
+                    <label for="" class="block text-zinc-400 text-xs">EMAIL</label>
+                    <input type="email" name="" id="" v-model="user.email"
                         class="w-full bg-transparent text-xl text-white py-2">
                 </div>
                 <div class="mb-4">
-                    <label for="" class="block text-zinc-400 text-xs">EMAIL</label>
-                    <input type="email" name="" id="" v-model="user.email"
+                    <label for="" class="block text-zinc-400 text-xs">DISPLAY NAME</label>
+                    <input type="email" name="" id="" v-model="user.name"
                         class="w-full bg-transparent text-xl text-white py-2">
                 </div>
                 <div class="mb-4">

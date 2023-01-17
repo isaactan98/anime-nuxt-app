@@ -11,7 +11,11 @@
             leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0">
             <MenuItems class="absolute right-0 mt-2 mr-4 w-64 origin-top-right rounded-lg bg-gray-800 shadow-lg p-5">
-                <div class="text-white mb-5">Hello <span class="text-purple-400">User</span></div>
+                <div class="text-white mb-5">Hello
+                    <span v-if="user != null" class="text-purple-400">
+                        {{ user }}
+                    </span>
+                </div>
                 <MenuItem class="mb-3" v-for="item in sidebarItems" :key="item" as="div" v-slot="{ close }">
                 <button type="button"
                     class="text-left w-full text-sm font-light block py-2 px-5 rounded-full bg-gray-700 text-white"
@@ -44,7 +48,7 @@ import { getAuth, signOut } from "firebase/auth";
 var sidebarItems = [
     { id: 'profile', name: 'Profile', route: '/profile' },
     { id: 'watch_list', name: 'Watch List', route: '/watch-list' },
-    { id: 'continue_watch', name: 'Continue Watch', route: '/profile' },
+    { id: 'continue_watch', name: 'Continue Watch', route: '/continue-watch' },
     { id: 'server', name: 'Server', route: '' },
     { id: 'logout', name: 'Logout', route: '/' },
 ]
@@ -57,7 +61,7 @@ function openModal() {
 
 function logOut(id) {
     if (id == 'logout') {
-        console.log('logout')
+        // console.log('logout')
         const auth = getAuth();
         signOut(auth).then(() => {
             sessionStorage.removeItem('userId')
@@ -68,6 +72,24 @@ function logOut(id) {
     }
 }
 
+</script>
+
+<script>
+import { getAuth, signOut } from "firebase/auth";
+export default {
+    data() {
+        return {
+            user: 'User',
+        }
+    },
+    mounted() {
+        const auths = getAuth().currentUser;
+        if (auths != null) {
+            console.log('user', auths)
+            this.user = auths?.displayName ?? 'User';
+        }
+    },
+}
 </script>
 
 <style>
