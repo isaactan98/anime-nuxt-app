@@ -53,6 +53,19 @@ export default {
         }
     },
     mounted() {
+        useHead({
+            title: 'Favourite List',
+            meta: [
+                {
+                    name: 'description',
+                    content: 'Favourite List'
+                },
+                {
+                    name: 'keywords',
+                    content: 'Favourite List'
+                }
+            ]
+        })
         this.server = localStorage.getItem('server')
         if (sessionStorage.getItem('userId') != null && localStorage.getItem('server') != null) {
             this.getLikeList()

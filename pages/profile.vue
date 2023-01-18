@@ -1,12 +1,12 @@
 <template>
-    <div class="min-h-screen p-4 container mx-auto">
+    <div class="min-h-screen p-4 container mx-auto md:w-2/3">
         <div class="text-white min-h-[10vh] flex items-center">
             <h1 class="text-2xl font-extrabold text-purple-500">
                 Profile
             </h1>
         </div>
         <div v-if="user.email != null && user.email != ''">
-            <div class="bg-gray-800 p-5 rounded-lg">
+            <div class="bg-gray-800 p-5 rounded-lg mx-auto">
                 <div class="mb-4">
                     <label for="" class="block text-zinc-400 text-xs">EMAIL</label>
                     <input type="email" name="" id="" v-model="user.email"
@@ -63,6 +63,15 @@ export default {
     },
     mounted() {
         this.getUser();
+        useHead({
+            title: 'Profile',
+            meta: [
+                {
+                    name: 'description',
+                    content: 'Profile page'
+                }
+            ]
+        })
     },
     methods: {
         getUser() {

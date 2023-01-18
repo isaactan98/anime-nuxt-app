@@ -31,10 +31,10 @@ export default {
 
             console.log(source)
 
-            this.url[1080].url = source[3].url
-            this.url[720].url = source[2].url
-            this.url[360].url = source[0].url
-            this.url.auto.url = source[4].url
+            this.url[1080].url = this.filterFilter(source, { quality: "1080p" })[0].url
+            this.url[720].url = this.filterFilter(source, { quality: "720p" })[0].url
+            this.url[360].url = this.filterFilter(source, { quality: "360p" })[0].url
+            this.url.auto.url = this.filterFilter(source, { quality: "default" })[0].url
 
             this.video = videojs('video_player', {
                 html5: {
@@ -78,7 +78,7 @@ export default {
     },
     methods: {
         filterFilter(obj, exp) {
-            
+            return obj.filter((item) => item[Object.keys(exp)[0]] == Object.values(exp)[0])
         }
     }
 }
