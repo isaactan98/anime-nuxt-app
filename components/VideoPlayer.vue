@@ -29,10 +29,12 @@ export default {
         if (this.videoDetails.sources) {
             var source = details.sources
 
-            this.url[1080].url = source[0].url
-            this.url[720].url = source[1].url
-            this.url[360].url = source[2].url
-            this.url.auto.url = source[3].url
+            console.log(source)
+
+            this.url[1080].url = source[3].url
+            this.url[720].url = source[2].url
+            this.url[360].url = source[0].url
+            this.url.auto.url = source[4].url
 
             this.video = videojs('video_player', {
                 html5: {
@@ -72,6 +74,11 @@ export default {
     beforeDestroy() {
         if (this.video) {
             this.video.dispose();
+        }
+    },
+    methods: {
+        filterFilter(obj, exp) {
+            
         }
     }
 }

@@ -3,15 +3,15 @@
         <div v-if="anime.title != ''">
             <div class="w-full object-cover">
                 <div class="w-full py-5">
-                    <img :src="anime.img" alt="" class="w-60 m-auto rounded-xl z-10 relative">
+                    <img :src="anime.img" alt="" class="w-64 m-auto rounded-xl z-10 relative">
                 </div>
                 <div class="w-full">
                     <img :src="anime.img" alt=""
-                        class="w-full lg:w-10/12 mx-auto absolute top-0 blur-lg h-[26rem] object-cover object-center left-0 right-0">
+                        class="w-full lg:w-10/12 mx-auto absolute top-0 blur-lg h-[30rem] object-cover object-center left-0 right-0">
                 </div>
             </div>
             <div class="z-10">
-                <div class="p-4 mt-4 mx-auto">
+                <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-300 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.otherName ?? anime.title }}
                         <br> EP: {{ anime.totalEpisodes }}
@@ -30,11 +30,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="p-4 overflow-y-auto max-h-28">
+                <div class="p-4 overflow-y-auto max-h-28 mx-auto md:w-3/4">
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
-                <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4">
+                <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4 mx-auto">
                     <a :href="anime.url" target="_blank"
                         class=" bg-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center">
                         View on {{ server }}
@@ -52,7 +52,7 @@
                     </button>
                 </div>
 
-                <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
                         class="border border-white py-2 rounded text-white text-center my-2 relative block truncate">
                         <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>

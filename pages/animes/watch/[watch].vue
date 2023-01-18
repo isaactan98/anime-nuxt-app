@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen container mx-auto pb-5">
         <!-- video player -->
-        <div v-if="video" class="mx-auto">
+        <div v-if="video" class="mx-auto mt-4">
             <VideoPlayer :videoDetails="video"></VideoPlayer>
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
