@@ -75,7 +75,7 @@ function logOut(id) {
 </script>
 
 <script>
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 export default {
     data() {
         return {
@@ -83,12 +83,15 @@ export default {
         }
     },
     mounted() {
-        const auths = getAuth().currentUser;
-        if (auths != null) {
-            console.log('user', auths)
-            this.user = auths?.displayName ?? 'User';
-        }
-    },
+        const auths = getAuth();
+        onAuthStateChanged(auths, (user) => {
+            if (user) {
+                this.user = user.displayName
+            } else {
+                console.log('no user')
+            }
+        });
+    }
 }
 </script>
 
