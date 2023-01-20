@@ -169,7 +169,8 @@ export default {
                     addDoc(collection(db, "watch-list"), {
                         animeId: this.anime.id,
                         userId: sessionStorage.getItem('userId'),
-                        server: localStorage.getItem('server')
+                        server: localStorage.getItem('server'),
+                        createdAt: new Date()
                     }).then(() => {
                         this.addedList = 'true';
                     })

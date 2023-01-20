@@ -3,7 +3,7 @@
         <MenuButton>
             <div class="rounded-full bg-white p-1">
                 <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg"
-                    alt="" class="object-contain rounded-full w-5 h-5">
+                    alt="" class="object-contain rounded-full w-6 h-6">
             </div>
         </MenuButton>
         <transition enter-active-class="transition duration-100 ease-out"
@@ -48,7 +48,7 @@ import { getAuth, signOut } from "firebase/auth";
 var sidebarItems = [
     { id: 'profile', name: 'Profile', route: '/profile' },
     { id: 'watch_list', name: 'Watch List', route: '/watch-list' },
-    { id: 'continue_watch', name: 'Continue Watch', route: '/continue-watch' },
+    { id: 'continue_watch', name: 'Continue Watch', route: '/continue-watching' },
     { id: 'server', name: 'Server', route: '' },
     { id: 'logout', name: 'Logout', route: '/' },
 ]

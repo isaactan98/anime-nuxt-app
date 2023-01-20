@@ -2,11 +2,12 @@
     <div class="container p-4 mx-auto min-h-screen" v-if="watchList.length > 0">
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
-                Your <br>
-                <span class="text-purple-500 flex items-center gap-3">Favourite List
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8">
-                        <path
-                            d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                Continue <br>
+                <span class="text-purple-500 flex items-center gap-3">Watching
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953l7.108-4.062A1.125 1.125 0 0121 8.688v8.123zM11.25 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953L9.567 7.71a1.125 1.125 0 011.683.977v8.123z" />
                     </svg>
                 </span>
             </h1>
@@ -44,42 +45,39 @@
 
 <script>
 import { getFirestore, query, where, getDocs, collection, orderBy } from "firebase/firestore";
-
 export default {
     data() {
         return {
             watchList: [],
             server: "",
-            watchListResult: [],
+            watchListResult: []
         }
     },
     mounted() {
         useHead({
-            title: 'Favourite List',
+            title: 'Continue Watching',
             meta: [
                 {
                     name: 'description',
-                    content: 'Favourite List'
+                    content: 'Continue Watching'
                 },
                 {
                     name: 'keywords',
-                    content: 'Favourite List'
+                    content: 'Continue Watching'
                 }
             ]
         })
         this.server = localStorage.getItem('server')
         if (sessionStorage.getItem('userId') != null && localStorage.getItem('server') != null) {
-            this.getLikeList()
-        }
-        if (this.watchList.length > 0) {
+            this.getContinueWatching()
         }
     },
     methods: {
-        async getLikeList() {
+        async getContinueWatching() {
             var counter = 0;
             const db = getFirestore();
             const userId = sessionStorage.getItem('userId')
-            const q = query(collection(db, "watch-list"),
+            const q = query(collection(db, "continue-watching"),
                 where("userId", "==", userId),
                 where("server", "==", this.server),
                 orderBy("createdAt", "desc")
@@ -87,15 +85,16 @@ export default {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 this.watchList.push(doc.data())
+                // console.log(doc.data())
                 this.getAnimeInfo(doc.data().animeId, counter)
                 counter++
             });
         },
-        async getAnimeInfo(id, counter) {
+        getAnimeInfo(id, counter) {
             const config = useRuntimeConfig();
-            this.watchListResult[counter] = "";
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
-            await fetch(url).then(response => response.json()).then(data => {
+            this.watchListResult[counter] = ''
+            fetch(url).then(response => response.json()).then(data => {
                 this.watchListResult[counter] = data
             }).catch(err => {
                 console.log(err)

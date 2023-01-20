@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import { getFirestore, query, where, getDocs, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+
 export default {
     data() {
         return {
@@ -51,7 +53,7 @@ export default {
         var id = route.query.id;
         var epid = route.params.watch;
 
-        console.log('id:', id)
+        // console.log('id:', id)
 
         var watchUrl = '';
         var infoUrl = ''
@@ -73,9 +75,13 @@ export default {
             await fetch(api)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('data:', data)
+                    // console.log('data:', data)
                     this.info = data;
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
+
+                    if (sessionStorage.getItem('userId')) {
+                        this.setContinueWatching(data.id, this.thisEp.number);
+                    }
                 })
                 .catch(err => console.log(err));
         },
@@ -104,6 +110,44 @@ export default {
                     alert(err)
                     console.log(err)
                 })
+        },
+        setContinueWatching(id, episode) {
+            var getEpisode = null
+
+            const db = getFirestore();
+
+            const q = query(collection(db, "continue-watching"),
+                where("animeId", "==", id),
+                where("userId", "==", sessionStorage.getItem('userId')),
+                where("episode", "==", episode),
+                where("server", "==", localStorage.getItem('server'))
+            );
+            const querySnapshot = getDocs(q);
+
+            querySnapshot.then((query) => {
+                query.forEach((doc) => {
+                    if (doc.data().animeId == id) {
+                        getEpisode = doc.data();
+                    }
+                });
+            }).then(() => {
+                if (getEpisode == null) {
+                    try {
+                        addDoc(collection(db, "continue-watching"), {
+                            animeId: id,
+                            userId: sessionStorage.getItem('userId'),
+                            server: localStorage.getItem('server'),
+                            episode: episode,
+                            createdAt: new Date()
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+            })
+
         }
     }
 }
