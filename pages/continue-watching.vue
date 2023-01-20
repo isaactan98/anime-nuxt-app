@@ -4,24 +4,25 @@
             <h1 class="text-4xl font-extrabold">
                 Continue <br>
                 <span class="text-purple-500 flex items-center gap-3">Watching
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M21 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953l7.108-4.062A1.125 1.125 0 0121 8.688v8.123zM11.25 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953L9.567 7.71a1.125 1.125 0 011.683.977v8.123z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8">
+                        <path
+                            d="M9.195 18.44c1.25.713 2.805-.19 2.805-1.629v-2.34l6.945 3.968c1.25.714 2.805-.188 2.805-1.628V8.688c0-1.44-1.555-2.342-2.805-1.628L12 11.03v-2.34c0-1.44-1.555-2.343-2.805-1.629l-7.108 4.062c-1.26.72-1.26 2.536 0 3.256l7.108 4.061z" />
                     </svg>
                 </span>
             </h1>
         </div>
-        <div class="my-5 grid grid-cols-2 md:grid-cols-4 gap-3"
+        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5"
             v-if="watchListResult.length > 0 && watchListResult[0] != ''">
             <div v-for="list in watchListResult" :key="list" class="">
-                <a :href="'/animes/' + list.id" class="relative">
+                <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800">
+                </div>
+                <a v-else :href="'/animes/' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
                         <img :src="list.image" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
-                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem] lg:max-w-xs">
+                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
                                 {{ list.title }}
                             </h3>
                         </div>

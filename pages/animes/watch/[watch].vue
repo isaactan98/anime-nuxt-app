@@ -29,7 +29,7 @@
                     <p class="mt-3 overflow-y-auto text-sm max-h-24">{{ info.description }}</p>
                 </div>
             </div>
-            <div class="w-full grid grid-cols-2 mt-5 gap-5" v-if="info != null">
+            <div class="mt-5 mx-auto w-full lg:w-3/4 container px-3 grid grid-cols-2 gap-3" v-if="info != null">
                 <NuxtLink v-for="e of info.episodes" :key="e" :to="'/animes/watch/' + e.id + '?id=' + info.id"
                     class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-500 to-indigo-800 hover:border-none"
                     :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">

@@ -12,7 +12,7 @@
             </div>
             <div class="z-10">
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
-                    <div v-if="anime.otherName" class="text-zinc-300 mb-4 text-xs">{{ anime.title }}</div>
+                    <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.otherName ?? anime.title }}
                         <br> EP: {{ anime.totalEpisodes }}
                     </h1>
@@ -54,7 +54,7 @@
 
                 <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
-                        class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-none ">
+                        class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
                         <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>

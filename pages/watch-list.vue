@@ -11,16 +11,18 @@
                 </span>
             </h1>
         </div>
-        <div class="my-5 grid grid-cols-2 md:grid-cols-4 gap-3"
+        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5"
             v-if="watchListResult.length > 0 && watchListResult[0] != ''">
             <div v-for="list in watchListResult" :key="list" class="">
-                <a :href="'/animes/' + list.id" class="relative">
+                <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800">
+                </div>
+                <a v-else :href="'/animes/' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
                         <img :src="list.image" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
-                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem] lg:max-w-xs">
+                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
                                 {{ list.title }}
                             </h3>
                         </div>
@@ -93,7 +95,7 @@ export default {
         },
         async getAnimeInfo(id, counter) {
             const config = useRuntimeConfig();
-            this.watchListResult[counter] = "";
+            this.watchListResult[counter] = '';
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             await fetch(url).then(response => response.json()).then(data => {
                 this.watchListResult[counter] = data
