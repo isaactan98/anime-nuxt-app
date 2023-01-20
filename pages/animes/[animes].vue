@@ -54,7 +54,7 @@
 
                 <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
-                        class="border border-white py-2 rounded text-white text-center my-2 relative block truncate">
+                        class="border border-white py-2 rounded text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-none ">
                         <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
@@ -203,5 +203,23 @@ export default {
 </script>
 
 <style>
+.animate-bg {
+    /* background: linear-gradient(90deg, #4c51bf, #6b46c1, #805ad5, #b794f4, #4c51bf); */
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+}
 
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
 </style>

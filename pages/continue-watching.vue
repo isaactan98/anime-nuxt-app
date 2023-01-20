@@ -25,9 +25,8 @@
                                 {{ list.title }}
                             </h3>
                         </div>
-                        <span class="bg-white rounded-full text-sm px-2 absolute bottom-1 right-1"
-                            v-if="list.episode || list.totalEpisodes">
-                            EP {{ list.episode ?? list.totalEpisodes }}
+                        <span class="bg-white rounded-full text-sm px-2 absolute bottom-1 right-1">
+                            EP {{ list.currentEpisode }}
                         </span>
                     </div>
                 </a>
@@ -86,16 +85,17 @@ export default {
             querySnapshot.forEach((doc) => {
                 this.watchList.push(doc.data())
                 // console.log(doc.data())
-                this.getAnimeInfo(doc.data().animeId, counter)
+                this.getAnimeInfo(doc.data().animeId, counter, doc.data().episode)
                 counter++
             });
         },
-        getAnimeInfo(id, counter) {
+        getAnimeInfo(id, counter, episode) {
             const config = useRuntimeConfig();
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             this.watchListResult[counter] = ''
             fetch(url).then(response => response.json()).then(data => {
                 this.watchListResult[counter] = data
+                this.watchListResult[counter].currentEpisode = episode
             }).catch(err => {
                 console.log(err)
             })
