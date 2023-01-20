@@ -2,7 +2,7 @@
     <div class="min-h-screen container mx-auto pb-5">
         <!-- video player -->
         <div v-if="video" class="mx-auto mt-4">
-            <VideoPlayer :videoDetails="video"></VideoPlayer>
+            <VideoPlayer :videoDetails="video" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer>
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
@@ -28,6 +28,13 @@
                     </span>
                     <p class="mt-3 overflow-y-auto text-sm max-h-24">{{ info.description }}</p>
                 </div>
+            </div>
+            <div class="w-full grid grid-cols-2 mt-5 gap-5" v-if="info != null">
+                <NuxtLink v-for="e of info.episodes" :key="e" :to="'/animes/watch/' + e.id + '?id=' + info.id"
+                    class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-500 to-indigo-800 hover:border-none"
+                    :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
+                    <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
+                </NuxtLink>
             </div>
         </div>
         <div v-else class="grid place-content-center min-h-screen -mt-20">
@@ -75,9 +82,14 @@ export default {
             await fetch(api)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log('data:', data)
+                    console.log('data:', data)
+                    this.sortEpisode(data.episodes)
                     this.info = data;
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
+
+                    useHead({
+                        title: data.title + ' - EP' + this.thisEp.number
+                    })
 
                     if (sessionStorage.getItem('userId')) {
                         this.setContinueWatching(data.id, this.thisEp.number);
@@ -147,8 +159,12 @@ export default {
                     }
                 }
             })
-
-        }
+        },
+        sortEpisode(arr) {
+            arr.sort((a, b) => {
+                return b.number - a.number;
+            });
+        },
     }
 }
 </script>

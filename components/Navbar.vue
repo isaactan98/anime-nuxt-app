@@ -16,7 +16,7 @@
                     </button>
 
                     <div class="">
-                        <ProfileDropdown v-if="userId || checkUserId"></ProfileDropdown>
+                        <ProfileDropdown v-if="checkUserId || userId"></ProfileDropdown>
                         <LoginSignUpModal v-else></LoginSignUpModal>
                     </div>
                 </li>
@@ -30,7 +30,7 @@
             <div class="absolute w-full" v-show="showSearch">
                 <div class="flex relative justify-center container mx-auto">
                     <input type="text" name="price" id="price"
-                        class="block w-full rounded-md border-gray-300 pl-7 pr-12 py-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        class="block w-full rounded-md border-gray-300 pl-7 pr-12 py-3 shadow-md focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         placeholder="Search anime ..." v-model="searchQuery" autocomplete="off">
                     <div class="absolute inset-y-0 right-0 flex items-center">
                         <button class=" p-2" @click="searchAnime">
@@ -88,6 +88,13 @@ export default {
     props: ['userId'],
     mounted() {
         this.checkUserId = sessionStorage.getItem('userId')
+
+        // if clicked enter key
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                this.searchAnime()
+            }
+        })
     },
     methods: {
         toggleSidebar() {
