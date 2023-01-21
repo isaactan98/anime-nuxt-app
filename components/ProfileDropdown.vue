@@ -11,8 +11,8 @@
             leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0">
             <MenuItems class="absolute right-0 mt-2 mr-4 w-64 origin-top-right rounded-lg bg-gray-800 shadow-lg p-5">
-                <div class="text-white mb-5">Hello
-                    <span v-if="user != null" class="text-purple-400">
+                <div class="text-white mb-5">Hello, 
+                    <span v-if="user != null" class="text-purple-400 font-bold">
                         {{ user }}
                     </span>
                 </div>

@@ -1,30 +1,24 @@
 <template>
-
-    <footer class="p-4 rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 bg-gray-800">
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="/"
-                class="hover:underline">Shadow Anime</a>. All Rights Reserved.
-        </span>
-        <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline">Contact</a>
-            </li>
-        </ul>
-    </footer>
-
+    <!-- This is an example component -->
+    <div class=" bg-gray-800 rounded-lg">
+        <div class="max-w-2xl mx-auto text-white py-10 ">
+            <div class="mt-28 flex flex-col md:flex-row md:justify-between items-center text-sm text-gray-400">
+                <p class="order-2 md:order-1 mt-8 md:mt-0"> &copy; Shadow Anime, <span id="year"></span> </p>
+                <div class="order-1 md:order-2">
+                    <span class="px-2">About us</span>
+                    <span class="px-2 border-l">Contact us</span>
+                    <span class="px-2 border-l">Privacy Policy</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
-
+    mounted() {
+        document.getElementById('year').innerHTML = new Date().getFullYear();
+    }
 }
 </script>
 
