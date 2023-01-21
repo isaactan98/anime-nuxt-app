@@ -11,10 +11,13 @@
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@volar-plugins/vetur": "latest",
     "nuxt": "3.0.0",
-    "video.js": "^7.20.3"
+    "video.js": "^7.21.1"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.7",
-    "firebase": "^9.15.0"
+    "@videojs/themes": "^1.0.1",
+    "firebase": "^9.15.0",
+    "videojs-contrib-quality-levels": "^3.0.0",
+    "videojs-hls-quality-selector": "^1.1.4"
   }
 }

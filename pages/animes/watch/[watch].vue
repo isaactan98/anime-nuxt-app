@@ -2,7 +2,7 @@
     <div class="min-h-screen container mx-auto pb-5">
         <!-- video player -->
         <div v-if="video" class="mx-auto mt-4">
-            <VideoPlayer :videoDetails="video" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer>
+            <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer>
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
@@ -27,15 +27,16 @@
                         <span>{{ info.type }}</span>
                     </span>
                     <p class="mt-3 overflow-y-auto text-sm max-h-24">{{ info.description }}</p>
+                    <div class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" v-if="info != null">
+                        <NuxtLink v-for="e of info.episodes" :key="e" :to="'/animes/watch/' + e.id + '?id=' + info.id"
+                            class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
+                            :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
+                            <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
+                        </NuxtLink>
+                    </div>
                 </div>
             </div>
-            <div class="mt-5 mx-auto w-full lg:w-3/4 container px-3 grid grid-cols-2 gap-3" v-if="info != null">
-                <NuxtLink v-for="e of info.episodes" :key="e" :to="'/animes/watch/' + e.id + '?id=' + info.id"
-                    class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-500 to-indigo-800 hover:border-none"
-                    :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
-                    <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
-                </NuxtLink>
-            </div>
+
         </div>
         <div v-else class="grid place-content-center min-h-screen -mt-20">
             <h1 class="text-white font-extrabold">Loading...</h1>

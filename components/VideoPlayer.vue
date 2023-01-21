@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <video ref="videoPlayer" class="video-js" id="video_player">
+        <video ref="videoPlayer" class="video-js vjs-theme-fantasy" id="video_player">
         </video>
     </div>
 </template>
@@ -8,16 +8,19 @@
 <script>
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
+import '@videojs/themes/dist/fantasy/index.css'
+import 'videojs-contrib-quality-levels';
+import 'videojs-hls-quality-selector';
 
 export default {
-    props: ['videoDetails'],
+    props: ['videoDetails', 'info'],
     data() {
         return {
             video: null,
             url: {
-                1080: { url: "", quality: "1080p" },
-                720: { url: "", quality: "720p" },
-                360: { url: "", quality: "360p" },
+                1080: { url: "", quality: "1080" },
+                720: { url: "", quality: "720" },
+                360: { url: "", quality: "360" },
                 auto: { url: "", quality: "auto" }
             },
             subtitle: ""
@@ -28,9 +31,7 @@ export default {
 
         if (this.videoDetails.sources) {
             var source = details.sources
-
-            console.log(source)
-
+            // console.log(this.info)
             this.url[1080].url = this.filterFilter(source, { quality: "1080p" })[0].url
             this.url[720].url = this.filterFilter(source, { quality: "720p" })[0].url
             this.url[360].url = this.filterFilter(source, { quality: "360p" })[0].url
@@ -38,32 +39,54 @@ export default {
 
             this.video = videojs('video_player', {
                 html5: {
-                    hls: {
-                        nativeTextTracks: true
-                    }
+                    vhs: { experimentalBufferBasedABR: true, useDevicePixelRatio: true },
+                    nativeAudioTracks: false,
+                    nativeVideoTracks: false,
+                    useBandwidthFromLocalStorage: true
                 },
                 controls: true,
-                autoplay: false,
+                responsive: true,
                 preload: 'auto',
                 fluid: true,
+                fullscreen: {
+                    enterOnRotate: true,
+                    iOS: true
+                },
+                poster: this.info.image,
+                playbackRates: [0.75, 1, 1.25, 1.5, 2],
+                VideoPlaybackQuality: true,
+                controlBar: {
+                    children: [
+                        'playToggle',
+                        'volumePanel',
+                        'currentTimeDisplay',
+                        'timeDivider',
+                        'durationDisplay',
+                        'progressControl',
+                        'playbackRateMenuButton',
+                        'fullscreenToggle',
+                        'qualitySelector'
+                    ]
+                },
                 sources: [
-                    {
-                        src: this.url[1080].url,
-                        label: this.url[1080].quality
-                    },
-                    {
-                        src: this.url[720].url,
-                        label: this.url[720].quality
-                    },
-                    {
-                        src: this.url[360].url,
-                        label: this.url[360].quality
-                    },
                     {
                         src: this.url.auto.url,
                         label: this.url.auto.quality
                     },
-                ],
+                ]
+            });
+
+            // console.log(this.video)
+
+            this.video.qualityLevels({}, function () {
+                console.log('Quality Levels plugin loaded')
+            });
+
+            this.video.hlsQualitySelector({
+                displayCurrentQuality: true,
+                displayCurrentResolution: true,
+            }, function () {
+                console.log('HLS Quality Selector plugin loaded');
             });
 
             this.video.on('error', (err) => {
@@ -79,7 +102,7 @@ export default {
     methods: {
         filterFilter(obj, exp) {
             return obj.filter((item) => item[Object.keys(exp)[0]] == Object.values(exp)[0])
-        }
+        },
     }
 }
 </script>
