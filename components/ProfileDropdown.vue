@@ -1,9 +1,9 @@
 <template>
     <Menu>
         <MenuButton>
-            <div class="rounded-full bg-white p-1">
+            <div class="rounded-full bg-white">
                 <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg"
-                    alt="" class="object-contain rounded-full w-6 h-6">
+                    alt="" class="object-contain rounded-full w-8 h-8">
             </div>
         </MenuButton>
         <transition enter-active-class="transition duration-100 ease-out"

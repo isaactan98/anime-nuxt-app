@@ -15,7 +15,7 @@
                         </svg>
                     </button>
 
-                    <div class="">
+                    <div class="relative top-1">
                         <ProfileDropdown v-if="checkUserId || userId"></ProfileDropdown>
                         <LoginSignUpModal v-else></LoginSignUpModal>
                     </div>

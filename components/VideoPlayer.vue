@@ -23,15 +23,15 @@ export default {
                 360: { url: "", quality: "360" },
                 auto: { url: "", quality: "auto" }
             },
-            subtitle: ""
+            subtitle: "",
+            details: null
         }
     },
     mounted() {
-        const details = { ...this.videoDetails }
-
+        this.details = { ...this.videoDetails }
         if (this.videoDetails.sources) {
-            var source = details.sources
-            // console.log(this.info)
+            var source = this.details.sources
+
             this.url[1080].url = this.filterFilter(source, { quality: "1080p" })[0].url
             this.url[720].url = this.filterFilter(source, { quality: "720p" })[0].url
             this.url[360].url = this.filterFilter(source, { quality: "360p" })[0].url
@@ -76,33 +76,28 @@ export default {
                 ]
             });
 
-            // console.log(this.video)
+            this.display()
 
-            this.video.qualityLevels({}, function () {
-                console.log('Quality Levels plugin loaded')
-            });
-
-            this.video.hlsQualitySelector({
-                displayCurrentQuality: true,
-                displayCurrentResolution: true,
-            }, function () {
-                console.log('HLS Quality Selector plugin loaded');
-            });
-
-            this.video.on('error', (err) => {
-                console.log(err)
-            })
-        }
-    },
-    beforeDestroy() {
-        if (this.video) {
-            this.video.dispose();
         }
     },
     methods: {
         filterFilter(obj, exp) {
             return obj.filter((item) => item[Object.keys(exp)[0]] == Object.values(exp)[0])
         },
+        display() {
+            const innerThis = this;
+            innerThis.video.qualityLevels();
+            innerThis.video.on('ready', function () {
+                innerThis.video.hlsQualitySelector({
+                    displayCurrentQuality: true,
+                    displayCurrentResolution: true,
+                });
+            })
+
+            innerThis.video.on('error', (err) => {
+                console.log(err)
+            })
+        }
     }
 }
 </script>
