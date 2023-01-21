@@ -95,6 +95,12 @@ export default {
                 this.searchAnime()
             }
         })
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape' && this.showSearch == true) {
+                this.toggleSearch()
+            }
+        })
     },
     methods: {
         toggleSidebar() {

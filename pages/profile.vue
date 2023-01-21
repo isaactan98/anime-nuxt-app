@@ -22,7 +22,7 @@
                     <div class=" w-full bg-transparent text-xl text-white py-2">{{ user.joinedDate }}</div>
                 </div>
                 <button type="button"
-                    class="px-5 py-3 bg-purple-500 text-white w-full mx-auto rounded-lg flex items-center justify-center"
+                    class="px-5 py-3 bg-purple-500 shadow-lg shadow-purple-500 text-white w-full mx-auto rounded-lg flex items-center justify-center"
                     @click="updateProfile">
                     <SpiningLoading v-if="isSaving" class="mr-3"></SpiningLoading> Save
                 </button>

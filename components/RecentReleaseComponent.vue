@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="snap-start">
         <div v-if="release != null" class="mb-5 relative">
             <a :href="'/animes/' + release.id" class="relative">
                 <div class="min-w-[220px] lg:min-w-[380px]">

@@ -36,11 +36,11 @@
 
                 <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4 mx-auto">
                     <a :href="anime.url" target="_blank"
-                        class=" bg-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center">
+                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center">
                         View on {{ server }}
                     </a>
                     <button type="button"
-                        class="bg-white text-purple-500 w-1/2 px-5 py-3 rounded-lg text-center grid place-content-center"
+                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/2 px-5 py-3 rounded-lg text-center grid place-content-center"
                         @click="addToList()" v-if="userId != null">
                         <span v-if="addedList == 'false'">Add to favourite</span>
                         <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
