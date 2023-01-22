@@ -79,6 +79,7 @@ export default {
             sidebar: false,
             sidebar_item: [
                 { id: 'home', name: 'Home', route: '/' },
+                { id: 'about', name: 'About', route: '/about' },
             ],
             checkUserId: '',
             showSearch: false,
