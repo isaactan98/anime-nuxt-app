@@ -14,10 +14,17 @@
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.otherName ?? anime.title }}
-                        <br> EP: {{ anime.totalEpisodes }}
+                        <br> <span class="text-sm font-bold">EP: {{ anime.totalEpisodes }} - <p
+                                class="text-purple-400 inline-block">Latest</p></span>
                     </h1>
-                    <span class="text-zinc-400 text-sm block my-3">Type:
-                        <span class=" rounded-full bg-white px-2 text-sm ml-2 font-bold">{{ anime.type }}</span>
+                    <span class="text-zinc-300 text-sm my-3 flex items-center">Type:
+                        <span class=" rounded-full text-zinc-600 bg-white px-3 py-1 text-xs ml-2 font-bold">{{
+                            anime.type
+                        }}</span>
+                        <span class=" rounded-full text-zinc-600 bg-white px-3 py-1 text-xs ml-2 font-bold"
+                            :class="anime.status == 'Completed' ? '!bg-green-500 !text-white' : ''">
+                            {{ anime.status }}
+                        </span>
                     </span>
 
                     <div class="text-zinc-400 text-sm my-3" v-if="anime.genres">
@@ -30,13 +37,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="p-4 overflow-y-auto max-h-28 mx-auto md:w-3/4">
+                <div class="p-4 overflow-y-auto max-h-28 mx-auto md:w-3/4 scrollbar-hide">
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
                 <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4 mx-auto">
                     <a :href="anime.url" target="_blank"
-                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center">
+                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center text-sm">
                         View on {{ server }}
                     </a>
                     <button type="button"
@@ -52,7 +59,7 @@
                     </button>
                 </div>
 
-                <div class="p-4 grid grid-cols-2 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
+                <div class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
                         class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
                         <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
@@ -82,7 +89,8 @@ export default {
                 type: '',
                 episode: [],
                 genres: [],
-                otherName: ''
+                otherName: '',
+                status: ''
             },
             server: "",
             addedList: 'false',
@@ -122,6 +130,7 @@ export default {
                     this.anime.totalEpisodes = data.totalEpisodes;
                     this.anime.type = data.type;
                     this.anime.genres = data.genres;
+                    this.anime.status = data.status;
                     this.sortEpisode(data.episodes);
                     this.anime.episode = data.episodes;
                     this.setTitle();
