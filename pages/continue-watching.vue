@@ -22,7 +22,7 @@
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div
-                            class="w-full h-52 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
+                            class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                         </div>
                         <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
                             <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
