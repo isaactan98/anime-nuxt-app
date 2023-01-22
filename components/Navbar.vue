@@ -3,10 +3,17 @@
         <nav class="w-full">
             <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
                 <li class="text-white">
-                    <button @click="toggleSidebar()" class="px-2 bg-gray-800 rounded-md text-white">=</button>
+                    <button @click="toggleSidebar()"
+                        class="p-2 bg-gray-800 rounded-md text-white shadow shadow-black">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path fill-rule="evenodd"
+                                d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
                 </li>
                 <li class="flex items-center gap-3">
-                    <button @click="toggleSearch" v-show="!showSearch">
+                    <button @click="toggleSearch" v-show="!showSearch" class="mr-1">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                             class="w-6 h-6 text-white font-extrabold">
                             <path fillRule="evenodd"

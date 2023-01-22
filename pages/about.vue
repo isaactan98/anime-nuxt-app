@@ -9,7 +9,7 @@
         <div class="mt-10">
             <h1 class="text-white text-4xl">About Shadow Garden Anime</h1>
             <!-- generate about me description -->
-            <section class="text-zinc-400 mt-5 grid gap-4">
+            <section class="text-zinc-400 mt-5 grid gap-4 text-justify">
                 <h1 class=" text-white">Welcome to our anime streaming platform!</h1>
 
                 <p>
@@ -48,13 +48,31 @@
                     please don't hesitate to contact us.
                 </p>
             </section>
+
+            <div class="mt-5 text-zinc-400 text-xs">
+                <p>Project is created by <a href="https://isaactan.vercel.app/" target="_blank"
+                        class="text-purple-500 underline underline-offset-2">
+                        Isaac Tan
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-
+    mounted() {
+        useHead({
+            title: 'About Shadow Garden Anime',
+            meta: [
+                {
+                    name: 'description',
+                    content: 'About Shadow Garden Anime',
+                },
+            ],
+        })
+    }
 }
 </script>
 

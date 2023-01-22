@@ -5,27 +5,33 @@
                 Profile
             </h1>
         </div>
-        <div v-if="user.email != null && user.email != ''">
-            <div class="bg-gray-800 p-5 rounded-lg mx-auto">
-                <div class="mb-4">
-                    <label for="" class="block text-zinc-400 text-xs">EMAIL</label>
-                    <input type="email" name="" id="" v-model="user.email"
-                        class="w-full bg-transparent text-xl text-white py-2">
+        <div v-if="user.email != null && user.email != ''" class="">
+            <div class="bg-gray-800 p-10 rounded-3xl mx-auto grid md:grid-cols-5">
+                <div class="flex justify-center items-center mb-8 rounded-full md:col-span-2">
+                    <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg"
+                        alt="" class="object-contain rounded-full w-16 h-16 p-1 bg-white shadow-md shadow-indigo-600">
                 </div>
-                <div class="mb-4">
-                    <label for="" class="block text-zinc-400 text-xs">DISPLAY NAME</label>
-                    <input type="email" name="" id="" v-model="user.name"
-                        class="w-full bg-transparent text-xl text-white py-2">
+                <div class="md:col-span-3 font-bold">
+                    <div class="mb-4">
+                        <label for="" class="block text-zinc-400 text-xs">EMAIL</label>
+                        <input type="email" name="" id="" v-model="user.email"
+                            class="w-full bg-transparent text-xl text-white py-2">
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="block text-zinc-400 text-xs">DISPLAY NAME</label>
+                        <input type="email" name="" id="" v-model="user.name"
+                            class="w-full bg-transparent text-xl text-white py-2">
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="block text-zinc-400 text-xs">JOINED DATE</label>
+                        <div class=" w-full bg-transparent text-xl text-white py-2">{{ user.joinedDate }}</div>
+                    </div>
+                    <button type="button"
+                        class="px-5 py-3 bg-purple-500 hover:bg-purple-600 shadow-lg shadow-purple-500 text-white w-full mx-auto rounded-lg flex items-center justify-center"
+                        @click="updateProfile">
+                        <SpiningLoading v-if="isSaving" class="mr-3"></SpiningLoading> Save
+                    </button>
                 </div>
-                <div class="mb-4">
-                    <label for="" class="block text-zinc-400 text-xs">JOINED DATE</label>
-                    <div class=" w-full bg-transparent text-xl text-white py-2">{{ user.joinedDate }}</div>
-                </div>
-                <button type="button"
-                    class="px-5 py-3 bg-purple-500 shadow-lg shadow-purple-500 text-white w-full mx-auto rounded-lg flex items-center justify-center"
-                    @click="updateProfile">
-                    <SpiningLoading v-if="isSaving" class="mr-3"></SpiningLoading> Save
-                </button>
             </div>
         </div>
         <div v-else class=" text-white">
