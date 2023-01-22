@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4 mx-auto">
-                    <a :href="anime.url" target="_blank"
+                    <a :href="serverUrl + anime.url" target="_blank"
                         class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center text-sm">
                         View on {{ server }}
                     </a>
@@ -94,7 +94,8 @@ export default {
             },
             server: "",
             addedList: 'false',
-            userId: ''
+            userId: '',
+            serverUrl: ''
         }
     },
     mounted() {
@@ -112,8 +113,10 @@ export default {
 
         if (localStorage.getItem('server') == 'gogoanime') {
             url = config.apiUrl + 'info/' + id
+            this.serverUrl = "https://gogoanime.mom"
         } else {
             url = config.apiUrl2 + 'info?id=' + id
+            this.serverUrl = "https://zoro.to"
         }
 
         fetch(url)

@@ -16,7 +16,7 @@
             <div v-for="list in watchListResult" :key="list" class="">
                 <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800">
                 </div>
-                <a v-else :href="'/animes/' + list.id" class="relative">
+                <a v-else :href="'/animes/watch/' + list.episodeId + '?id=' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
                         <img :src="list.image" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
@@ -100,9 +100,15 @@ export default {
             fetch(url).then(response => response.json()).then(data => {
                 this.watchListResult[counter] = data
                 this.watchListResult[counter].currentEpisode = episode
+                this.watchListResult[counter].episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
             }).catch(err => {
                 console.log(err)
             })
+        },
+        filterFilter(arr, expression) {
+            return arr.filter(function (item) {
+                return item[Object.keys(expression)[0]] == Object.values(expression)[0];
+            });
         }
     }
 }

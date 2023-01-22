@@ -83,7 +83,7 @@ export default {
             await fetch(api)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('data:', data)
+                    // console.log('data:', data)
                     this.sortEpisode(data.episodes)
                     this.info = data;
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
@@ -132,7 +132,7 @@ export default {
             const q = query(collection(db, "continue-watching"),
                 where("animeId", "==", id),
                 where("userId", "==", sessionStorage.getItem('userId')),
-                where("episode", "==", episode),
+                // where("episode", "==", episode),
                 where("server", "==", localStorage.getItem('server'))
             );
             const querySnapshot = getDocs(q);
@@ -140,7 +140,7 @@ export default {
             querySnapshot.then((query) => {
                 query.forEach((doc) => {
                     if (doc.data().animeId == id) {
-                        getEpisode = doc.data();
+                        getEpisode = doc;
                     }
                 });
             }).then(() => {
@@ -158,8 +158,49 @@ export default {
                     } catch (error) {
                         console.log(error)
                     }
+                } else {
+                    try {
+                        deleteDoc(doc(db, "continue-watching", getEpisode.id)).catch(err => {
+                            console.log(err)
+                        })
+                        addDoc(collection(db, "continue-watching"), {
+                            animeId: id,
+                            userId: sessionStorage.getItem('userId'),
+                            server: localStorage.getItem('server'),
+                            episode: episode,
+                            createdAt: new Date()
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    } catch (error) {
+                        console.log(error)
+                    }
                 }
             })
+
+            // querySnapshot.then((query) => {
+            //     query.forEach((doc) => {
+            //         if (doc.data().animeId == id) {
+            //             getEpisode = doc.data();
+            //         }
+            //     });
+            // }).then(() => {
+            //     if (getEpisode == null) {
+            //         try {
+            //             addDoc(collection(db, "continue-watching"), {
+            //                 animeId: id,
+            //                 userId: sessionStorage.getItem('userId'),
+            //                 server: localStorage.getItem('server'),
+            //                 episode: episode,
+            //                 createdAt: new Date()
+            //             }).catch(err => {
+            //                 console.log(err)
+            //             })
+            //         } catch (error) {
+            //             console.log(error)
+            //         }
+            //     }
+            // })
         },
         sortEpisode(arr) {
             arr.sort((a, b) => {
