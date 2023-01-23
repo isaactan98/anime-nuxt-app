@@ -10,10 +10,10 @@
             </div>
 
             <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 flex gap-3">
-                <div class="w-2/5">
-                    <img :src="info.image" alt="" srcset="">
+                <div class="w-1/5">
+                    <img :src="info.image" alt="" srcset="" class="w-full">
                 </div>
-                <div class="text-white w-3/5">
+                <div class="text-white w-4/5">
                     <h1 class="mb-3 text-lg lg:text-2xl">{{ info.title }}</h1>
                     <span class="text-xs mt-3">
                         <span v-if="info.subOrDub == 'both'">
@@ -27,7 +27,7 @@
                         <span>{{ info.type }}</span>
                     </span>
                     <p class="mt-3 overflow-y-auto text-sm max-h-24">{{ info.description }}</p>
-                    <div class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" v-if="info != null">
+                    <div class="mt-5 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" v-if="info != null">
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
                             class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
                             :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
@@ -215,5 +215,8 @@ export default {
 </script>
 
 <style>
-
+.vjs-poster {
+    background-size: cover;
+    background-position: center;
+}
 </style>
