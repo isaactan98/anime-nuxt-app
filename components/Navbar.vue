@@ -37,7 +37,7 @@
                 <div class="flex relative justify-center container mx-auto">
                     <input type="text" name="price" id="price"
                         class="block w-full rounded-md border-gray-300 pl-7 pr-12 py-3 shadow-md focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        placeholder="Search anime ..." v-model="searchQuery" autocomplete="off">
+                        placeholder="Search anime ..." v-model="searchQuery" autocomplete="off" autofocus>
                     <div class="absolute inset-y-0 right-0 flex items-center">
                         <button class=" p-2" @click="searchAnime">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
