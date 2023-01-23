@@ -8,11 +8,16 @@
             <div v-show="isOpen">
                 <div class="fixed inset-0 bg-black bg-opacity-50" @click="closeModal"></div>
                 <div class="fixed inset-0 overflow-y-auto z-50">
-                    <div class="flex min-h-full items-center justify-center p-4 text-center w-full">
+                    <div class="flex min-h-full items-center justify-center p-4 text-center md:w-1/3 mx-auto">
                         <div v-if="login" class="bg-white rounded-lg shadow-lg p-4 w-full">
                             <div class="flex justify-between">
                                 <h1 class="text-2xl font-bold">Login</h1>
-                                <button class="text-2xl font-bold" @click="closeModal">X</button>
+                                <button class="text-2xl font-bold" @click="closeModal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
                             </div>
                             <div class="mt-4">
                                 <label for="email" class="block text-sm font-bold">Email</label>
@@ -46,7 +51,12 @@
                         <div v-else class="bg-white rounded-lg shadow-lg p-4 w-full">
                             <div class="flex justify-between">
                                 <h1 class="text-2xl font-bold">Sign Up</h1>
-                                <button class="text-2xl font-bold" @click="closeModal">X</button>
+                                <button class="text-2xl font-bold" @click="closeModal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
                             </div>
                             <div class="mt-4">
                                 <label for="email" class="block text-sm font-bold">Email</label>

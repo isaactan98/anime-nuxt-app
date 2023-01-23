@@ -11,7 +11,7 @@
                 <span class="text-purple-500">Anime</span>
             </h1>
         </div>
-        <div class="flex overflow-x-auto w-full gap-3 py-4 scrollbar-hide">
+        <div class="flex overflow-x-auto w-full gap-3 py-4">
             <div v-for="g in genre" :key="g.id" class="">
                 <h1 class="text-xs px-4 py-2 rounded-full border-purple-500 text-white"
                     :class="g.id == 'all' ? 'bg-purple-500' : 'bg-purple-900'">
@@ -22,7 +22,7 @@
         <div class="my-5">
             <h1 class="mb-4 text-white text-xl">Recent Release</h1>
             <div v-if="recentRelease != null && recentRelease.length > 0"
-                class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth scrollbar-hide">
+                class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="rr in recentRelease" :key="rr" :release="rr" class="snap-start" />
             </div>
             <div v-else class="h-28 grid place-content-center">
@@ -33,7 +33,7 @@
         <div class="mt-5 pb-8" v-if="server == 'gogoanime'">
             <h1 class="mb-4 text-white text-xl">Top Airing</h1>
             <div v-if="topAiring != null && topAiring.length > 0"
-                class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth scrollbar-hide">
+                class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="ta in topAiring" :key="ta" :release="ta" class="snap-start" />
             </div>
             <div v-else class="h-28 grid place-content-center">
@@ -142,6 +142,14 @@ export default {
                     alert('Something went wrong, please try again later')
                     // console.log(err)
                 });
+        },
+
+        horizonScroll() {
+            const scrollContainer = document.querySelector('.scroll-smooth');
+            scrollContainer?.addEventListener('wheel', (e: any) => {
+                e.preventDefault();
+                scrollContainer.scrollLeft += e.deltaY;
+            });
         }
     }
 }
