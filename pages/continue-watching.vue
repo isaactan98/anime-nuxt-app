@@ -4,7 +4,8 @@
             <h1 class="text-4xl font-extrabold">
                 Continue <br>
                 <span class="text-purple-500 flex items-center gap-3">Watching
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class=" w-8 h-8 animate-bounce">
                         <path
                             d="M9.195 18.44c1.25.713 2.805-.19 2.805-1.629v-2.34l6.945 3.968c1.25.714 2.805-.188 2.805-1.628V8.688c0-1.44-1.555-2.342-2.805-1.628L12 11.03v-2.34c0-1.44-1.555-2.343-2.805-1.629l-7.108 4.062c-1.26.72-1.26 2.536 0 3.256l7.108 4.061z" />
                     </svg>
@@ -24,12 +25,12 @@
                         <div
                             class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                         </div>
-                        <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
+                        <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
                             <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
                                 {{ list.title }}
                             </h3>
                         </div>
-                        <span class="bg-white rounded-full text-sm px-2 absolute bottom-1 right-1">
+                        <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1">
                             EP {{ list.currentEpisode }}
                         </span>
                     </div>
@@ -115,5 +116,15 @@ export default {
 </script>
 
 <style>
+@keyframes bounce {
 
+    0%,
+    100% {
+        transform: translateX(-25%);
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+}
 </style>

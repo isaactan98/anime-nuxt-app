@@ -3,8 +3,8 @@
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your <br>
-                <span class="text-purple-500 flex items-center gap-3">Favourite List
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8">
+                <span class="text-purple-500 flex items-baseline gap-3">Favourite List
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8 animate-bounce">
                         <path
                             d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                     </svg>
@@ -24,12 +24,12 @@
                         <div
                             class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                         </div>
-                        <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
+                        <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
                             <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
                                 {{ list.title }}
                             </h3>
                         </div>
-                        <span class="bg-white rounded-full text-sm px-2 absolute bottom-1 right-1"
+                        <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1"
                             v-if="list.episode || list.totalEpisodes">
                             EP {{ list.episode ?? list.totalEpisodes }}
                         </span>
