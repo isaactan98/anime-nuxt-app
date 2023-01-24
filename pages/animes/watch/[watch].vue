@@ -119,7 +119,7 @@ export default {
                 })
                 .then(data => {
                     this.video = JSON.parse(JSON.stringify(data));
-                    // console.log('video', this.video)
+                    console.log('video', this.video)
                 }).catch(err => {
                     alert(err)
                     console.log(err)
