@@ -11,7 +11,7 @@
                 </span>
             </h1>
         </div>
-        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5"
+        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
             v-if="watchListResult.length > 0 && watchListResult[0] != ''">
             <div v-for="list in watchListResult" :key="list" class="">
                 <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800">
