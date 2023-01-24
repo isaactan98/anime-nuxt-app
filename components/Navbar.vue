@@ -4,10 +4,10 @@
             <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
                 <li class="text-white">
                     <button @click="toggleSidebar()" class="p-2 bg-gray-800 rounded-md text-white shadow shadow-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path fill-rule="evenodd"
-                                d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                                clip-rule="evenodd" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
                         </svg>
                     </button>
                 </li>
@@ -60,7 +60,7 @@
         </transition>
         <!-- collapse sidebar -->
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
-            <div class="bg-gray-800 w-3/4 lg:w-1/5" id="collapse-sidebar">
+            <div class="bg-gray-800 w-3/4 md:w-2/5 lg:w-1/5" id="collapse-sidebar">
                 <ul class="list-none text-white">
                     <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700"
                         @click="toggleSidebar()">

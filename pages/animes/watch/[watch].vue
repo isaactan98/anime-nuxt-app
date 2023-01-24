@@ -2,7 +2,8 @@
     <div class="min-h-screen container mx-auto pb-5">
         <!-- video player -->
         <div v-if="video" class="mx-auto mt-4">
-            <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer>
+            <!-- <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer> -->
+            <VideoPlayer2 :videoDetails="video" :info="info"></VideoPlayer2>
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
@@ -26,7 +27,7 @@
 
                         <span>{{ info.type }}</span>
                     </span>
-                    <p class="mt-3 overflow-y-auto text-sm max-h-24">{{ info.description }}</p>
+                    <p class="mt-3 overflow-y-auto text-sm max-h-24 scrollbar-hide">{{ info.description }}</p>
                     <div class="mt-5 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" v-if="info != null">
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
                             class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
