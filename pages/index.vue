@@ -20,10 +20,14 @@
         </div>
         <div class="flex overflow-x-auto w-full gap-3 py-4">
             <div v-for="g in genre" :key="g.id" class="">
-                <h1 class="text-xs px-4 py-2 rounded-full border-purple-500 text-white"
-                    :class="g.id == 'all' ? 'bg-purple-500' : 'bg-purple-900'">
+                <div class="text-xs px-4 py-2 rounded-full bg-purple-500 border-purple-500 text-white whitespace-nowrap cursor-pointer"
+                    v-if="g.id == 'all'">
                     {{ g.name }}
-                </h1>
+                </div>
+                <NuxtLink v-if="g.id != 'all'" :to="'/genre/' + g.id + '?page=1'"
+                    class="text-xs px-4 py-2 rounded-full bg-purple-900 border-purple-500 text-white whitespace-nowrap cursor-pointer">
+                    {{ g.name }}
+                </NuxtLink>
             </div>
         </div>
         <div class="my-5">
@@ -59,16 +63,56 @@ export default {
             isOpen: false,
             recentRelease: [],
             genre: [
-                // anime genre 
                 { id: 'all', name: 'All' },
                 { id: 'action', name: 'Action' },
-                { id: 'adventure', name: 'Adventure' },
-                { id: 'adventure', name: 'Adventure' },
-                { id: 'adventure', name: 'Adventure' },
-                { id: 'adventure', name: 'Adventure' },
-                { id: 'adventure', name: 'Adventure' },
-                { id: 'adventure', name: 'Adventure' },
-                { id: 'adventure', name: 'Adventure' },
+                { id: 'adventure', name: "Adventure" },
+                { id: 'cars', name: "Cars" },
+                { id: 'comedy', name: "Comedy" },
+                { id: 'crime', name: "Crime" },
+                { id: 'dementia', name: "Dementia" },
+                { id: 'demons', name: "Demons" },
+                { id: 'drama', name: "Drama" },
+                { id: 'dub', name: "Dub" },
+                { id: 'ecchi', name: "Ecchi" },
+                { id: 'family', name: "Family" },
+                { id: 'fantasy', name: "Fantasy" },
+                { id: 'game', name: "Game" },
+                { id: 'gourmet', name: "Gourmet" },
+                { id: 'harem', name: "Harem" },
+                { id: 'hentai', name: "Hentai" },
+                { id: 'historical', name: "Historical" },
+                { id: 'horror', name: "Horror" },
+                { id: 'isekai', name: "Isekai" },
+                { id: 'josei', name: "Josei" },
+                { id: 'kids', name: "Kids" },
+                { id: 'magic', name: "Magic" },
+                { id: 'martial-arts', name: "Martial Art" },
+                { id: 'mecha', name: "Mecha" },
+                { id: 'military', name: "Military" },
+                { id: 'Mmusic', name: "Mmusic" },
+                { id: 'mystery', name: "Mystery" },
+                { id: 'parody', name: "Parody" },
+                { id: 'police', name: "Police" },
+                { id: 'psychological', name: "Psychological" },
+                { id: 'romance', name: "Romance" },
+                { id: 'samurai', name: "Samurai" },
+                { id: 'school', name: "School" },
+                { id: 'sci-fi', name: "Sci-Fi" },
+                { id: 'seinen', name: "Seinen" },
+                { id: 'shoujo', name: "Shoujo" },
+                { id: 'shoujo-ai', name: "Shoujo-ai" },
+                { id: 'shounen', name: "Shounen" },
+                { id: 'shounen-ai', name: "Shounen-ai" },
+                { id: 'slice-of-Life', name: "Slice of Life" },
+                { id: 'space', name: "Space" },
+                { id: 'sports', name: "Sports" },
+                { id: 'super-power', name: "Super Power" },
+                { id: 'supernatural', name: "Supernatural" },
+                { id: 'suspense', name: "Suspense" },
+                { id: 'thriller', name: "Thriller" },
+                { id: 'vampire', name: "Vampire" },
+                { id: 'yaoi', name: "Yaoi" },
+                { id: 'yuri', name: "Yuri" },
             ],
             server: '',
             topAiring: []
