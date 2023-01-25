@@ -15,7 +15,9 @@
                     <img :src="info.image" alt="" srcset="" class="w-full">
                 </div>
                 <div class="text-white w-4/5">
-                    <h1 class="mb-3 text-lg lg:text-2xl">{{ info.title }}</h1>
+                    <h1 class="mb-3 text-lg lg:text-2xl">
+                        <NuxtLink :to="'/animes/' + info.id">{{ info.title }}</NuxtLink>
+                    </h1>
                     <span class="text-xs mt-3">
                         <span v-if="info.subOrDub == 'both'">
                             <span class="px-1 bg-white text-zinc-600 rounded-md mr-2">SUB</span>
