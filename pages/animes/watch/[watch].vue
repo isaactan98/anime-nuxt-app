@@ -3,7 +3,7 @@
         <!-- video player -->
         <div v-if="video" class="mx-auto mt-4">
             <!-- <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer> -->
-            <VideoPlayer2 :videoDetails="video" :info="info"></VideoPlayer2>
+            <VideoPlayer2 :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2>
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
