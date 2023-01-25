@@ -38,6 +38,11 @@
                 </div>
             </div>
 
+            <div class="p-4 mt-4 mx-auto md:w-3/4" v-if="info.genres">
+                <h1 class="text-zinc-300 mb-5">Recommended for you</h1>
+                <Recommend :genre="info.genres" :id="info.id"></Recommend>
+            </div>
+
         </div>
         <div v-else class="grid place-content-center min-h-screen -mt-20">
             <h1 class="text-white font-extrabold">Loading...</h1>
@@ -119,7 +124,7 @@ export default {
                 })
                 .then(data => {
                     this.video = JSON.parse(JSON.stringify(data));
-                    console.log('video', this.video)
+                    // console.log('video', this.video)
                 }).catch(err => {
                     alert(err)
                     console.log(err)

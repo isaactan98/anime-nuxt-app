@@ -55,7 +55,7 @@ const props = defineProps({
 var isOpen = ref(props.isOpenModal)
 
 const serverList = [
-    { id: 'gogoanime', name: 'Gogoanime' },
+    { id: 'gogoanime', name: 'Gogoanime (Preferred)' },
     { id: 'zoro', name: 'Zoro.to' },
 ]
 

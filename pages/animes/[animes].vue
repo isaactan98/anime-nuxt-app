@@ -21,7 +21,8 @@
                         <span class=" rounded-full text-zinc-600 bg-white px-3 py-1 text-xs ml-2 font-bold">{{
                             anime.type
                         }}</span>
-                        <span class=" rounded-full text-zinc-600 bg-white px-3 py-1 text-xs ml-2 font-bold"
+                        <span v-if="anime.status"
+                            class="rounded-full text-zinc-600 bg-white px-3 py-1 text-xs ml-2 font-bold"
                             :class="anime.status == 'Completed' ? '!bg-green-500 !text-white' : ''">
                             {{ anime.status }}
                         </span>
@@ -47,7 +48,7 @@
                         View on {{ server }}
                     </a>
                     <button type="button"
-                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/2 px-5 py-3 rounded-lg text-center grid place-content-center"
+                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/2 px-5 py-3 rounded-lg text-center grid place-content-center text-sm"
                         @click="addToList()" v-if="userId != null">
                         <span v-if="addedList == 'false'">Add to favourite</span>
                         <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -65,6 +66,10 @@
                         <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
+            </div>
+            <div class="p-4 mt-4 mx-auto md:w-3/4" v-if="anime.genres">
+                <h1 class="text-zinc-300 mb-5">Recommended for you</h1>
+                <Recommend :genre="anime.genres" :id="anime.id"></Recommend>
             </div>
         </div>
         <div v-else class="grid place-content-center min-h-screen -mt-20">
@@ -122,7 +127,7 @@ export default {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 if (data.id != null) {
                     this.anime.id = data.id;
                     this.anime.title = data.title;
@@ -138,7 +143,7 @@ export default {
                     this.anime.episode = data.episodes;
                     this.setTitle();
                     this.getAddedList()
-                    console.log(this.addedList)
+                    // console.log(this.addedList)
                 } else {
                     alert('Server is down, please try again later.')
                     window.location.href = '/'
