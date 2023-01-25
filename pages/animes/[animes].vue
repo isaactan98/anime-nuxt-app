@@ -31,10 +31,10 @@
                     <div class="text-zinc-400 text-sm my-3" v-if="anime.genres">
                         Genres:
                         <div class="mt-1">
-                            <span v-for="g of anime.genres" :key="g"
+                            <NuxtLink v-for="g of anime.genres" :key="g" :to="'/genre/' + g + '?page=1'"
                                 class="text-zinc-300 border border-zinc-300 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
                                 {{ g }}
-                            </span>
+                            </NuxtLink>
                         </div>
                     </div>
                 </div>
