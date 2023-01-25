@@ -92,6 +92,8 @@ export default {
                     // console.log('data:', data)
                     this.sortEpisode(data.episodes)
                     this.info = data;
+                    this.shuffle(data.genres)
+                    this.info.genres = data.genres
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
 
                     useHead({
@@ -215,7 +217,10 @@ export default {
         },
         changeEp(id, animeId) {
             window.location.href = '/animes/watch/' + id + '?id=' + animeId
-        }
+        },
+        shuffle(array) {
+            array.sort(() => Math.random() - 0.5);
+        },
     }
 }
 </script>

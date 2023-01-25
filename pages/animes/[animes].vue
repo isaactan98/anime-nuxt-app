@@ -137,6 +137,7 @@ export default {
                     this.anime.img = data.image;
                     this.anime.totalEpisodes = data.totalEpisodes;
                     this.anime.type = data.type;
+                    this.shuffle(data.genres);
                     this.anime.genres = data.genres;
                     this.anime.status = data.status;
                     this.sortEpisode(data.episodes);
@@ -214,7 +215,11 @@ export default {
                     console.log(error)
                 }
             }
-        }
+        },
+        // randomize array
+        shuffle(array) {
+            array.sort(() => Math.random() - 0.5);
+        },
     }
 }
 </script>
