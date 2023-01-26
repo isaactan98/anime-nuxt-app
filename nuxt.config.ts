@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     head: {
       title: "Shadow Anime",
       titleTemplate: "%s - Shadow Garden Anime",
+      link: [{ rel: "icon", type: "image/x-icon", href: "/delta_icon.png" }],
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
