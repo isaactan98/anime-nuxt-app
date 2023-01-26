@@ -13,10 +13,13 @@
             <div class="z-10 relative bg-slate-900">
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
-                    <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.otherName ?? anime.title }}
+                    <h1 class="text-lg lg:text-2xl text-white mb-2">{{ anime.otherName ?? anime.title }}
                         <br> <span class="text-sm font-bold">EP: {{ anime.totalEpisodes }} - <p
                                 class="text-purple-400 inline-block">Latest</p></span>
                     </h1>
+                    <div v-if="anime.releaseDate" class="text-zinc-300 text-sm my-3 flex items-center">
+                        Release Date: <span class="text-white font-bold ml-3">{{ anime.releaseDate }}</span>
+                    </div>
                     <span class="text-zinc-300 text-sm my-3 flex items-center">Type:
                         <span class=" rounded-full text-zinc-600 bg-white px-3 py-1 text-xs ml-2 font-bold">{{
                             anime.type
@@ -28,11 +31,11 @@
                         </span>
                     </span>
 
-                    <div class="text-zinc-400 text-sm my-3" v-if="anime.genres">
+                    <div class="text-zinc-300 text-sm my-3" v-if="anime.genres">
                         Genres:
                         <div class="mt-1">
                             <NuxtLink v-for="g of anime.genres" :key="g" :to="'/genre/' + g + '?page=1'"
-                                class="text-zinc-300 border border-zinc-300 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
+                                class="text-white border border-zinc-300 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
                                 {{ g }}
                             </NuxtLink>
                         </div>
@@ -95,7 +98,8 @@ export default {
                 episode: [],
                 genres: [],
                 otherName: '',
-                status: ''
+                status: '',
+                releaseDate: ''
             },
             server: "",
             addedList: 'false',
@@ -137,6 +141,7 @@ export default {
                     this.anime.img = data.image;
                     this.anime.totalEpisodes = data.totalEpisodes;
                     this.anime.type = data.type;
+                    this.anime.releaseDate = data.releaseDate ?? '';
                     this.shuffle(data.genres);
                     this.anime.genres = data.genres;
                     this.anime.status = data.status;
