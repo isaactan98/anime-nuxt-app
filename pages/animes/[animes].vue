@@ -1,16 +1,16 @@
 <template>
     <div class="container mx-auto min-h-screen py-4">
         <div v-if="anime.title != ''">
-            <div class="w-full object-cover">
-                <div class="w-full py-5">
-                    <img :src="anime.img" alt="" class="w-64 m-auto rounded-xl z-10 relative">
-                </div>
-                <div class="w-full">
-                    <img :src="anime.img" alt=""
-                        class="w-full lg:w-10/12 mx-auto absolute top-0 blur-lg h-[30rem] object-cover object-center left-0 right-0">
+            <div class="w-full">
+                <div class="w-full py-5 h-full">
+                    <img :src="anime.img" alt="" class="w-64 m-auto rounded-xl z-10 relative shadow-lg">
+                    <div class="w-full">
+                        <img :src="anime.img" alt=""
+                            class="w-full lg:w-3/4 mx-auto absolute top-0 blur-lg h-[30rem] object-cover left-0 right-0">
+                    </div>
                 </div>
             </div>
-            <div class="z-10">
+            <div class="z-10 relative bg-slate-900">
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-4">{{ anime.otherName ?? anime.title }}

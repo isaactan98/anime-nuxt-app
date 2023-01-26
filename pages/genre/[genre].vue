@@ -56,6 +56,15 @@ export default {
         this.genre = this.$route.params.genre
         this.page = this.$route.query.page
 
+        useHead({
+            title: this.genre,
+            meta: [{
+                hid: 'description',
+                name: 'description',
+                content: 'Watch ' + this.genre + ' Anime Online Free in HD'
+            }]
+        })
+
         const config = useRuntimeConfig();
         if (localStorage.getItem('server') == 'gogoanime') {
             this.apiUrl = config.apiUrl
