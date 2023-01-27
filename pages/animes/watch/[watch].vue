@@ -32,7 +32,7 @@
                     <p class="mt-3 overflow-y-auto text-sm max-h-24 scrollbar-hide">{{ info.description }}</p>
                     <div class="mt-5 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" v-if="info != null">
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
-                            class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
+                            class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
                             :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
                             <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
                         </button>

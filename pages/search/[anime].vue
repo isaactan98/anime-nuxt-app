@@ -7,8 +7,13 @@
             </h1>
         </div>
 
-        <div v-if="animeList.length != 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-            <div class="mb-5 relative" v-for="anime in animeList" :key="anime">
+        <div v-if="animeList" class="text-zinc-300 text-xs">
+            Results: {{ animeList.results?.length }} / Page {{ page }}
+        </div>
+
+        <div v-if="animeList.results?.length != 0"
+            class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
+            <div class="mb-5 relative" v-for="anime in animeList.results" :key="anime">
                 <a :href="'/animes/' + anime.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
                         <img :src="anime.image" alt="" class="rounded-xl object-cover w-full h-full">
@@ -30,6 +35,14 @@
         <div v-else class="grid place-items-center">
             <SpiningLoading></SpiningLoading>
         </div>
+
+        <div class="flex items-center justify-center w-full text-white mt-10">
+            <button class="rounded-full py-1 px-3 mx-2"
+                :class="animeList?.currentPage == pl ? ' bg-purple-700' : 'bg-purple-500 opacity-50'"
+                v-for="pl in pageList" :key="pl" @click="pageChange(pl)">
+                {{ pl }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -38,11 +51,15 @@ export default {
     data() {
         return {
             query: '',
-            animeList: []
+            animeList: [],
+            page: 1,
+            pageList: [],
+            apiUrl: ""
         }
     },
     mounted() {
         this.query = this.$route.params.anime
+        this.page = this.$route.query.page
 
         useHead({
             title: 'Search Result for: ' + this.query,
@@ -54,23 +71,49 @@ export default {
             ]
         })
         const config = useRuntimeConfig()
-        var url = ''
+
         if (localStorage.getItem('server') == 'gogoanime') {
-            url = config.apiUrl + this.query
+            this.apiUrl = config.apiUrl + this.query
+
+            if (this.page != 1) {
+                this.pageList.push(parseInt(this.page) - 1)
+                this.pageList.push(this.page)
+            } else {
+                this.pageList.push(this.page)
+            }
         } else {
-            url = config.apiUrl2 + this.query
+            this.apiUrl = config.apiUrl2 + this.query
         }
-        this.searchAnime(url)
+        this.searchAnime(this.apiUrl, this.page)
 
     },
     methods: {
-        searchAnime(api) {
-            fetch(api)
+        searchAnime(api, page) {
+            fetch(api + '?page=' + page)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
-                    this.animeList = data.results
+                    // console.log(data)
+                    this.animeList = data
+                    if (data.hasNextPage) {
+                        this.pageList.push(parseInt(page) + 1)
+                    }
                 })
+        },
+        pageChange(page) {
+            this.animeList = []
+            this.page = page
+            this.pageList = []
+            if (page != 1) {
+                this.pageList.push(parseInt(page) - 1)
+            }
+            this.pageList.push(page)
+            this.$router.push({
+                path: '/search/' + this.query,
+                query: {
+                    page: page
+                }
+            })
+            this.searchAnime(this.apiUrl, this.page)
         }
     }
 }

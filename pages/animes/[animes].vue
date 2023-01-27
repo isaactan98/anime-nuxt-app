@@ -62,8 +62,8 @@
                         <SpiningLoading v-if="addedList == ''" class="text-purple-600 m-0"></SpiningLoading>
                     </button>
                     <select v-if="addedList == 'true' && selectStatus != null" @change="changeStatus(selectStatus)"
-                        class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500 text-sm px-3"
-                        v-model="selectStatus">
+                        class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500 border-none text-sm px-3 appearance-none text-center"
+                        style="background-image: none;" v-model="selectStatus">
                         <option v-for="s in status" :key="s" :value="s.id">
                             {{ s.name }}
                         </option>
@@ -72,7 +72,7 @@
 
                 <div class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
-                        class="border border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
+                        class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
                         <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>

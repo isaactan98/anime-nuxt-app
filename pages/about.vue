@@ -7,7 +7,7 @@
             <h1 class="before:content-['•'] before:text-zinc-400 before:pr-3 before:inline-block">About</h1>
         </div>
 
-        <div class="flex items-center">
+        <div class="flex items-center mt-8">
             <h1 class="text-white text-4xl">About Shadow Garden Anime</h1>
             <img src="~/assets/images/7shadow-delta.png" alt="" class="w-1/6 md:hidden">
         </div>
