@@ -17,8 +17,8 @@
             <div class="bg-purple-600 text-white px-3 py-1 rounded-lg flex items-center">
                 <input type="checkbox" name="" id="showCompleted" @click="showCompletedList()"
                     v-model="checkShowCompleted" v-if="checkShowCompleted != 'loading'"
-                    class="text-green-500 bg-green-100 border-none focus:ring-0 rounded outline-none w-4 h-4">
-                <SpiningLoading v-else></SpiningLoading>
+                    class="text-green-500 bg-green-100 border-none focus:ring-0 rounded outline-none w-3 h-3">
+                <SpiningLoading v-else class="w-3 h-3"></SpiningLoading>
                 <label for="showCompleted" class="ml-2 text-sm">Show Completed</label>
             </div>
         </div>
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="my-5 mx-auto grid place-content-center" v-else>
+        <div class="my-10 mx-auto grid place-content-center" v-else>
             <SpiningLoading></SpiningLoading>
         </div>
     </div>
@@ -106,6 +106,11 @@ export default {
                 this.getAnimeInfo(doc.data().animeId, counter)
                 counter++
             });
+            if (this.checkShowCompleted == 'loading') {
+                setTimeout(() => {
+                    this.checkShowCompleted = false
+                }, 2000);
+            }
         },
         showCompletedList() {
             if (this.checkShowCompleted == false) {
@@ -134,6 +139,7 @@ export default {
                     }, 2000);
                 });
             } else {
+                this.checkShowCompleted = "loading"
                 this.watchListResult = []
                 this.watchList = []
                 this.getLikeList()
