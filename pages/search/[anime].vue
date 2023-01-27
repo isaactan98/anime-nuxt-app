@@ -7,7 +7,7 @@
             </h1>
         </div>
 
-        <div v-if="animeList != null" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
+        <div v-if="animeList.length != 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
             <div class="mb-5 relative" v-for="anime in animeList" :key="anime">
                 <a :href="'/animes/' + anime.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
-                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem] lg:max-w-xs">
+                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
                                 {{ anime.title }}
                             </h3>
                         </div>
@@ -27,8 +27,8 @@
                 </a>
             </div>
         </div>
-        <div v-else class="text-white">
-            Loading...
+        <div v-else class="grid place-items-center">
+            <SpiningLoading></SpiningLoading>
         </div>
     </div>
 </template>

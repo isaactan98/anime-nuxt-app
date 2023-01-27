@@ -139,7 +139,7 @@ export default {
             // console.log('search anime')
             // console.log(this.searchQuery)
             this.showSearch = false
-            this.$router.push(`/search/${this.searchQuery}`)
+            this.$router.push(`/search/${this.searchQuery}?page=1`)
         }
     }
 }

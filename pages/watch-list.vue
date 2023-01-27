@@ -1,15 +1,26 @@
 <template>
-    <div class="container p-4 mx-auto min-h-screen" v-if="watchList.length > 0">
+    <div class="container p-4 mx-auto min-h-screen">
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your <br>
                 <span class="text-purple-500 flex items-baseline gap-3">Favourite List
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" w-8 h-8 animate-bounce">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class=" w-8 h-8 animate-bounce">
                         <path
                             d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                     </svg>
                 </span>
             </h1>
+        </div>
+        <!-- div change status -->
+        <div class=" w-full flex justify-end">
+            <div class="bg-purple-600 text-white px-3 py-1 rounded-lg flex items-center">
+                <input type="checkbox" name="" id="showCompleted" @click="showCompletedList()"
+                    v-model="checkShowCompleted" v-if="checkShowCompleted != 'loading'"
+                    class="text-green-500 bg-green-100 border-none focus:ring-0 rounded outline-none w-4 h-4">
+                <SpiningLoading v-else></SpiningLoading>
+                <label for="showCompleted" class="ml-2 text-sm">Show Completed</label>
+            </div>
         </div>
         <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
             v-if="watchListResult.length > 0 && watchListResult[0] != ''">
@@ -42,9 +53,6 @@
             <SpiningLoading></SpiningLoading>
         </div>
     </div>
-    <div v-else class="text-white container px-4 mx-auto min-h-screen grid place-content-center -mt-20">
-        Loading...
-    </div>
 </template>
 
 <script>
@@ -56,6 +64,7 @@ export default {
             watchList: [],
             server: "",
             watchListResult: [],
+            checkShowCompleted: false
         }
     },
     mounted() {
@@ -75,8 +84,9 @@ export default {
         this.server = localStorage.getItem('server')
         if (sessionStorage.getItem('userId') != null && localStorage.getItem('server') != null) {
             this.getLikeList()
-        }
-        if (this.watchList.length > 0) {
+        } else {
+            alert('Please login first')
+            window.location.href = "/"
         }
     },
     methods: {
@@ -87,6 +97,7 @@ export default {
             const q = query(collection(db, "watch-list"),
                 where("userId", "==", userId),
                 where("server", "==", this.server),
+                where("status", "in", ["no_status", "watching"]),
                 orderBy("createdAt", "desc")
             );
             const querySnapshot = await getDocs(q);
@@ -95,6 +106,38 @@ export default {
                 this.getAnimeInfo(doc.data().animeId, counter)
                 counter++
             });
+        },
+        showCompletedList() {
+            if (this.checkShowCompleted == false) {
+                this.checkShowCompleted = "loading"
+                this.watchListResult = []
+                this.watchList = []
+                var counter = 0;
+                const db = getFirestore();
+                const userId = sessionStorage.getItem('userId')
+                const q = query(collection(db, "watch-list"),
+                    where("userId", "==", userId),
+                    where("server", "==", this.server),
+                    where("status", "==", "completed"),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = getDocs(q);
+                querySnapshot.then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        this.watchList.push(doc.data())
+                        this.getAnimeInfo(doc.data().animeId, counter)
+                        counter++
+                    });
+                }).then(() => {
+                    setTimeout(() => {
+                        this.checkShowCompleted = true
+                    }, 2000);
+                });
+            } else {
+                this.watchListResult = []
+                this.watchList = []
+                this.getLikeList()
+            }
         },
         async getAnimeInfo(id, counter) {
             const config = useRuntimeConfig();

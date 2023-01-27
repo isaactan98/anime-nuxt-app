@@ -51,7 +51,7 @@
                         View on {{ server }}
                     </a>
                     <button type="button"
-                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/2 px-5 py-3 rounded-lg text-center grid place-content-center text-sm"
+                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/2 px-5 py-3 rounded-xl text-center grid place-content-center text-sm"
                         @click="addToList()" v-if="userId != null">
                         <span v-if="addedList == 'false'">Add to favourite</span>
                         <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -61,6 +61,13 @@
                         </svg>
                         <SpiningLoading v-if="addedList == ''" class="text-purple-600 m-0"></SpiningLoading>
                     </button>
+                    <select v-if="addedList == 'true' && selectStatus != null" @change="changeStatus(selectStatus)"
+                        class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500 text-sm px-3"
+                        v-model="selectStatus">
+                        <option v-for="s in status" :key="s" :value="s.id">
+                            {{ s.name }}
+                        </option>
+                    </select>
                 </div>
 
                 <div class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
@@ -82,7 +89,7 @@
 </template>
 
 <script>
-import { getFirestore, query, where, getDocs, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { getFirestore, query, where, getDocs, updateDoc, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 
 export default {
     data() {
@@ -104,7 +111,13 @@ export default {
             server: "",
             addedList: 'false',
             userId: '',
-            serverUrl: ''
+            serverUrl: '',
+            status: [
+                { id: 'no_status', name: 'Select Status' },
+                { id: 'watching', name: 'Watching' },
+                { id: 'completed', name: 'Completed' },
+            ],
+            selectStatus: null
         }
     },
     mounted() {
@@ -173,16 +186,25 @@ export default {
         },
         getAddedList() {
             const db = getFirestore();
-            const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
+            const q = query(collection(db, "watch-list"),
+                where("animeId", "==", this.anime.id),
+                where("userId", "==", sessionStorage.getItem('userId')),
+                where("server", "==", localStorage.getItem('server'))
+            );
             const querySnapshot = getDocs(q);
 
             querySnapshot.then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    if (doc.data().userId == sessionStorage.getItem('userId') && doc.data().server == localStorage.getItem('server')) {
-                        this.addedList = 'true';
-                    }
+                    this.addedList = 'true';
                 });
-            });
+                return querySnapshot;
+            }).then((s) => {
+                s.docs.forEach((doc) => {
+                    this.selectStatus = doc.data().status;
+                })
+                // console.log('inner', this.selectStatus)
+            })
+            // console.log('outer', this.selectStatus)
         },
         addToList() {
             const db = getFirestore();
@@ -193,7 +215,8 @@ export default {
                         animeId: this.anime.id,
                         userId: sessionStorage.getItem('userId'),
                         server: localStorage.getItem('server'),
-                        createdAt: new Date()
+                        createdAt: new Date(),
+                        status: 'no_status'
                     }).then(() => {
                         this.addedList = 'true';
                     })
@@ -220,6 +243,25 @@ export default {
                     console.log(error)
                 }
             }
+        },
+        changeStatus(value) {
+            const db = getFirestore();
+            const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
+            const querySnapshot = getDocs(q);
+
+            querySnapshot.then((querySnapshot) => {
+                querySnapshot.forEach((docs) => {
+                    // console.log(docs.data())
+                    if (docs.data().userId == sessionStorage.getItem('userId') && docs.data().server == localStorage.getItem('server')) {
+                        updateDoc(doc(db, "watch-list", docs.id), {
+                            status: value
+                        }).then(() => {
+                            this.selectStatus = value;
+                            alert('Status updated successfully.')
+                        })
+                    }
+                });
+            });
         },
         // randomize array
         shuffle(array) {

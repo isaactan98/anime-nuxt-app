@@ -2,6 +2,7 @@
   <div class="min-h-screen bg-slate-900">
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>
+      <NuxtLoadingIndicator />
       <NuxtPage />
     </NuxtLayout>
     <Footer class="mt-10"></Footer>
