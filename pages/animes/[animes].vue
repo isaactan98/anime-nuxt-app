@@ -45,13 +45,13 @@
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
-                <div class="p-4 flex justify-between gap-5 w-full md:w-1/3 mt-4 mx-auto">
+                <div class="p-4 flex justify-center gap-5 w-full md:w-3/4 lg:w-1/3 mt-4 mx-auto">
                     <a :href="serverUrl + anime.url" target="_blank"
-                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-1/2 px-5 py-3 rounded-lg text-center text-sm">
+                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-3 rounded-lg text-center text-sm">
                         View on {{ server }}
                     </a>
                     <button type="button"
-                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/2 px-5 py-3 rounded-xl text-center grid place-content-center text-sm"
+                        class="bg-white text-purple-500 shadow-lg shadow-purple-300 w-1/5 px-5 py-3 rounded-xl text-center grid place-content-center text-sm"
                         @click="addToList()" v-if="userId != null">
                         <span v-if="addedList == 'false'">Add to favourite</span>
                         <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
                         <SpiningLoading v-if="addedList == ''" class="text-purple-600 m-0"></SpiningLoading>
                     </button>
                     <select v-if="addedList == 'true' && selectStatus != null" @change="changeStatus(selectStatus)"
-                        class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500 border-none text-sm px-3 appearance-none text-center"
+                        class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500 border-none text-sm w-2/5 px-3 appearance-none text-center"
                         style="background-image: none;" v-model="selectStatus">
                         <option v-for="s in status" :key="s" :value="s.id">
                             {{ s.name }}
