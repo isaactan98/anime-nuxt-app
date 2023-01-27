@@ -70,7 +70,7 @@ export default {
                     },
                     {
                         default: true,
-                        html: 'auto',
+                        html: 'Auto',
                         url: this.url.auto.url,
                     },
                 ]
@@ -105,5 +105,20 @@ export default {
 <style>
 .artplayer-app {
     aspect-ratio: 16/9;
+}
+
+.art-progress-played,
+.art-progress-indicator,
+.art-layer-miniProgressBar {
+    background-color: #a855f7 !important;
+}
+
+.art-video-player .art-mask .art-state {
+    bottom: auto;
+    right: auto;
+}
+
+.art-icon-state svg {
+    fill: #a855f7 !important;
 }
 </style>
