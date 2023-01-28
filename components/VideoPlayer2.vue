@@ -73,7 +73,10 @@ export default {
                         html: 'Auto',
                         url: this.url.auto.url,
                     },
-                ]
+                ],
+                icons: {
+                    loading: '<img src="https://shadow-garden.jp/assets/img/character/chara10_main1.png" class="w-1/2 drop-shadow-lg">',
+                },
             })
         }
 

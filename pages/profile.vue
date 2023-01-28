@@ -1,12 +1,12 @@
 <template>
-    <div class="min-h-screen p-4 container mx-auto md:w-2/3">
+    <div class="min-h-screen p-4 container mx-auto md:w-3/4">
         <div class="text-white min-h-[10vh] flex items-center">
             <h1 class="text-2xl font-extrabold text-purple-500">
                 Profile
             </h1>
         </div>
-        <div v-if="user.email != null && user.email != ''" class="">
-            <div class="bg-gray-800 p-10 rounded-3xl mx-auto grid md:grid-cols-5">
+        <div v-if="user.email != null && user.email != ''" class="flex items-center">
+            <div class="bg-gray-800 p-10 rounded-3xl mx-auto grid md:grid-cols-5 md:w-2/3">
                 <div class="flex justify-center items-center mb-8 rounded-full md:col-span-2">
                     <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg"
                         alt="" class="object-contain rounded-full w-16 h-16 p-1 bg-white shadow-md shadow-indigo-600">
@@ -32,6 +32,12 @@
                         <SpiningLoading v-if="isSaving" class="mr-3"></SpiningLoading> Save
                     </button>
                 </div>
+                <div class="mt-10 md:hidden">
+                    <img src="https://shadow-garden.jp/assets/img/character/chara4_main1.png" alt="">
+                </div>
+            </div>
+            <div class="hidden md:flex md:w-1/3 justify-center items-center">
+                <img src="https://shadow-garden.jp/assets/img/character/chara4_main1.png" alt="">
             </div>
         </div>
         <div v-else class=" text-white">
