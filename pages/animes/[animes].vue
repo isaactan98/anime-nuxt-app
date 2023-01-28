@@ -47,7 +47,7 @@
 
                 <div class="p-4 flex justify-center gap-5 w-full md:w-3/4 lg:w-1/3 mt-4 mx-auto">
                     <a :href="serverUrl + anime.url" target="_blank"
-                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-3 rounded-lg text-center text-sm">
+                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-3 rounded-lg text-center text-sm flex items-center">
                         View on {{ server }}
                     </a>
                     <button type="button"
