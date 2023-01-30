@@ -117,8 +117,8 @@ export default {
 }
 
 .art-video-player .art-mask .art-state {
-    bottom: auto;
-    right: auto;
+    bottom: auto !important;
+    right: auto !important;
 }
 
 .art-icon-state svg {
