@@ -9,10 +9,10 @@
                 <div class="fixed inset-0 bg-black bg-opacity-50" @click="closeModal"></div>
                 <div class="fixed inset-0 overflow-y-auto z-50">
                     <div class="flex min-h-full items-center justify-center p-4 text-center md:w-1/3 mx-auto">
-                        <div v-if="login" class="bg-white rounded-lg shadow-lg p-4 w-full">
+                        <div v-if="login" class="bg-slate-800 rounded-lg shadow-lg p-4 w-full">
                             <div class="flex justify-between">
-                                <h1 class="text-2xl font-bold">Login</h1>
-                                <button class="text-2xl font-bold" @click="closeModal">
+                                <h1 class="text-2xl font-bold text-white">Login</h1>
+                                <button class="text-2xl font-bold text-white" @click="closeModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -20,13 +20,13 @@
                                 </button>
                             </div>
                             <div class="mt-4">
-                                <label for="email" class="block text-sm font-bold">Email</label>
+                                <label for="email" class="block text-sm font-bold text-white">Email</label>
                                 <input type="email" name="email" id="email" v-model="email"
                                     class="w-full border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-violet-700"
                                     autocomplete="off">
                             </div>
                             <div class="mt-4">
-                                <label for="password" class="block text-sm font-bold">Password</label>
+                                <label for="password" class="block text-sm font-bold text-white">Password</label>
                                 <input type="password" name="password" id="password" v-model="password"
                                     class="w-full border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-violet-700">
                             </div>
@@ -39,7 +39,7 @@
                                 </button>
                             </div>
                             <div class="mt-4">
-                                <p class="text-sm">Don't have an account? <span @click="login = false"
+                                <p class="text-sm text-white">Don't have an account? <span @click="login = false"
                                         class="text-violet-700 cursor-pointer">
                                         Sign Up
                                     </span></p>
@@ -48,10 +48,10 @@
                                 {{ errorMessage }}
                             </div>
                         </div>
-                        <div v-else class="bg-white rounded-lg shadow-lg p-4 w-full">
+                        <div v-else class="bg-slate-800 rounded-lg shadow-lg p-4 w-full">
                             <div class="flex justify-between">
-                                <h1 class="text-2xl font-bold">Sign Up</h1>
-                                <button class="text-2xl font-bold" @click="closeModal">
+                                <h1 class="text-2xl font-bold text-white">Sign Up</h1>
+                                <button class="text-2xl font-bold text-white" @click="closeModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -65,7 +65,7 @@
                                     autocomplete="off">
                             </div>
                             <div class="mt-4">
-                                <label for="password" class="block text-sm font-bold">Password</label>
+                                <label for="password" class="block text-sm font-bold text-white">Password</label>
                                 <input type="password" name="password" id="password" v-model="password"
                                     class="w-full border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-violet-700">
                             </div>
@@ -77,7 +77,7 @@
                                 </button>
                             </div>
                             <div class="mt-4">
-                                <p class="text-sm">Already have an account? <span @click="login = true"
+                                <p class="text-sm text-white">Already have an account? <span @click="login = true"
                                         class="text-violet-700 cursor-pointer">Login</span></p>
                             </div>
                             <div v-if="errorMessage" class="w-full text-center text-red-500 mt-4 text-sm">
