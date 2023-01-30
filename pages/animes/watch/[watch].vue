@@ -1,9 +1,12 @@
 <template>
     <div class="min-h-screen container mx-auto pb-5">
         <!-- video player -->
-        <div v-if="video" class="mx-auto mt-4">
+        <div v-if="info" class="mx-auto mt-4">
             <!-- <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer> -->
-            <VideoPlayer2 :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2>
+            <VideoPlayer2 v-if="video" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2>
+            <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80">
+                <SpiningLoading></SpiningLoading>
+            </div>
 
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
