@@ -13,7 +13,8 @@
             <div class="z-10 relative bg-slate-900">
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
-                    <h1 class="text-lg lg:text-2xl text-white mb-2">{{ anime.otherName ?? anime.title }}
+                    <h1 class="text-lg lg:text-2xl text-white mb-2">
+                        {{ enimeData?.title.english ?? (anime.otherName ?? anime.title) }}
                         <br> <span class="text-sm font-bold">EP: {{ anime.totalEpisodes }} - <p
                                 class="text-purple-400 inline-block">Latest</p></span>
                     </h1>
@@ -45,9 +46,15 @@
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
+                <div v-if="enimeData && enimeData.next" class="mt-5 p-4 mx-auto md:w-3/4 text-white">
+                    <span class="font-bold">Estimate Next Episode {{ enimeData.currentEpisode + 1 }}: </span> <br
+                        class="lg:hidden">
+                    <span>{{ new Date(enimeData.next).toLocaleString() }}</span>
+                </div>
+
                 <div class="p-4 flex justify-center gap-5 w-full md:w-3/4 lg:w-1/3 mt-4 mx-auto">
                     <a :href="serverUrl + anime.url" target="_blank"
-                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-3 rounded-lg text-center text-sm flex justify-center items-center">
+                        class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-2.5 rounded-lg text-center text-sm flex justify-center items-center">
                         View on {{ server }}
                     </a>
                     <button type="button"
@@ -55,7 +62,7 @@
                         @click="addToList()" v-if="userId != null">
                         <span v-if="addedList == 'false'">Add to favourite</span>
                         <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            fill="currentColor" class="w-6 h-6 mx-auto">
+                            fill="currentColor" class="w-6 h-6 mx-auto animate-bounce">
                             <path
                                 d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                         </svg>
@@ -70,10 +77,11 @@
                     </select>
                 </div>
 
-                <div class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
-                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
+                <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
+                    <NuxtLink v-for="e of anime.episode" :key="e"
+                        :to="'/animes/watch/' + e.id + '?id=' + anime.id + '&e=' + (enimeData?.slug ?? '')"
                         class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
-                        <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
+                        <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
             </div>
@@ -117,7 +125,8 @@ export default {
                 { id: 'watching', name: 'Watching' },
                 { id: 'completed', name: 'Completed' },
             ],
-            selectStatus: null
+            selectStatus: null,
+            enimeData: null
         }
     },
     mounted() {
@@ -163,6 +172,7 @@ export default {
                     this.setTitle();
                     this.getAddedList()
                     // console.log(this.addedList)
+                    this.getByEmine(data.id)
                 } else {
                     alert('Server is down, please try again later.')
                     window.location.href = '/'
@@ -267,6 +277,15 @@ export default {
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
         },
+        getByEmine(id) {
+            const config = useRuntimeConfig();
+            fetch(config.apiUrl3 + "search/" + id).then(response => response.json()).then(data => {
+                if (data.data) {
+                    this.enimeData = data.data[0]
+                    // console.log(this.enimeData)
+                }
+            })
+        }
     }
 }
 </script>

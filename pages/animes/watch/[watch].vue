@@ -11,13 +11,16 @@
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
                 <span class="text-sm font-bold text-purple-500">Episode {{ thisEp.number }}</span>
+                <div v-if="enimeData" class=" ml-2 inline-block">
+                    <span class="text-sm">{{ enimeData.episodes.title }}</span>
+                </div>
             </div>
 
-            <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 flex gap-3">
-                <div class="w-1/5">
-                    <img :src="info.image" alt="" srcset="" class="w-full">
+            <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 block md:flex gap-3">
+                <div class="w-full md:w-1/5">
+                    <img :src="info.image" alt="" srcset="" class="w-full rounded-xl">
                 </div>
-                <div class="text-white w-4/5">
+                <div class="text-white w-full md:w-4/5">
                     <h1 class="mb-3 text-lg lg:text-2xl">
                         <NuxtLink :to="'/animes/' + info.id">{{ info.title }}</NuxtLink>
                     </h1>
@@ -37,7 +40,7 @@
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
                             class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
                             :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
-                            <span class="w-3/4 mx-auto">(E{{ e.number }}) {{ e.title ? ' - ' + e.title : '' }}</span>
+                            <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                         </button>
                     </div>
                 </div>
@@ -63,7 +66,8 @@ export default {
         return {
             info: null,
             video: null,
-            thisEp: null
+            thisEp: null,
+            enimeData: null,
         }
     },
     mounted() {
@@ -100,6 +104,9 @@ export default {
                     this.shuffle(data.genres)
                     this.info.genres = data.genres
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
+
+                    var e = this.$route.query.e;
+                    this.getByEmine(e)
 
                     useHead({
                         title: data.title + ' - EP' + this.thisEp.number
@@ -226,6 +233,24 @@ export default {
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
         },
+        filterFilter(arr, expression) {
+            return arr.filter(function (item) {
+                return item[Object.keys(expression)[0]] == Object.values(expression)[0];
+            });
+        },
+        getByEmine(id) {
+            const config = useRuntimeConfig();
+            fetch(config.apiUrl3 + "anime/" + id).then(response => response.json()).then(data => {
+                console.log(data)
+                if (data) {
+                    this.enimeData = data
+                    this.enimeData.episodes = this.filterFilter(data.episodes, { number: this.thisEp.number })[0]
+                    this.info.title = this.enimeData.title.english ?? this.enimeData.title.userPreferred
+                    this.info.poster = "https://images.weserv.nl/?url=" + this.enimeData.episodes?.image
+                    console.log(this.enimeData)
+                }
+            })
+        }
     }
 }
 </script>
