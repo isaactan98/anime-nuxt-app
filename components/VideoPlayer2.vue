@@ -37,7 +37,7 @@ export default {
             this.player = new Artplater({
                 container: '.artplayer-app',
                 url: this.url.auto.url,
-                poster: this.info.poster,
+                poster: this.info.image,
                 title: this.info.title,
                 playbackRate: true,
                 aspectRatio: true,

@@ -14,7 +14,7 @@
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-2">
-                        {{ enimeData?.title.english ?? (anime.otherName ?? anime.title) }}
+                        {{ anime.otherName ?? anime.title }}
                         <br> <span class="text-sm font-bold">EP: {{ anime.totalEpisodes }} - <p
                                 class="text-purple-400 inline-block">Latest</p></span>
                     </h1>
@@ -46,12 +46,6 @@
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
-                <div v-if="enimeData && enimeData.next" class="mt-5 p-4 mx-auto md:w-3/4 text-white">
-                    <span class="font-bold">Estimate Next Episode {{ enimeData.currentEpisode + 1 }}: </span> <br
-                        class="lg:hidden">
-                    <span>{{ new Date(enimeData.next).toLocaleString() }}</span>
-                </div>
-
                 <div class="p-4 flex justify-center gap-5 w-full md:w-3/4 lg:w-1/3 mt-4 mx-auto">
                     <a :href="serverUrl + anime.url" target="_blank"
                         class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-2.5 rounded-lg text-center text-sm flex justify-center items-center">
@@ -78,8 +72,7 @@
                 </div>
 
                 <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
-                    <NuxtLink v-for="e of anime.episode" :key="e"
-                        :to="'/animes/watch/' + e.id + '?id=' + anime.id + '&e=' + (enimeData?.slug ?? '')"
+                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
                         class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
                         <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
@@ -125,8 +118,7 @@ export default {
                 { id: 'watching', name: 'Watching' },
                 { id: 'completed', name: 'Completed' },
             ],
-            selectStatus: null,
-            enimeData: null
+            selectStatus: null
         }
     },
     mounted() {
@@ -172,7 +164,6 @@ export default {
                     this.setTitle();
                     this.getAddedList()
                     // console.log(this.addedList)
-                    this.getByEmine(data.id)
                 } else {
                     alert('Server is down, please try again later.')
                     window.location.href = '/'
@@ -277,15 +268,6 @@ export default {
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
         },
-        getByEmine(id) {
-            const config = useRuntimeConfig();
-            fetch(config.apiUrl3 + "search/" + id).then(response => response.json()).then(data => {
-                if (data.data) {
-                    this.enimeData = data.data[0]
-                    // console.log(this.enimeData)
-                }
-            })
-        }
     }
 }
 </script>

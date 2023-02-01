@@ -11,9 +11,6 @@
             <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
                 <h1>You are watching</h1>
                 <span class="text-sm font-bold text-purple-500">Episode {{ thisEp.number }}</span>
-                <div v-if="enimeData" class=" ml-2 inline-block">
-                    <span class="text-sm">{{ enimeData.episodes.title }}</span>
-                </div>
             </div>
 
             <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 block md:flex gap-3">
@@ -67,7 +64,6 @@ export default {
             info: null,
             video: null,
             thisEp: null,
-            enimeData: null,
         }
     },
     mounted() {
@@ -104,9 +100,6 @@ export default {
                     this.shuffle(data.genres)
                     this.info.genres = data.genres
                     this.thisEp = data.episodes.filter(e => e.id == id)[0];
-
-                    var e = this.$route.query.e;
-                    this.getByEmine(e)
 
                     useHead({
                         title: data.title + ' - EP' + this.thisEp.number
@@ -237,19 +230,6 @@ export default {
             return arr.filter(function (item) {
                 return item[Object.keys(expression)[0]] == Object.values(expression)[0];
             });
-        },
-        getByEmine(id) {
-            const config = useRuntimeConfig();
-            fetch(config.apiUrl3 + "anime/" + id).then(response => response.json()).then(data => {
-                console.log(data)
-                if (data) {
-                    this.enimeData = data
-                    this.enimeData.episodes = this.filterFilter(data.episodes, { number: this.thisEp.number })[0]
-                    this.info.title = this.enimeData.title.english ?? this.enimeData.title.userPreferred
-                    this.info.poster = "https://images.weserv.nl/?url=" + this.enimeData.episodes?.image
-                    console.log(this.enimeData)
-                }
-            })
         }
     }
 }
