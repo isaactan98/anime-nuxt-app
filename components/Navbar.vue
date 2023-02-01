@@ -1,9 +1,9 @@
 <template>
-    <div class="z-50 bg-slate-800">
+    <div class="z-50 bg-slate-900">
         <nav class="w-full shadow-md">
             <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
                 <li class="text-white">
-                    <button @click="toggleSidebar()" class="p-2 bg-gray-800 rounded-md text-white shadow shadow-black">
+                    <button @click="toggleSidebar()" class="p-2 bg-gray-900 rounded-md text-white shadow shadow-black">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -60,7 +60,7 @@
         </transition>
         <!-- collapse sidebar -->
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
-            <div class="bg-gray-800 w-3/4 md:w-2/5 lg:w-1/5" id="collapse-sidebar">
+            <div class="bg-gray-900 w-3/4 md:w-2/5 lg:w-1/5" id="collapse-sidebar">
                 <ul class="list-none text-white">
                     <li v-for="item in sidebar_item" :key="item.id" class="py-4 px-4 border-b border-zinc-700"
                         @click="toggleSidebar()">
@@ -119,7 +119,7 @@ export default {
                         sidebar.parentElement.classList.add('hidden')
                         sidebar.parentElement.classList.remove('flex')
                         sidebarBg.classList.add('hidden')
-                    }, 380)
+                    }, 220)
                 }
             } else {
                 sidebar.classList.remove('fadeInFromRight')
@@ -146,17 +146,13 @@ export default {
 </script>
 
 <style>
-.animate {
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-}
 
 .fadeInFromLeft {
-    animation: moveInFromLeft 0.4s ease-out;
+    animation: moveInFromLeft 0.25s ease-out;
 }
 
 .fadeInFromRight {
-    animation: moveInFromRight 0.4s ease-out;
+    animation: moveInFromRight 0.25s ease-out;
 }
 
 /* animation move in from left */
