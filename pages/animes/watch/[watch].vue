@@ -8,17 +8,35 @@
                 <SpiningLoading></SpiningLoading>
             </div>
 
-            <div v-if="info" class="mb-4 text-white felx justify-center text-center py-4">
-                <h1>You are watching</h1>
-                <span class="text-sm font-bold text-purple-500">Episode {{ thisEp.number }}</span>
+            <div v-if="info" class="md:mb-4 text-white felx md:justify-center md:text-center py-4 px-5">
+                <h1 class="text-xl font-black md:hidden mb-3">
+                    <NuxtLink :to="'/animes/' + info.id">{{ info.title }}</NuxtLink>
+                </h1>
+                <h1 class=" text-zinc-300 inline-block text-sm md:text-base md:block md:text-white">
+                    You are watching
+                </h1>
+                <span class="text-sm font-bold inline-block md:block ml-2 md:ml-0 text-purple-500">
+                    Episode {{ thisEp.number }}
+                </span>
+            </div>
+
+            <div class="w-11/12 mx-auto py-3 px-5 text-white bg-slate-800 rounded-xl md:hidden">
+                <div class="font-bold">Genres:</div>
+                <div v-for="g in info.genres" :key="g" class="inline-block mr-2 text-sm" :id="g"
+                    :style="'color:' + randomColor(g)">
+                    {{ g }}
+                </div>
             </div>
 
             <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 block md:flex gap-3">
-                <div class="w-full md:w-1/5">
+                <div class="w-full md:w-1/5 mb-5">
                     <img :src="info.image" alt="" srcset="" class="w-full rounded-xl">
                 </div>
                 <div class="text-white w-full md:w-4/5">
-                    <h1 class="mb-3 text-lg lg:text-2xl">
+                    <h1 class="mb-3 text-lg block lg:hidden lg:text-2xl">
+                        {{ info.otherName }}
+                    </h1>
+                    <h1 class="mb-3 text-lg hidden lg:block lg:text-2xl">
                         <NuxtLink :to="'/animes/' + info.id">{{ info.title }}</NuxtLink>
                     </h1>
                     <span class="text-xs mt-3">
@@ -94,7 +112,7 @@ export default {
             await fetch(api)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log('data:', data)
+                    console.log('data:', data)
                     this.sortEpisode(data.episodes)
                     this.info = data;
                     this.shuffle(data.genres)
@@ -230,6 +248,15 @@ export default {
             return arr.filter(function (item) {
                 return item[Object.keys(expression)[0]] == Object.values(expression)[0];
             });
+        },
+        randomColor() {
+            var letters = 'BCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * letters.length)];
+            }
+            return color;
+            // return '#' + Math.floor(Math.random() * 16777215).toString(16);
         }
     }
 }
