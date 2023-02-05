@@ -1,6 +1,6 @@
 <template>
     <div v-if="chapter">
-        <img v-for="c in chapter" :key="c" :src="c.img" alt="">
+        <img v-for="c in chapter" :key="c" :src="c.img" alt="" class="w-full">
     </div>
     <div v-else class="w-full min-h-screen flex justify-center mt-5">
         <SpiningLoading></SpiningLoading>
@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         async getChapter() {
-            await fetch('https://shadow-anime-api.vercel.app/manga/mangapark/read?chapterId=' + this.$route.params.manga + '/' + this.$route.params.volume)
+            await fetch('https://api.consumet.org/manga/mangasee123/read?chapterId=' + this.$route.params.volume)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)

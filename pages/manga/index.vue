@@ -18,7 +18,7 @@
                 <div class="w-full flex items-center">
                     <input type="text"
                         class="bg-gray-200 w-full rounded-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:text-gray-900"
-                        placeholder="Search...">
+                        placeholder="Search..." v-model="search">
                     <button type="button" class=" text-white" @click="searchManga()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="w-12 h-12">
@@ -36,19 +36,14 @@
             <div class="ml-3 mb-5 underline underline-offset-2 w-full flex text-white" v-if="manga.length > 0">
                 Result: {{ manga.length ?? '0' }}
             </div>
-            <div class="grid grid-cols-1" v-if="loading == false">
-                <NuxtLink class="text-white px-4 py-3 bg-slate-700 rounded-2xl mb-3" v-for="m in manga" :key="m"
+            <div class="grid grid-cols-2 gap-2" v-if="loading == false">
+                <NuxtLink class="text-white px-3 py-3 bg-slate-800 rounded-2xl mb-3" v-for="m in manga" :key="m"
                     :to="'/manga/' + m.id">
-                    <div>{{ m.altTitles ? Object.values(m.altTitles[0])[0] : m.title }}</div>
-                    <hr class=" my-2">
-                    <div class="flex justify-between">
-                        <div>
-                            <span class="uppercase">{{ m.status }}</span> - <span>{{
-                                m.releaseDate ?? 'Not Stated'
-                            }}</span>
-                        </div>
-                        <span>{{ m.contentRating }}</span>
+                    <div class="object-contain">
+                        <img :src="m.image" alt="" class="rounded-lg">
                     </div>
+                    <hr class=" my-2">
+                    <div>{{ m.title }}</div>
                 </NuxtLink>
             </div>
             <div class="w-full flex items-center justify-center" v-else>
@@ -67,21 +62,32 @@ export default {
         return {
             manga: [],
             loading: false,
+            search: '',
         }
     },
     async mounted() {
         // this.searchManga()
+        useHead({
+            title: 'Manga',
+            meta: [
+                { name: 'description', content: 'Manga' },
+            ],
+        })
     },
     methods: {
         async searchManga() {
-            this.loading = true
-            await fetch('https://shadow-anime-api.vercel.app/manga/mangapark/eminence')
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                    this.manga = data.results
-                    this.loading = false
-                })
+            if (this.search == '') {
+                return
+            } else {
+                this.loading = true
+                await fetch('https://api.consumet.org/manga/mangasee123/' + this.search)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        this.manga = data.results
+                        this.loading = false
+                    })
+            }
 
         },
     },
