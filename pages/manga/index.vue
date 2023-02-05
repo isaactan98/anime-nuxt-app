@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         async searchManga() {
-            await fetch('https://api.consumet.org/manga/mangadex/eminence')
+            await fetch('https://shadow-anime-api.vercel.app/manga/mangadex/eminence')
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)

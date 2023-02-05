@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         async getMangaInfo(id) {
-            await fetch('https://api.consumet.org/manga/mangadex/info/' + id)
+            await fetch('https://shadow-anime-api.vercel.app/manga/mangadex/info/' + id)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
