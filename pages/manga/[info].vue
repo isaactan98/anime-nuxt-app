@@ -5,8 +5,10 @@
                 <img :src="manga.image" alt="" class="rounded-2xl">
             </div>
             <div class="text-white mt-3">
-                <h1 class="font-bold text-xl">{{ Object.values(manga.altTitles[0])[0] }}</h1>
-                <div class="my-2">
+                <h1 class="font-bold text-xl">
+                    {{ manga.altTitles ? Object.values(manga.altTitles[0])[0] : manga.title }}
+                </h1>
+                <div class="my-2" v-if="manga.altTitles">
                     <h1>Other name:</h1>
                     <div v-for="(altt, index) in manga.altTitles" :key="index">
                         <span class="text-zinc-400 text-sm" v-if="index != 0">{{ Object.values(altt)[0] }}</span>
@@ -21,7 +23,7 @@
             <div class="text-white my-3">
                 <h1 class=" font-bold">Chapters:</h1>
                 <div class="grid grid-cols-3 gap-2 mt-2">
-                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + manga.id + '/' + chp.id"
+                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + chp.id"
                         class=" bg-purple-500 py-3 px-4 rounded-md text-sm">
                         Chap {{ chp.title }}
                     </NuxtLink>
@@ -49,7 +51,7 @@ export default {
     },
     methods: {
         async getMangaInfo(id) {
-            await fetch('https://shadow-anime-api.vercel.app/manga/mangadex/info/' + id)
+            await fetch('https://shadow-anime-api.vercel.app/manga/mangapark/info?id=' + id)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)

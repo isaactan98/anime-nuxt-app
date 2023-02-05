@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         async getChapter() {
-            await fetch('https://shadow-anime-api.vercel.app/manga/mangadex/read/' + this.$route.params.volume)
+            await fetch('https://shadow-anime-api.vercel.app/manga/mangapark/read?chapterId=' + this.$route.params.manga + '/' + this.$route.params.volume)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
