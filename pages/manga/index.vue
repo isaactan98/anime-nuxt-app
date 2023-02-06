@@ -52,6 +52,9 @@
             <div class="w-full flex justify-center mt-3" v-if="manga.length > 0">
                 <!-- <NuxtLink class="text-white">Load More</NuxtLink> -->
             </div>
+            <div class=" w-2/3 mx-auto" v-if="manga.length == 0">
+                <img src="https://shadow-garden.jp/assets/img/character/chara10_main1.png" class=" w-full" alt="">
+            </div>
         </div>
     </div>
 </template>
