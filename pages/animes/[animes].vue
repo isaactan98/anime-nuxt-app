@@ -165,10 +165,9 @@ export default {
                     this.getAddedList()
                     // console.log(this.addedList)
                 } else {
-                    alert('Server is down, please try again later.')
-                    window.location.href = '/'
+                    alert('Server is down or not found, trying to search the anime...')
+                    this.$router.push('/search/' + id + "?page=1")
                 }
-
             })
             .catch(err => console.log(err));
 

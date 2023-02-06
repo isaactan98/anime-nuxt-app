@@ -36,11 +36,11 @@
             <div class="ml-3 mb-5 underline underline-offset-2 w-full flex text-white" v-if="manga.length > 0">
                 Result: {{ manga.length ?? '0' }}
             </div>
-            <div class="grid grid-cols-2 gap-2" v-if="loading == false">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2" v-if="loading == false">
                 <NuxtLink class="text-white px-3 py-3 bg-slate-800 rounded-2xl mb-3" v-for="m in manga" :key="m"
                     :to="'/manga/' + m.id">
                     <div class="object-contain">
-                        <img :src="m.image" alt="" class="rounded-lg">
+                        <img :src="m.image" alt="" class="rounded-lg w-full">
                     </div>
                     <hr class=" my-2">
                     <div>{{ m.title }}</div>
