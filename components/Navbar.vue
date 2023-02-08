@@ -95,13 +95,13 @@ export default {
         this.checkUserId = sessionStorage.getItem('userId')
 
         // if clicked enter key
-        document.addEventListener('keyup', (e) => {
+        document.getElementById('price').addEventListener('keyup', (e) => {
             if (e.key === 'Enter') {
                 this.searchAnime()
             }
         })
 
-        document.addEventListener('keyup', (e) => {
+        document.getElementById('price').addEventListener('keyup', (e) => {
             if (e.key === 'Escape' && this.showSearch == true) {
                 this.toggleSearch()
             }

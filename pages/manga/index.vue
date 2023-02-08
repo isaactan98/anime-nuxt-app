@@ -18,7 +18,7 @@
                 <div class="w-full flex items-center">
                     <input type="text"
                         class="bg-gray-200 w-full rounded-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:text-gray-900"
-                        placeholder="Search..." v-model="search">
+                        placeholder="Search..." v-model="search" id="searchManga">
                     <button type="button" class=" text-white" @click="searchManga()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="w-12 h-12">
@@ -70,6 +70,13 @@ export default {
     },
     async mounted() {
         // this.searchManga()
+        document.getElementById('searchManga').focus()
+        document.getElementById('searchManga').addEventListener('keydown', (e) => {
+            console.log(e.key)
+            if (e.key === 'Enter') {
+                this.searchManga()
+            }
+        })
         useHead({
             title: 'Manga',
             meta: [

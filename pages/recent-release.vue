@@ -4,17 +4,16 @@
             <h1 class="text-4xl font-extrabold">
                 Recent <br>
                 <span class="text-purple-500 flex items-center">Release
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-8 h-8 ml-2">
-                        <path fill-rule="evenodd"
-                            d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z"
-                            clip-rule="evenodd" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-8 h-8 ml-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                     </svg>
                 </span>
             </h1>
         </div>
-        <div v-if="loading == false" class="grid grid-cols-2 gap-3">
-            <div v-for="release in recentRelease" :key="release" class="relative">
+        <div v-if="loading == false" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div v-for="release in recentRelease" :key="release" class="relative mb-3">
                 <a :href="'/animes/' + release.id" class="relative">
                     <div class="">
                         <img :src="release.image" alt="" class="rounded-xl object-cover h-72 lg:h-[32rem]">
@@ -24,7 +23,7 @@
                             class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                         </div>
                         <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
-                            <h3 class="truncate text-xs lg:text-sm max-w-[4rem] lg:max-w-xs">
+                            <h3 class="truncate text-xs lg:text-sm max-w-[4rem] lg:max-w-[10rem]">
                                 {{ release.title }}
                             </h3>
                         </div>
