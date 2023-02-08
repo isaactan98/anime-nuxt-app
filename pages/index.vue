@@ -31,7 +31,10 @@
             </div>
         </div>
         <div class="my-5">
-            <h1 class="mb-4 text-white text-xl">Recent Release</h1>
+            <div class="flex justify-between text-white">
+                <h1 class="mb-4 text-xl">Recent Release</h1>
+                <NuxtLink class="underline text-sm" to="/recent-release?page=1">More</NuxtLink>
+            </div>
             <div v-if="recentRelease != null && recentRelease.length > 0"
                 class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="rr in recentRelease" :key="rr" :release="rr" class="snap-start" />
