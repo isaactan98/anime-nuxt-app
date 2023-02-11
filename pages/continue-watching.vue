@@ -19,7 +19,7 @@
                 </div>
                 <a v-else :href="'/animes/watch/' + list.episodeId + '?id=' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
-                        <img :src="list.image" alt="" class="rounded-xl object-cover w-full h-full">
+                        <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div

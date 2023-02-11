@@ -16,7 +16,7 @@
             <div v-for="release in recentRelease" :key="release" class="relative mb-3">
                 <a :href="'/animes/' + release.id" class="relative">
                     <div class="">
-                        <img :src="release.image" alt="" class="rounded-xl object-cover h-72 lg:h-[32rem]">
+                        <img :src="release.image" loading="lazy" alt="" class="rounded-xl object-cover h-72 lg:h-[32rem]">
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div

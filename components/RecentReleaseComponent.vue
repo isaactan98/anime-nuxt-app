@@ -3,7 +3,7 @@
         <div v-if="release != null" class="mb-5 relative">
             <a :href="'/animes/' + release.id" class="relative">
                 <div class="min-w-[220px] lg:min-w-[380px]">
-                    <img :src="release.image" alt="" class="rounded-xl object-cover w-56 lg:w-96 h-72 lg:h-[32rem]">
+                    <img :src="release.image" loading="lazy" alt="" class="rounded-xl object-cover w-56 lg:w-96 h-72 lg:h-[32rem]">
                 </div>
                 <div class="relative flex justify-between items-center min-w-[230px] lg:min-w-[380px]">
                     <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">

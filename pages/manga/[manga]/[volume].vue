@@ -1,6 +1,6 @@
 <template>
     <div v-if="chapter">
-        <img v-for="c in chapter" :key="c" :src="c.img" alt="" class="w-full">
+        <img v-for="c in chapter" loading="lazy" :key="c" :src="c.img" alt="" class="w-full">
     </div>
     <div v-else class="w-full min-h-screen flex justify-center mt-5">
         <SpiningLoading></SpiningLoading>

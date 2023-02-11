@@ -16,7 +16,7 @@
             <div class="mb-5 relative" v-for="anime in animeList.results" :key="anime">
                 <a :href="'/animes/' + anime.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
-                        <img :src="anime.image" alt="" class="rounded-xl object-cover w-full h-full">
+                        <img :src="anime.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div class="px-3 py-2 rounded-full bg-purple-500 text-white absolute left-1 bottom-1">
