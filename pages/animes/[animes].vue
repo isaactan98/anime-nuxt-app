@@ -36,13 +36,14 @@
                         Genres:
                         <div class="mt-1">
                             <NuxtLink v-for="g of anime.genres" :key="g" :to="'/genre/' + g + '?page=1'"
-                                class="text-white border border-zinc-300 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
+                                class="text-white border border-zinc-300 rounded-full mr-2 mt-2 px-2 text-xs inline-block"
+                                :style="'color:' + randomColor(g) + '; border-color: ' + randomColor(g)">
                                 {{ g }}
                             </NuxtLink>
                         </div>
                     </div>
                 </div>
-                <div class="p-4 overflow-y-auto max-h-28 mx-auto md:w-3/4 scrollbar-hide">
+                <div class="px-4 overflow-y-auto max-h-28 mx-auto md:w-3/4 scrollbar-hide">
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
@@ -267,6 +268,15 @@ export default {
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
         },
+        randomColor() {
+            var letters = 'BCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * letters.length)];
+            }
+            return color;
+            // return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
     }
 }
 </script>
