@@ -33,7 +33,12 @@
         <div class="my-5">
             <div class="flex justify-between text-white">
                 <h1 class="mb-4 text-xl">Recent Release</h1>
-                <NuxtLink class="underline text-sm" to="/recent-release?page=1">More</NuxtLink>
+                <NuxtLink class="text-xs flex items-center" to="/recent-release?page=1">View More <svg
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-4 h-4 ml-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </NuxtLink>
             </div>
             <div v-if="recentRelease != null && recentRelease.length > 0"
                 class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
