@@ -11,7 +11,7 @@
             Results: {{ animeList.results?.length }} / Page {{ page }}
         </div>
 
-        <div v-if="animeList.results?.length != 0"
+        <div v-if="loading == false"
             class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
             <div class="mb-5 relative" v-for="anime in animeList.results" :key="anime">
                 <a :href="'/animes/' + anime.id" class="relative">
@@ -32,7 +32,7 @@
                 </a>
             </div>
         </div>
-        <div v-else class="grid place-items-center">
+        <div v-else class="grid place-items-center min-h-screen">
             <SpiningLoading></SpiningLoading>
         </div>
 
@@ -54,7 +54,8 @@ export default {
             animeList: [],
             page: 1,
             pageList: [],
-            apiUrl: ""
+            apiUrl: "",
+            loading: true
         }
     },
     mounted() {
@@ -97,6 +98,7 @@ export default {
                     if (data.hasNextPage) {
                         this.pageList.push(parseInt(page) + 1)
                     }
+                    this.loading = false
                 })
         },
         pageChange(page) {

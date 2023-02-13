@@ -19,13 +19,13 @@
                     v-model="checkShowCompleted" v-if="checkShowCompleted != 'loading'"
                     class="text-green-500 bg-green-100 border-none focus:ring-0 rounded outline-none w-3 h-3">
                 <SpiningLoading v-else class="w-3 h-3"></SpiningLoading>
-                <label for="showCompleted" class="ml-2 text-sm">Show Completed</label>
+                <label for="showCompleted" class="ml-2 text-sm cursor-pointer">Show Completed</label>
             </div>
         </div>
         <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
             v-if="watchListResult.length > 0 && watchListResult[0] != ''">
             <div v-for="list in watchListResult" :key="list" class="mb-3">
-                <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800">
+                <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                 </div>
                 <a v-else :href="'/animes/' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
