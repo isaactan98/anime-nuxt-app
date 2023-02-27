@@ -1,7 +1,7 @@
 <template>
     <div class="container px-4 mx-auto min-h-screen">
         <div class="text-white my-4 min-h-[20vh] flex items-center">
-            <h1 class="text-4xl font-extrabold">
+            <h1 class="text-4xl font-extrabold" id="releaseHeader">
                 Recent <br>
                 <span class="text-purple-500 flex items-center">Release
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -12,15 +12,14 @@
                 </span>
             </h1>
         </div>
-        <div v-if="loading == false" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div v-if="loading == false" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 min-h-screen">
             <div v-for="release in recentRelease" :key="release" class="relative mb-3">
                 <a :href="'/animes/' + release.id" class="relative">
                     <div class="">
                         <img :src="release.image" loading="lazy" alt="" class="rounded-xl object-cover h-72 lg:h-[32rem]">
                     </div>
                     <div class="relative flex justify-between items-center ">
-                        <div
-                            class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
+                        <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                         </div>
                         <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
                             <h3 class="truncate text-xs lg:text-sm max-w-[4rem] lg:max-w-[10rem]">
@@ -93,6 +92,7 @@ export default {
                     } else {
                         alert(data.message)
                     }
+                    document.getElementById('releaseHeader').scrollIntoView()
                 })
                 .catch(err => {
                     alert('Something went wrong, please try again later')
@@ -115,6 +115,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

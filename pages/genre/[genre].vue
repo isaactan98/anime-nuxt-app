@@ -1,6 +1,6 @@
 <template>
     <div class="container p-4 mx-auto min-h-screen">
-        <div class="text-white my-4 min-h-[20vh] flex items-center">
+        <div class="text-white my-4 min-h-[20vh] flex items-center" id="genreHeader">
             <h1 class="text-4xl font-extrabold">
                 <span class=" text-purple-500">{{ genre }}</span> Anime
             </h1>
@@ -8,7 +8,7 @@
         <div v-if="genreFetch" class="text-zinc-300 text-xs">
             Results: {{ genreFetch.results.length }} / Page {{ page }}
         </div>
-        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2" v-if="genreFetch">
+        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 min-h-screen" v-if="genreFetch">
             <NuxtLink v-for="g in genreFetch.results" :key="g" :to="'/animes/' + g.id" class="mb-3">
                 <div class=" object-cover h-56 lg:h-96">
                     <img :src="g.image" alt="" class="rounded-xl object-cover w-full h-full">
@@ -22,8 +22,8 @@
                         </h3>
                     </div>
                     <!-- <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1">
-                        EP {{ list.currentEpisode }}
-                    </span> -->
+                            EP {{ list.currentEpisode }}
+                        </span> -->
                 </div>
             </NuxtLink>
         </div>
@@ -104,6 +104,7 @@ export default {
                         alert('No result found!')
                         window.location.href = '/'
                     }
+                    document.getElementById('genreHeader').scrollIntoView()
                 }).catch(err => {
                     console.log(err)
                 })
@@ -128,6 +129,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
