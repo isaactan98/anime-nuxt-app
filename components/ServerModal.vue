@@ -16,13 +16,18 @@
                             <div as="h3" class="text-lg font-medium leading-6 text-white mb-5">
                                 Please select a server
                             </div>
-                            <div class="mt-2">
+                            <div class="mt-2" v-if="!loadServer">
                                 <div class="active:bg-violet-500 hover:bg-violet-500 text-white px-4 py-2 rounded-full mb-3"
                                     v-for="server in serverList" :key="server"
                                     :class="activeServer == server.id ? 'bg-violet-500' : 'bg-purple-800'">
                                     <label class="block ml-4" :for="server.id" @click="setServer(server.id)">
                                         {{ server.name }}
                                     </label>
+                                </div>
+                            </div>
+                            <div class="mt-2" v-if="loadServer">
+                                <div class="flex justify-center">
+                                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-900"></div>
                                 </div>
                             </div>
 
@@ -53,6 +58,7 @@ const props = defineProps({
 })
 
 var isOpen = ref(props.isOpenModal)
+var loadServer = ref(false)
 
 const serverList = [
     { id: 'gogoanime', name: 'Gogoanime (Preferred)' },
@@ -75,7 +81,11 @@ function toggleModal() {
 
 function setServer(server) {
     // console.log('setServer', server)
+    loadServer.value = true
     activeServer = server
     localStorage.setItem('server', server)
+    setTimeout(() => {
+        loadServer.value = false
+    }, 500)
 }
 </script>
