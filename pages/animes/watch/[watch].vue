@@ -112,7 +112,7 @@ export default {
             await fetch(api)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('data:', data)
+                    // console.log('data:', data)
                     this.sortEpisode(data.episodes)
                     this.info = data;
                     this.shuffle(data.genres)
