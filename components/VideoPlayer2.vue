@@ -17,7 +17,8 @@ export default {
                 720: { url: "", quality: "720" },
                 480: { url: "", quality: "480" },
                 360: { url: "", quality: "360" },
-                auto: { url: "", quality: "auto" }
+                auto: { url: "", quality: "auto" },
+                backup: { url: "", quality: "backup" }
             },
         }
     },
@@ -25,18 +26,21 @@ export default {
     mounted() {
 
         this.details = { ...this.videoDetails }
+        const corsUrl = "https://cors.dekianime.site/"
 
         if (this.videoDetails.sources) {
+            // console.log("video detail source: ", this.videoDetails.sources)
             var source = this.details.sources
             this.url.auto.url = this.filterFilter(source, { quality: "default" })[0] ? this.filterFilter(source, { quality: "default" })[0].url : this.filterFilter(source, { quality: "auto" })[0].url
             this.url[1080].url = this.filterFilter(source, { quality: "1080p" })[0] ? this.filterFilter(source, { quality: "1080p" })[0].url : this.url.auto.url
             this.url[720].url = this.filterFilter(source, { quality: "720p" })[0] ? this.filterFilter(source, { quality: "720p" })[0].url : this.url.auto.url
             this.url[480].url = this.filterFilter(source, { quality: "480p" })[0] ? this.filterFilter(source, { quality: "480p" })[0].url : this.url.auto.url
             this.url[360].url = this.filterFilter(source, { quality: "360p" })[0] ? this.filterFilter(source, { quality: "360p" })[0].url : this.url.auto.url
+            this.url.backup.url = this.filterFilter(source, { quality: "backup" })[0] ? this.filterFilter(source, { quality: "backup" })[0].url : this.url.auto.url
 
             this.player = new Artplater({
                 container: '.artplayer-app',
-                url: this.url.auto.url,
+                url: corsUrl + this.url.auto.url,
                 poster: this.info.image,
                 title: this.info.title,
                 playbackRate: true,
@@ -54,24 +58,28 @@ export default {
                 quality: [
                     {
                         html: '1080p',
-                        url: this.url[1080].url,
+                        url: corsUrl + this.url[1080].url,
                     },
                     {
                         html: '720p',
-                        url: this.url[720].url,
+                        url: corsUrl + this.url[720].url,
                     },
                     {
                         html: '480p',
-                        url: this.url[480].url,
+                        url: corsUrl + this.url[480].url,
                     },
                     {
                         html: '360p',
-                        url: this.url[360].url,
+                        url: corsUrl + this.url[360].url,
                     },
                     {
                         default: true,
                         html: 'Auto',
-                        url: this.url.auto.url,
+                        url: corsUrl + this.url.auto.url,
+                    },
+                    {
+                        html: 'Backup',
+                        url: corsUrl + this.url.backup.url,
                     },
                 ],
                 icons: {
