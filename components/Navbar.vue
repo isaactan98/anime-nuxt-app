@@ -83,7 +83,8 @@ export default {
             sidebar_item: [
                 { id: 'home', name: 'Home', route: '/' },
                 { id: 'about', name: 'About', route: '/about' },
-                { id: 'manga', name: 'Manga', route: '/manga' }
+                { id: 'manga', name: 'Manga', route: '/manga' },
+                { id: 'version1', name: 'V1', route: '/v1'}
             ],
             checkUserId: '',
             showSearch: false,

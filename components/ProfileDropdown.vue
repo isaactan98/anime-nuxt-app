@@ -50,7 +50,6 @@ var sidebarItems = [
     { id: 'watch_list', name: 'Watch List', route: '/watch-list' },
     { id: 'continue_watch', name: 'Continue Watch', route: '/continue-watching' },
     { id: 'server', name: 'Server', route: '' },
-    { id: 'version1', name: 'V 1', route: '/v1' },
     { id: 'logout', name: 'Logout', route: '/' },
 ]
 
