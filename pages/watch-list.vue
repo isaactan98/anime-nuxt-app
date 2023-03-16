@@ -1,5 +1,5 @@
 <template>
-    <div class="container p-4 mx-auto min-h-screen">
+    <div class="container p-4 mx-auto min-h-screen" id="screenHeader">
         <div class="text-white my-4 min-h-[20vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your <br>
@@ -15,25 +15,25 @@
         <!-- div change status -->
         <div class=" w-full flex justify-end">
             <div class="bg-purple-600 text-white px-3 py-1 rounded-lg flex items-center">
-                <input type="checkbox" name="" id="showCompleted" @click="showCompletedList()"
-                    v-model="checkShowCompleted" v-if="checkShowCompleted != 'loading'"
+                <input type="checkbox" name="" id="showCompleted" @click="showCompletedList()" v-model="checkShowCompleted"
+                    v-if="checkShowCompleted != 'loading'"
                     class="text-green-500 bg-green-100 border-none focus:ring-0 rounded outline-none w-3 h-3">
                 <SpiningLoading v-else class="w-3 h-3"></SpiningLoading>
                 <label for="showCompleted" class="ml-2 text-sm cursor-pointer">Show Completed</label>
             </div>
         </div>
         <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
-            v-if="watchListResult.length > 0 && watchListResult[0] != ''">
-            <div v-for="list in watchListResult" :key="list" class="mb-3">
-                <div v-if="list == ''" class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+            v-if="releasedList.length > 0 && releasedList[0] != ''">
+            <div v-for="list in releasedList" :key="list" class="mb-3">
+                <div v-if="list == ''"
+                    class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                 </div>
                 <a v-else :href="'/animes/' + list.id" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
                         <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
-                        <div
-                            class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
+                        <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                         </div>
                         <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
                             <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
@@ -48,7 +48,49 @@
                 </a>
             </div>
         </div>
+        <div class="my-10 mx-auto grid place-content-center" v-else>
+            <SpiningLoading></SpiningLoading>
+        </div>
+        <!-- collapse div -->
 
+        <div v-if="unreleaseList.length > 0 && unreleaseList[0] != ''">
+            <div @click="toggleCollapse()" class="w-full flex justify-between">
+                <h5 class="text-white font-bold">Un-Release Anime</h5>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    class="w-6 h-6 text-white transition-all duration-500" :class="collapse ? 'rotate-180' : ''">
+                    <path fill-rule="evenodd"
+                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-.53 14.03a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V8.25a.75.75 0 00-1.5 0v5.69l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 transition-all duration-500 delay-500"
+                :class="collapse ? 'h-0 hidden' : ''">
+                <div v-for="list in unreleaseList" :key="list" class="mb-3">
+                    <div v-if="list == ''"
+                        class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+                    </div>
+                    <a v-else :href="'/animes/' + list.id" class="relative">
+                        <div class=" object-cover h-56 lg:h-96">
+                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                        </div>
+                        <div class="relative flex justify-between items-center ">
+                            <div
+                                class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
+                            </div>
+                            <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
+                                <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
+                                    {{ list.title }}
+                                </h3>
+                            </div>
+                            <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1"
+                                v-if="list.episode || list.totalEpisodes">
+                                EP {{ list.episode ?? list.totalEpisodes }}
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="my-10 mx-auto grid place-content-center" v-else>
             <SpiningLoading></SpiningLoading>
         </div>
@@ -64,7 +106,10 @@ export default {
             watchList: [],
             server: "",
             watchListResult: [],
-            checkShowCompleted: false
+            checkShowCompleted: false,
+            releasedList: [],
+            unreleaseList: [],
+            collapse: true
         }
     },
     mounted() {
@@ -150,15 +195,43 @@ export default {
             this.watchListResult[counter] = '';
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             await fetch(url).then(response => response.json()).then(data => {
+                // console.log(data)
                 this.watchListResult[counter] = data
+                this.watchListResult[counter].counter = counter
+                this.checkReleaseAnime(counter)
             }).catch(err => {
                 console.log(err)
             })
+        },
+        checkReleaseAnime(counter) {
+            // console.log("RESULT: ", { ...this.watchListResult[counter] })
+            if (this.watchListResult[counter].episodes !== null && this.watchListResult[counter].episodes.length > 0) {
+                // var releaseCounter = 0;
+                this.releasedList.push(this.watchListResult[counter])
+            } else {
+                this.unreleaseList.push(this.watchListResult[counter])
+            }
+            this.sortList()
+            document.getElementById('screenHeader').scrollIntoView()
+        },
+        sortList() {
+            this.releasedList.sort((a, b) => {
+                return a.counter - b.counter
+            })
+            this.unreleaseList.sort((a, b) => {
+                return a.counter - b.counter
+            })
+        },
+        toggleCollapse() {
+            this.collapse = !this.collapse
         }
     }
 }
 </script>
 
 <style>
-
+.animated {
+    /* animate display none and ease in out */
+    animation: fadeIn ease 3s;
+}
 </style>
