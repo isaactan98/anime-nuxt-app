@@ -36,7 +36,7 @@
                         Genres:
                         <div class="mt-1">
                             <NuxtLink v-for="g of anime.genres" :key="g" :to="'/genre/' + g + '?page=1'"
-                                class="text-white border border-zinc-400 hover:bg-white hover:text-zinc-700 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
+                                class="text-white bg-gray-800 hover:bg-white hover:text-zinc-700 rounded-full mr-2 mt-2 px-2 py-1 text-xs inline-block">
                                 {{ g }}
                             </NuxtLink>
                         </div>
@@ -73,7 +73,7 @@
 
                 <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/v1/animes/watch/' + e.episodeId + '?id=' + anime.id"
-                        class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
+                        class="border-2 border-white py-2 rounded-xl text-white text-center my-1 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
                         <span class="w-3/4 mx-auto">EP{{ e.episodeNum }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
