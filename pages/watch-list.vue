@@ -54,7 +54,7 @@
         <!-- collapse div -->
 
         <div v-if="unreleaseList.length > 0 && unreleaseList[0] != ''">
-            <div @click="toggleCollapse()" class="w-full flex justify-between">
+            <div @click="toggleCollapse()" class="w-full flex justify-between cursor-pointer">
                 <h5 class="text-white font-bold">Un-Release Anime</h5>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                     class="w-6 h-6 text-white transition-all duration-500" :class="collapse ? 'rotate-180' : ''">
