@@ -11,10 +11,10 @@
             Results: {{ animeList.results?.length }} / Page {{ page }}
         </div>
 
-        <div v-if="loading == false"
-            class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4 min-h-screen">
-            <div v-if="animeList.length > 0">
-                <div class="mb-5 relative" v-for="anime in animeList.results" :key="anime">
+        <div v-if="loading == false">
+            <div v-if="animeList.results.length > 0"
+                class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-4 min-h-screen">
+                <div class="relative" v-for="anime in animeList.results" :key="anime">
                     <a :href="'/animes/' + anime.id" class="relative">
                         <div class=" object-cover h-56 lg:h-96">
                             <img :src="anime.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
@@ -98,7 +98,7 @@ export default {
             fetch(api + '?page=' + page)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
+                    console.log(data)
                     this.animeList = data
                     if (data.hasNextPage) {
                         this.pageList.push(parseInt(page) + 1)
