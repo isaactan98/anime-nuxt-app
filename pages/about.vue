@@ -72,7 +72,9 @@
 
             </div>
             <div class="mt-5 md:mt-0 md:1/4 flex justify-center">
-                <img src="~/assets/images/7shadow-delta.png" alt="">
+                <div>
+                    <img src="~/assets/images/7shadow-delta.png" alt="">
+                </div>
             </div>
         </div>
     </div>
