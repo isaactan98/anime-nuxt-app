@@ -17,7 +17,7 @@
                 <h5 class="text-white font-bold my-5">{{ year }}</h5>
                 <div v-if="sortByReleaseYear[year].length > 0"
                     class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
-                    <div v-for="anime in sortByReleaseYear[year]" :key="anime" class="mb-3">
+                    <div v-for="anime in sortByReleaseYear[year]" :key="anime" class="mb-3 relative">
                         <div v-if="anime == ''"
                             class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                         </div>
@@ -39,6 +39,14 @@
                                 </span>
                             </div>
                         </a>
+                        <button
+                            class="absolute top-1 right-1 p-3 rounded-full text-black bg-white shadow-md hover:bg-gray-200"
+                            @click="deleteContinueWatching(anime.docId, anime.title)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-3 h-3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -80,7 +88,7 @@
 </template>
 
 <script>
-import { getFirestore, query, where, getDocs, collection, orderBy } from "firebase/firestore";
+import { getFirestore, query, where, getDocs, collection, orderBy, deleteDoc, doc } from "firebase/firestore";
 export default {
     data() {
         return {
@@ -124,11 +132,11 @@ export default {
             querySnapshot.forEach((doc) => {
                 this.watchList.push(doc.data())
                 // console.log(doc.data())
-                this.getAnimeInfo(doc.data().animeId, counter, doc.data().episode)
+                this.getAnimeInfo(doc.data().animeId, counter, doc.data().episode, doc.id)
                 counter++
             });
         },
-        getAnimeInfo(id, counter, episode) {
+        getAnimeInfo(id, counter, episode, docId) {
             const config = useRuntimeConfig();
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             this.watchListResult[counter] = ''
@@ -137,6 +145,7 @@ export default {
                 this.watchListResult[counter].currentEpisode = episode
                 this.watchListResult[counter].episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
                 this.watchListResult[counter].counter = counter
+                this.watchListResult[counter].docId = docId
                 this.sortByReleaseYearFunction()
             }).catch(err => {
                 console.log(err)
@@ -175,6 +184,22 @@ export default {
         },
         sortByCounter(year) {
             this.sortByReleaseYear[year].sort((a, b) => { return a.counter - b.counter })
+        },
+        deleteContinueWatching(id, title) {
+            // console.log("ID: ", id)
+            if (confirm("Are you sure you want to delete this? \n" + title)) {
+                const db = getFirestore();
+                deleteDoc(doc(db, "continue-watching", id)).then(() => {
+                    // console.log("deleted", m)
+                    this.watchListResult = []
+                    this.watchList = []
+                    this.sortByReleaseYear = []
+                    this.releaseYear = []
+                    this.getContinueWatching()
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
         }
     }
 }
