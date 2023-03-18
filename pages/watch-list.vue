@@ -53,7 +53,7 @@
         </div>
         <!-- collapse div -->
 
-        <div v-if="unreleaseList.length > 0 && unreleaseList[0] != ''">
+        <div v-if="unreleaseList.length > 0 && unreleaseList[0] != ''" :class="unreleaseList.length > 0 ? '' : 'hidden'">
             <div @click="toggleCollapse()" class="w-full flex justify-between cursor-pointer">
                 <h5 class="text-white font-bold">Un-Release Anime</h5>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -90,9 +90,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="my-10 mx-auto grid place-content-center" v-else>
-            <SpiningLoading></SpiningLoading>
         </div>
     </div>
 </template>
@@ -158,10 +155,12 @@ export default {
             }
         },
         showCompletedList() {
+            this.watchListResult = []
+            this.watchList = []
+            this.releasedList = []
+            this.unreleaseList = []
             if (this.checkShowCompleted == false) {
                 this.checkShowCompleted = "loading"
-                this.watchListResult = []
-                this.watchList = []
                 var counter = 0;
                 const db = getFirestore();
                 const userId = sessionStorage.getItem('userId')
@@ -185,8 +184,6 @@ export default {
                 });
             } else {
                 this.checkShowCompleted = "loading"
-                this.watchListResult = []
-                this.watchList = []
                 this.getLikeList()
             }
         },
