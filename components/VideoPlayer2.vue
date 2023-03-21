@@ -26,7 +26,16 @@ export default {
     mounted() {
 
         this.details = { ...this.videoDetails }
-        const corsUrl = "https://cors.dekianime.site/"
+        let corsUrl = ""
+
+        fetch("https://cors.dekianime.site/").then(res => {
+            corsUrl = "https://cors.dekianime.site/"
+            console.log("OK:", res)
+        }).catch(err => {
+            // alert("Error: " + err)
+            console.log("Error", err)
+            corsUrl = ''
+        })
 
         if (this.videoDetails.sources) {
             // console.log("video detail source: ", this.videoDetails.sources)
