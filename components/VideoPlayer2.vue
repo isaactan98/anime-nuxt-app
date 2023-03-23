@@ -31,7 +31,12 @@ export default {
             .then((res) => {
                 corsUrl = "https://cors-anywhere-lkdy.onrender.com/";
                 // console.log("OK:", res)
+                // check if device is mobile with js
+                if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i)) {
+                    corsUrl = ""
+                }
                 this.displayVideo(corsUrl);
+                console.log("corsUrl", corsUrl);
             })
             .catch((err) => {
                 // alert("Error: " + err)
