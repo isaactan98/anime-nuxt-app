@@ -15,7 +15,7 @@
         <!-- div change status -->
         <div class=" w-full flex justify-between">
             <div>
-                <button @click="groupByYear()" class="text-white bg-purple-600 rounded-lg py-1 px-3">
+                <button @click="groupByYear()" class="text-white bg-purple-600 rounded-lg py-1 px-3 text-sm">
                     Group By Year
                 </button>
             </div>

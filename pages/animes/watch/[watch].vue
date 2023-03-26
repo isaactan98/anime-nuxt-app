@@ -50,7 +50,7 @@
 
                         <span>{{ info.type }}</span>
                     </span>
-                    <p class="mt-3 overflow-y-auto text-sm max-h-24 scrollbar-hide">{{ info.description }}</p>
+                    <p class="mt-3 overflow-y-auto text-sm max-h-24 scrollbar-hide text-justify">{{ info.description }}</p>
                     <div class="mt-5 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" v-if="info != null">
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
                             class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"

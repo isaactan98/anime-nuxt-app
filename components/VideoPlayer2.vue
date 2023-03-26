@@ -1,9 +1,11 @@
 <template>
-    <div v-if="loadingPlayer" class="w-full aspect-video items-center place-content-center grid">
-        <SpiningLoading />
-    </div>
-    <div v-else>
-        <div class="artplayer-app w-full"></div>
+    <div>
+        <div class="w-full aspect-video items-center place-content-center" :class="loadingPlayer ? 'grid' : 'hidden'">
+            <SpiningLoading />
+        </div>
+        <div :class="loadingPlayer ? 'hidden' : ''">
+            <div class="artplayer-app w-full"></div>
+        </div>
     </div>
 </template>
 

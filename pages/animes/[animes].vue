@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="px-4 overflow-y-auto max-h-28 mx-auto md:w-3/4 scrollbar-hide">
+                <div class="px-4 overflow-y-auto max-h-28 mx-auto md:w-3/4 scrollbar-hide text-justify">
                     <span class=" text-sm text-zinc-400">{{ anime.description }}</span>
                 </div>
 
