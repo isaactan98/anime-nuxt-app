@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div v-if="loadingPlayer" class="w-full aspect-video items-center place-content-center grid">
+        <SpiningLoading />
+    </div>
+    <div v-else>
         <div class="artplayer-app w-full"></div>
     </div>
 </template>
@@ -20,6 +23,7 @@ export default {
                 auto: { url: "", quality: "auto" },
                 backup: { url: "", quality: "backup" },
             },
+            loadingPlayer: true,
         };
     },
     props: ["videoDetails", "info"],
@@ -29,20 +33,25 @@ export default {
 
         fetch("https://cors-anywhere-lkdy.onrender.com/")
             .then((res) => {
+                this.loadingPlayer = false;
                 corsUrl = "https://cors-anywhere-lkdy.onrender.com/";
                 // console.log("OK:", res)
                 // check if device is mobile with js
                 if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i)) {
                     corsUrl = ""
                 }
-                this.displayVideo(corsUrl);
-                console.log("corsUrl", corsUrl);
+                if (!this.loadingPlayer) {
+                    this.displayVideo(corsUrl);
+                }
+                // console.log("corsUrl", corsUrl);
             })
             .catch((err) => {
+                this.loadingPlayer = false;
                 // alert("Error: " + err)
                 console.log("Error", err);
-                corsUrl = "";
-                this.displayVideo(corsUrl);
+                if (!this.loadingPlayer) {
+                    this.displayVideo(corsUrl);
+                }
             });
     },
     methods: {

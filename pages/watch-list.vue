@@ -13,7 +13,12 @@
             </h1>
         </div>
         <!-- div change status -->
-        <div class=" w-full flex justify-end">
+        <div class=" w-full flex justify-between">
+            <div>
+                <button @click="groupByYear()" class="text-white bg-purple-600 rounded-lg py-1 px-3">
+                    Group By Year
+                </button>
+            </div>
             <div class="bg-purple-600 text-white px-3 py-1 rounded-lg flex items-center">
                 <input type="checkbox" name="" id="showCompleted" @click="showCompletedList()" v-model="checkShowCompleted"
                     v-if="checkShowCompleted != 'loading'"
@@ -22,38 +27,41 @@
                 <label for="showCompleted" class="ml-2 text-sm cursor-pointer">Show Completed</label>
             </div>
         </div>
-        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
-            v-if="releasedList.length > 0 && releasedList[0] != ''">
-            <div v-for="list in releasedList" :key="list" class="mb-3">
-                <div v-if="list == ''"
-                    class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+        <div v-if="!isGroupBy">
+            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
+                v-if="releasedList.length > 0 && releasedList[0] != ''">
+                <div v-for="list in releasedList" :key="list" class="mb-3 transition-all ease-in-out delay-150">
+                    <div v-if="list == ''"
+                        class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+                    </div>
+                    <a v-else :href="'/animes/' + list.id" class="relative">
+                        <div class=" object-cover h-56 lg:h-96">
+                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                        </div>
+                        <div class="relative flex justify-between items-center ">
+                            <div
+                                class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
+                            </div>
+                            <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
+                                <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
+                                    {{ list.title }}
+                                </h3>
+                            </div>
+                            <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1"
+                                v-if="list.episode || list.totalEpisodes">
+                                EP {{ list.episode ?? list.totalEpisodes }}
+                            </span>
+                        </div>
+                    </a>
                 </div>
-                <a v-else :href="'/animes/' + list.id" class="relative">
-                    <div class=" object-cover h-56 lg:h-96">
-                        <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
-                    </div>
-                    <div class="relative flex justify-between items-center ">
-                        <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
-                        </div>
-                        <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
-                            <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
-                                {{ list.title }}
-                            </h3>
-                        </div>
-                        <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1"
-                            v-if="list.episode || list.totalEpisodes">
-                            EP {{ list.episode ?? list.totalEpisodes }}
-                        </span>
-                    </div>
-                </a>
+            </div>
+            <div class="my-10 mx-auto grid place-content-center" v-else>
+                <SpiningLoading></SpiningLoading>
             </div>
         </div>
-        <div class="my-10 mx-auto grid place-content-center" v-else>
-            <SpiningLoading></SpiningLoading>
-        </div>
         <!-- collapse div -->
-
-        <div v-if="unreleaseList.length > 0 && unreleaseList[0] != ''" :class="unreleaseList.length > 0 ? '' : 'hidden'">
+        <div v-if="!isGroupBy && unreleaseList.length > 0 && unreleaseList[0] != ''"
+            :class="unreleaseList.length > 0 ? '' : 'hidden'">
             <div @click="toggleCollapse()" class="w-full flex justify-between cursor-pointer">
                 <h5 class="text-white font-bold">Un-Release Anime</h5>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -63,9 +71,10 @@
                         clip-rule="evenodd" />
                 </svg>
             </div>
-            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 transition-all duration-500 delay-500"
-                :class="collapse ? 'h-0 hidden' : ''">
-                <div v-for="list in unreleaseList" :key="list" class="mb-3">
+            <div id="collapseItem"
+                class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 transition-all duration-500 h-0">
+                <div v-for="list in unreleaseList" :key="list" class="mb-3"
+                    :class="collapse ? 'animate__fadeOut' : 'animate__animated'">
                     <div v-if="list == ''"
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                     </div>
@@ -91,6 +100,40 @@
                 </div>
             </div>
         </div>
+
+        <div v-if="isGroupBy">
+            <div v-for="y in years" :key="y">
+                <div v-if="releasedList[y] && releasedList[y].length > 0" class="mt-5">
+                    <h1 class="text-white font-bold text-2xl">Release Year {{ y }}</h1>
+                </div>
+                <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                    <div v-for="list in releasedList[y]" :key="list" class="mb-3 transition-all">
+                        <div v-if="list == ''"
+                            class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+                        </div>
+                        <a v-else :href="'/animes/' + list.id" class="relative">
+                            <div class=" object-cover h-56 lg:h-96">
+                                <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                            </div>
+                            <div class="relative flex justify-between items-center ">
+                                <div
+                                    class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
+                                </div>
+                                <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
+                                    <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
+                                        {{ list.title }}
+                                    </h3>
+                                </div>
+                                <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-1"
+                                    v-if="list.episode || list.totalEpisodes">
+                                    EP {{ list.episode ?? list.totalEpisodes }}
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -106,7 +149,9 @@ export default {
             checkShowCompleted: false,
             releasedList: [],
             unreleaseList: [],
-            collapse: true
+            collapse: true,
+            isGroupBy: false,
+            years: [],
         }
     },
     mounted() {
@@ -155,6 +200,7 @@ export default {
             }
         },
         showCompletedList() {
+            this.isGroupBy = false
             this.watchListResult = []
             this.watchList = []
             this.releasedList = []
@@ -221,14 +267,65 @@ export default {
         },
         toggleCollapse() {
             this.collapse = !this.collapse
+            if (this.collapse) {
+                setTimeout(() => {
+                    document.getElementById('collapseItem').classList.add('h-0')
+                }, 400);
+            } else {
+                document.getElementById('collapseItem').classList.remove('h-0')
+            }
+        },
+        groupByYear() {
+            this.isGroupBy = true
+            var groupByYear = this.releasedList.reduce((r, a) => {
+                r[a.releaseDate] = [...r[a.releaseDate] || [], a];
+                if (!this.years.includes(a.releaseDate)) {
+                    this.years.push(a.releaseDate)
+                }
+                return r;
+            }, {});
+            this.releasedList = groupByYear
+            this.years.sort((a, b) => {
+                return b - a
+            })
+            // console.log(this.releasedList)
         }
     }
 }
 </script>
 
 <style>
-.animated {
-    /* animate display none and ease in out */
-    animation: fadeIn ease 3s;
+.animate__animated {
+    animation: setHeight100 0.5s ease-in-out forwards;
+    overflow: hidden;
+}
+
+.animate__fadeOut {
+    animation: setHeight0 0.3s ease-in-out forwards;
+    overflow: hidden;
+}
+
+.animate_delay_height0 {
+    animation-delay: setHeight0 0.3s;
+}
+
+@keyframes setHeight100 {
+    0% {
+        height: 0;
+    }
+
+    100% {
+        height: 100%;
+    }
+}
+
+@keyframes setHeight0 {
+    0% {
+        height: 100%;
+    }
+
+    100% {
+        height: 0;
+    }
 }
 </style>
