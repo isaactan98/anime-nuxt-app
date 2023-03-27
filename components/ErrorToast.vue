@@ -1,7 +1,7 @@
 <template>
     <div class="my-5 mx-2 fixed top-20 right-1 md:right-28 z-30">
         <div id="toast-warning"
-            class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+            class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-xl shadow dark:text-gray-400 dark:bg-gray-800"
             role="alert">
             <div v-if="type === 'warning'"
                 class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
