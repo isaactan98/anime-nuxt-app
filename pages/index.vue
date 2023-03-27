@@ -9,8 +9,7 @@
             <h1 class="text-4xl font-extrabold">
                 Your Favourite <br>
                 <span class="text-purple-500 flex items-center">Anime
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-8 h-8 ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 ml-2">
                         <path fill-rule="evenodd"
                             d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z"
                             clip-rule="evenodd" />
@@ -59,10 +58,26 @@
                 <SpiningLoading></SpiningLoading>
             </div>
         </div>
+
+        <div v-if="lists && lists.length > 0" class=" text-white w-full text-xs md:text-sm">
+            <h1 class="mb-4 text-lg">Latest Update - {{ date.year }} {{ date.month }} {{ date.day }}</h1>
+            <div v-for="l in lists" :key="l" class="mb-3 bg-gray-700 p-3">
+                <div class="flex w-full justify-between">
+                    <div>
+                        <h1 class="font-bold">
+                            <span class="block md:inline-block mr-5">{{ l.time }}</span> {{ l.title }}
+                        </h1>
+                    </div>
+                    <div class="flex items-center">
+                        {{ l.episode }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
-<script lang="ts">
+<script>
 
 export default {
 
@@ -123,7 +138,14 @@ export default {
                 { id: 'yuri', name: "Yuri" },
             ],
             server: '',
-            topAiring: []
+            topAiring: [],
+            result: [],
+            lists: [],
+            date: {
+                year: '',
+                month: '',
+                day: ''
+            },
         }
     },
     mounted() {
@@ -145,6 +167,7 @@ export default {
             return
         } else {
             this.getRecentRelease()
+            this.getTodayStreaming()
         }
 
         this.server = localStorage.getItem('server') ?? ''
@@ -205,9 +228,36 @@ export default {
 
         horizonScroll() {
             const scrollContainer = document.querySelector('.scroll-smooth');
-            scrollContainer?.addEventListener('wheel', (e: any) => {
+            scrollContainer?.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 scrollContainer.scrollLeft += e.deltaY;
+            });
+        },
+        getTodayStreaming() {
+            var today = new Date();
+            var dd = this.date.day = String(today.getDate()).padStart(2, '0');
+            var mm = this.date.month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = this.date.year = today.getFullYear();
+            console.log("today", dd, mm, yyyy);
+            fetch("https://cors-anywhere-lkdy.onrender.com/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd).then((res) => {
+                // console.log("res", res);
+                return res.json()
+            }).then(r => {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(r.html, "text/html");
+                this.result = doc.querySelectorAll(".tsl-link");
+                this.result.forEach((item, index) => {
+                    // console.log("item", item);
+                    if (this.lists[index] === undefined) {
+                        this.lists[index] = {};
+                    }
+                    this.lists[index].title = item.querySelector(".dynamic-name").innerText;
+                    this.lists[index].time = item.querySelector(".time").innerText;
+                    this.lists[index].episode = item.querySelector(".btn-play").innerText;
+                });
+                // console.log("lists", this.lists);
+            }).catch((err) => {
+                console.log("Error:", err);
             });
         }
     }
@@ -215,6 +265,4 @@ export default {
 
 </script>
 
-<style>
-
-</style>
+<style></style>
