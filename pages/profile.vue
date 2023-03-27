@@ -45,15 +45,10 @@
         <div v-else class=" text-white">
             Loading...
         </div>
-        <transition enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0">
-            <div class="w-full mt-4" v-show="success">
-                <div class=" text-white bg-green-600 px-3 py-4 rounded-lg">
-                    Successfully updated profile
-                </div>
-            </div>
+        <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+            leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+            <ErrorToast v-if="success" :type="'success'" :message="'Successfully update profile'" />
         </transition>
     </div>
 </template>
@@ -105,7 +100,7 @@ export default {
             // console.log(auth.currentUser)
             if (auth.currentUser.email != this.user.email) {
                 updateEmail(auth.currentUser, this.user.email).then(() => {
-                    console.log('email updated')
+                    // console.log('email updated')
                     this.isSaving = false;
                     this.success = true;
                 }).catch((error) => {
@@ -116,7 +111,7 @@ export default {
                 updateProfile(auth.currentUser, {
                     displayName: this.user.name
                 }).then(() => {
-                    console.log('name updated')
+                    // console.log('name updated')
                     this.isSaving = false;
                     this.success = true;
                 }).catch((error) => {
@@ -136,6 +131,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -86,6 +86,11 @@
         <div v-else class="grid place-content-center min-h-screen -mt-20">
             <h1 class="text-white font-extrabold">Loading...</h1>
         </div>
+        <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+            leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+            <ErrorToast v-if="success" :type="'success'" :message="'Status updated successfully.'" />
+        </transition>
     </div>
 </template>
 
@@ -118,7 +123,8 @@ export default {
                 { id: 'watching', name: 'Watching' },
                 { id: 'completed', name: 'Completed' },
             ],
-            selectStatus: null
+            selectStatus: null,
+            success: false
         }
     },
     mounted() {
@@ -257,7 +263,12 @@ export default {
                             status: value
                         }).then(() => {
                             this.selectStatus = value;
-                            alert('Status updated successfully.')
+                            // alert('Status updated successfully.')
+                            this.success = true;
+
+                            setTimeout(() => {
+                                this.success = false;
+                            }, 3000);
                         })
                     }
                 });
