@@ -66,7 +66,9 @@
                     <div class="flex w-full justify-between font-bold">
                         <div class="w-9/12">
                             <h1 class="">
-                                <span class="block md:inline-block mr-5 text-xs text-gray-400 mb-2">{{ l.time }}</span>
+                                <span class="block md:inline-block mr-5 text-xs text-gray-400 mb-2 md:mb-0">
+                                    {{ l.time }}
+                                </span>
                                 {{ l.title }}
                             </h1>
                         </div>
