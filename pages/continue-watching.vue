@@ -85,6 +85,13 @@
     <div v-else class="text-white container px-4 mx-auto min-h-screen grid place-content-center -mt-20">
         Loading...
     </div>
+
+    <ConfirmModel :showModal="showModal" @confirmed="confirmation" />
+    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+        leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+        <ErrorToast v-if="success" :type="'success'" :message="'Successfully delete anime list.'" />
+    </transition>
 </template>
 
 <script>
@@ -96,7 +103,10 @@ export default {
             server: "",
             watchListResult: [],
             sortByReleaseYear: [],
-            releaseYear: []
+            releaseYear: [],
+            showModal: false,
+            deleteId: "",
+            success: false,
         }
     },
     mounted() {
@@ -185,21 +195,31 @@ export default {
         sortByCounter(year) {
             this.sortByReleaseYear[year].sort((a, b) => { return a.counter - b.counter })
         },
-        deleteContinueWatching(id, title) {
-            // console.log("ID: ", id)
-            if (confirm("Are you sure you want to delete this? \n" + title)) {
+        deleteContinueWatching(id = null, title) {
+            this.deleteId = this.deleteId == id ? '' : id
+            this.showModal = true
+        },
+        confirmation(c) {
+            if (c === "yes") {
                 const db = getFirestore();
-                deleteDoc(doc(db, "continue-watching", id)).then(() => {
+                deleteDoc(doc(db, "continue-watching", this.deleteId)).then(() => {
                     // console.log("deleted", m)
                     this.watchListResult = []
                     this.watchList = []
                     this.sortByReleaseYear = []
                     this.releaseYear = []
                     this.getContinueWatching()
+                    this.deleteId = ''
+                    this.success = true
+
+                    setTimeout(() => {
+                        this.success = false
+                    }, 3000);
                 }).catch(err => {
                     console.log(err)
                 })
             }
+            this.showModal = false
         }
     }
 }
