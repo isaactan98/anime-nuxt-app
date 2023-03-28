@@ -59,19 +59,27 @@
             </div>
         </div>
 
-        <div v-if="lists && lists.length > 0" class=" text-white w-full text-xs md:text-sm">
+        <div class="w-full text-white">
             <h1 class="mb-4 text-lg">Latest Update - {{ date.year }} {{ date.month }} {{ date.day }}</h1>
-            <div v-for="l in lists" :key="l" class="mb-3 bg-gray-700 p-3">
-                <div class="flex w-full justify-between">
-                    <div>
-                        <h1 class="font-bold">
-                            <span class="block md:inline-block mr-5">{{ l.time }}</span> {{ l.title }}
-                        </h1>
-                    </div>
-                    <div class="flex items-center">
-                        {{ l.episode }}
+            <div v-if="!loading.todayStreaming && lists && lists.length > 0" class="w-full text-xs md:text-sm">
+                <div v-for="l in lists" :key="l" class="mb-3 bg-gray-800 px-3 py-4 rounded-lg">
+                    <div class="flex w-full justify-between font-bold">
+                        <div class="w-9/12">
+                            <h1 class="">
+                                <span class="block md:inline-block mr-5 text-xs text-gray-400 mb-2">{{ l.time }}</span>
+                                {{ l.title }}
+                            </h1>
+                        </div>
+                        <div class="flex items-center justify-end text-right w-3/12 text-purple-400">
+                            {{ l.episode }}
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div v-else class="w-full">
+                <h1 class="text-white my-5 text-2xl font-bold">
+                    Loading Today Streaming List...
+                </h1>
             </div>
         </div>
     </div>
@@ -146,6 +154,9 @@ export default {
                 month: '',
                 day: ''
             },
+            loading: {
+                todayStreaming: true,
+            }
         }
     },
     mounted() {
@@ -238,7 +249,7 @@ export default {
             var dd = this.date.day = String(today.getDate()).padStart(2, '0');
             var mm = this.date.month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = this.date.year = today.getFullYear();
-            console.log("today", dd, mm, yyyy);
+            // console.log("today", dd, mm, yyyy);
             fetch("https://cors-anywhere-lkdy.onrender.com/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd).then((res) => {
                 // console.log("res", res);
                 return res.json()
@@ -255,6 +266,8 @@ export default {
                     this.lists[index].time = item.querySelector(".time").innerText;
                     this.lists[index].episode = item.querySelector(".btn-play").innerText;
                 });
+
+                this.loading.todayStreaming = false;
                 // console.log("lists", this.lists);
             }).catch((err) => {
                 console.log("Error:", err);
