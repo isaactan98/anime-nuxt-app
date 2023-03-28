@@ -12,7 +12,7 @@
                 </span>
             </h1>
         </div>
-        <div v-if="releaseYear.length > 0">
+        <!-- <div v-if="releaseYear.length > 0">
             <div v-for="year in releaseYear" :key="year">
                 <h5 class="text-white font-bold my-5">{{ year }}</h5>
                 <div v-if="sortByReleaseYear[year].length > 0"
@@ -50,10 +50,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- <div class="my-5 hidden grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
+        </div> -->
+        <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
             v-if="watchListResult.length > 0 && watchListResult[0] != ''">
-            <div v-for="list in watchListResult" :key="list" class="mb-3">
+            <div v-for="list in watchListResult" :key="list" class="mb-3 relative">
                 <div v-if="list == ''"
                     class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                 </div>
@@ -74,8 +74,15 @@
                         </span>
                     </div>
                 </a>
+                <button class="absolute top-1 right-1 p-3 rounded-full text-black bg-white shadow-md hover:bg-gray-200"
+                    @click="deleteContinueWatching(list.docId, list.title)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-3 h-3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
-        </div> -->
+        </div>
 
         <div class="my-5 mx-auto grid place-content-center" v-else>
             <SpiningLoading></SpiningLoading>
@@ -86,7 +93,12 @@
         Loading...
     </div>
 
-    <ConfirmModel :showModal="showModal" @confirmed="confirmation" />
+    <ConfirmModel :showModal="showModal" @confirmed="confirmation">
+        <template v-slot:modal-content>
+            Are you sure you want to delete this item? <br>
+            <span class="text-sm text-gray-400">{{ deleteTitle }}</span>
+        </template>
+    </ConfirmModel>
     <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
         enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
         leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
@@ -106,6 +118,7 @@ export default {
             releaseYear: [],
             showModal: false,
             deleteId: "",
+            deleteTitle: "",
             success: false,
         }
     },
@@ -156,7 +169,7 @@ export default {
                 this.watchListResult[counter].episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
                 this.watchListResult[counter].counter = counter
                 this.watchListResult[counter].docId = docId
-                this.sortByReleaseYearFunction()
+                // this.sortByReleaseYearFunction()
             }).catch(err => {
                 console.log(err)
             })
@@ -195,8 +208,9 @@ export default {
         sortByCounter(year) {
             this.sortByReleaseYear[year].sort((a, b) => { return a.counter - b.counter })
         },
-        deleteContinueWatching(id = null, title) {
+        deleteContinueWatching(id, title) {
             this.deleteId = this.deleteId == id ? '' : id
+            this.deleteTitle = this.deleteTitle == title ? '' : title
             this.showModal = true
         },
         confirmation(c) {
@@ -209,9 +223,7 @@ export default {
                     this.sortByReleaseYear = []
                     this.releaseYear = []
                     this.getContinueWatching()
-                    this.deleteId = ''
                     this.success = true
-
                     setTimeout(() => {
                         this.success = false
                     }, 3000);
@@ -219,6 +231,8 @@ export default {
                     console.log(err)
                 })
             }
+            this.deleteId = ''
+            this.deleteTitle = ''
             this.showModal = false
         }
     }

@@ -15,7 +15,7 @@
                         </slot>
                     </div>
                     <div class="flex justify-end">
-                        <button @click="cancel" class="px-4 py-2 mr-2 text-gray-300 hover:text-gray-700">Cancel</button>
+                        <button @click="cancel" class="px-4 py-2 mr-2 text-gray-300 hover:text-white">Cancel</button>
                         <button @click="confirm" class="px-4 py-2 bg-purple-600 text-white rounded">Confirm</button>
                     </div>
                 </div>
