@@ -99,10 +99,10 @@
             <span class="text-sm text-gray-400">{{ deleteTitle }}</span>
         </template>
     </ConfirmModel>
-    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="transform scale-95 opacity-0"
         enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
         leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
-        <ErrorToast v-if="success" :type="'success'" :message="'Successfully delete anime list.'" />
+        <ErrorToast v-if="success" :type="'success'" :message="'Successfully delete anime.'" />
     </transition>
 </template>
 

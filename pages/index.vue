@@ -79,8 +79,8 @@
                 </div>
             </div>
             <div v-else class="w-full">
-                <h1 class="text-white my-5 text-2xl font-bold">
-                    Loading Today Streaming List...
+                <h1 class="text-gray-500 my-5 text-xs font-bold">
+                    Loading Today Streaming List <span id="animateDot">...</span>
                 </h1>
             </div>
         </div>
@@ -186,6 +186,17 @@ export default {
         this.server = localStorage.getItem('server') ?? ''
         if (this.server == 'gogoanime') {
             this.getTopAiring()
+        }
+
+        if (this.loading.todayStreaming) {
+            let animateDot = document.getElementById('animateDot')
+            setInterval(() => {
+                if (animateDot.innerHTML.length >= 3) {
+                    animateDot.innerHTML = ''
+                } else {
+                    animateDot.innerHTML += '.'
+                }
+            }, 500)
         }
     },
     methods: {

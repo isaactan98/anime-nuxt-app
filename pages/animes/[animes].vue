@@ -56,7 +56,7 @@
                         @click="addToList()" v-if="userId != null">
                         <span v-if="addedList == 'false'">Add to favourite</span>
                         <svg v-if="addedList == 'true'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            fill="currentColor" class="w-6 h-6 mx-auto animate-bounce">
+                            fill="currentColor" class="w-6 h-6 mx-auto">
                             <path
                                 d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                         </svg>
@@ -71,9 +71,9 @@
                     </select>
                 </div>
 
-                <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
+                <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
-                        class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
+                        class="border-2 border-white py-2 rounded-xl text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
                         <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
@@ -86,7 +86,7 @@
         <div v-else class="grid place-content-center min-h-screen -mt-20">
             <h1 class="text-white font-extrabold">Loading...</h1>
         </div>
-        <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+        <transition enter-active-class="transition duration-300 ease-out" enter-from-class="transform scale-95 opacity-0"
             enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
             leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
             <ErrorToast v-if="success" :type="'success'" :message="'Status updated successfully.'" />
