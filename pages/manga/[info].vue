@@ -55,10 +55,12 @@ export default {
     },
     methods: {
         async getMangaInfo(id) {
-            await fetch('https://api.consumet.org/manga/mangasee123/info?id=' + id)
+            const config = useRuntimeConfig();
+            const mangaApi = config.mangaApi
+            await fetch(mangaApi + "info/" + id)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     this.manga = data
                     this.loading = false
                 })
@@ -67,6 +69,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

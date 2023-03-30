@@ -22,16 +22,18 @@ export default {
             thisChapter: null,
             nextChapter: null,
             manga: null,
+            mangaApi: ""
         }
     },
     mounted() {
-        // console.log(this.$route.params.manga)
+        const config = useRuntimeConfig();
+        this.mangaApi = config.mangaApi
         this.getMangaInfo()
         this.getChapter()
     },
     methods: {
         async getMangaInfo() {
-            await fetch('https://api.consumet.org/manga/mangasee123/info?id=' + this.$route.params.manga)
+            await fetch(this.mangaApi + "info/" + this.$route.params.manga)
                 .then(res => res.json())
                 .then(data => {
                     // console.log("info", data)
@@ -44,7 +46,7 @@ export default {
                 })
         },
         async getChapter() {
-            await fetch('https://api.consumet.org/manga/mangasee123/read?chapterId=' + this.$route.params.volume)
+            await fetch(this.mangaApi + 'read/' + this.$route.params.volume)
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data)
@@ -61,6 +63,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

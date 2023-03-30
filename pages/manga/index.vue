@@ -88,10 +88,12 @@ export default {
                 return
             } else {
                 this.loading = true
-                await fetch('https://api.consumet.org/manga/mangasee123/' + this.search)
+                const config = useRuntimeConfig();
+                const mangaApi = config.mangaApi
+                await fetch(mangaApi + this.search)
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data)
+                        // console.log(data)
                         if (data.message) {
                             alert(data.error)
                         } else {
