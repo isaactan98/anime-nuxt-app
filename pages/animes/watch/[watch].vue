@@ -61,6 +61,15 @@
                 </div>
             </div>
 
+            <div v-if="otherServerLink.length > 0"
+                class="mt-5 mx-auto w-full lg:w-3/4 container px-3 text-white">
+                <h1 class="font-bold mb-3 block">Watch on Other Server</h1>
+                <div v-for="link in otherServerLink" :key="link"
+                    class="inline-flex mr-3 mb-2 bg-purple-600 py-2 px-4 rounded-lg">
+                    <a :href="link.url" target="_blank" class="text-sm">{{ link.name }}</a>
+                </div>
+            </div>
+
             <div class="p-4 mt-4 mx-auto md:w-3/4" v-if="info.genres">
                 <h1 class="text-zinc-300 mb-5">Recommended for you</h1>
                 <Recommend :genre="info.genres" :id="info.id"></Recommend>
@@ -82,6 +91,7 @@ export default {
             info: null,
             video: null,
             thisEp: null,
+            otherServerLink: []
         }
     },
     mounted() {
@@ -105,7 +115,7 @@ export default {
 
         this.getInfo(infoUrl, epid);
         this.getEpisode(watchUrl, id);
-
+        this.getOtherServerLink(config.apiUrl, epid)
     },
     methods: {
         async getInfo(api, id) {
@@ -257,6 +267,14 @@ export default {
             }
             return color;
             // return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        },
+        async getOtherServerLink(url, id) {
+            await fetch(url + "servers/" + id)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data)
+                    this.otherServerLink = data
+                }).catch(err => console.log(err))
         }
     }
 }
