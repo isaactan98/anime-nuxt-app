@@ -45,6 +45,16 @@ export default {
                 if (!this.loadingPlayer) {
                     this.displayVideo(corsUrl);
                 }
+                const artcontrolplayAndPause = document.querySelector(".artplayer-control-playAndPause");
+                if (artcontrolplayAndPause) {
+                    artcontrolplayAndPause.addEventListener("click", () => {
+                        if (this.player.video.paused) {
+                            this.player.play();
+                        } else {
+                            this.player.pause();
+                        }
+                    });
+                }
                 // console.log("corsUrl", corsUrl);
             })
             .catch((err) => {

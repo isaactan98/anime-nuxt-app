@@ -52,7 +52,7 @@
             </div>
         </div> -->
         <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
-            v-if="watchListResult.length > 0 && watchListResult[0] != ''">
+            v-if="watchListResult.length > 0 && watchList.length == watchListResult.length">
             <div v-for="list in watchListResult" :key="list" class="mb-3 relative">
                 <div v-if="list == ''"
                     class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
@@ -162,15 +162,15 @@ export default {
         getAnimeInfo(id, counter, episode, docId) {
             const config = useRuntimeConfig();
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
-            this.watchListResult[counter] = ''
             fetch(url).then(response => response.json()).then(data => {
-                this.watchListResult[counter] = data
-                this.watchListResult[counter].currentEpisode = episode
-                this.watchListResult[counter].episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
-                this.watchListResult[counter].counter = counter
-                this.watchListResult[counter].docId = docId
+                data.currentEpisode = episode
+                data.episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
+                data.counter = counter
+                data.docId = docId
+                // console.log(data)
+                this.watchListResult.push(data)
                 // this.sortByReleaseYearFunction()
-            }).catch(err => {
+            }).then(() => this.sortCounter()).catch(err => {
                 console.log(err)
             })
         },
@@ -203,10 +203,13 @@ export default {
             this.releaseYear.forEach((year) => {
                 this.sortByCounter(year)
             })
-            document.getElementById('header').scrollIntoView()
+            document.getElementById('header').scrollIntoView({ behavior: 'smooth' })
         },
         sortByCounter(year) {
             this.sortByReleaseYear[year].sort((a, b) => { return a.counter - b.counter })
+        },
+        sortCounter() {
+            this.watchListResult.sort((a, b) => { return a.counter - b.counter })
         },
         deleteContinueWatching(id, title) {
             this.deleteId = this.deleteId == id ? '' : id

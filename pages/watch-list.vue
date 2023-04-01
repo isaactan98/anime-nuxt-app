@@ -255,7 +255,7 @@ export default {
                 this.unreleaseList.push(this.watchListResult[counter])
             }
             this.sortList()
-            document.getElementById('screenHeader').scrollIntoView()
+            document.getElementById('screenHeader').scrollIntoView({ behavior: 'smooth' })
         },
         sortList() {
             this.releasedList.sort((a, b) => {
@@ -276,18 +276,26 @@ export default {
             }
         },
         groupByYear() {
-            this.isGroupBy = true
-            var groupByYear = this.releasedList.reduce((r, a) => {
-                r[a.releaseDate] = [...r[a.releaseDate] || [], a];
-                if (!this.years.includes(a.releaseDate)) {
-                    this.years.push(a.releaseDate)
-                }
-                return r;
-            }, {});
-            this.releasedList = groupByYear
-            this.years.sort((a, b) => {
-                return b - a
-            })
+            if (!this.isGroupBy) {
+                this.isGroupBy = true
+                var groupByYear = this.releasedList.reduce((r, a) => {
+                    r[a.releaseDate] = [...r[a.releaseDate] || [], a];
+                    if (!this.years.includes(a.releaseDate)) {
+                        this.years.push(a.releaseDate)
+                    }
+                    return r;
+                }, {});
+                this.releasedList = groupByYear
+                this.years.sort((a, b) => {
+                    return b - a
+                })
+            } else {
+                this.isGroupBy = false
+                this.years = []
+                this.releasedList = []
+                this.unreleaseList = []
+                this.getLikeList()
+            }
             // console.log(this.releasedList)
         }
     }
