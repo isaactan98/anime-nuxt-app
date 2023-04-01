@@ -82,6 +82,12 @@
                 <h1 class="text-zinc-300 mb-5">Recommended for you</h1>
                 <Recommend :genre="anime.genres" :id="anime.id"></Recommend>
             </div>
+            <div class="p-4 mt-4 mx-auto md:w-3/4" v-if="similarList.length > 0">
+                <h1 class="text-zinc-300 mb-5">Similar List</h1>
+                <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                    <RecentReleaseComponent v-for="similar in similarList" :key="similar" :release="similar" />
+                </div>
+            </div>
         </div>
         <div v-else class="grid place-content-center min-h-screen -mt-20">
             <h1 class="text-white font-extrabold">Loading...</h1>
@@ -124,7 +130,8 @@ export default {
                 { id: 'completed', name: 'Completed' },
             ],
             selectStatus: null,
-            success: false
+            success: false,
+            similarList: []
         }
     },
     mounted() {
@@ -170,6 +177,7 @@ export default {
                     this.setTitle();
                     this.getAddedList()
                     // console.log(this.addedList)
+                    this.findSimilar(config.apiUrl + this.anime.title)
                 } else {
                     alert('Server is down or not found, trying to search the anime...')
                     this.$router.push('/search/' + id + "?page=1")
@@ -277,6 +285,16 @@ export default {
         // randomize array
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
+        },
+        findSimilar(api) {
+            fetch(api)
+                .then(response => response.json())
+                .then(data => {
+                    this.similarList = data.results;
+                    this.similarList = this.similarList.filter((item) => {
+                        return item.id !== this.anime.id
+                    })
+                })
         }
     }
 }
