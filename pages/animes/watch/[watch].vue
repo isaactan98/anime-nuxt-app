@@ -272,7 +272,7 @@ export default {
             await fetch(url + "servers/" + id)
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data)
+                    // console.log(data)
                     this.otherServerLink = data
                 }).catch(err => console.log(err))
         }

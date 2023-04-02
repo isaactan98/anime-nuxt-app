@@ -33,38 +33,53 @@ export default {
         this.details = { ...this.videoDetails };
         let corsUrl = "";
 
-        fetch("https://cors-anywhere-lkdy.onrender.com/")
-            .then((res) => {
-                this.loadingPlayer = false;
-                corsUrl = "https://cors-anywhere-lkdy.onrender.com/";
-                // console.log("OK:", res)
-                // check if device is mobile with js
-                if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i)) {
-                    corsUrl = ""
-                }
-                if (!this.loadingPlayer) {
-                    this.displayVideo(corsUrl);
-                }
-                const artcontrolplayAndPause = document.querySelector(".artplayer-control-playAndPause");
-                if (artcontrolplayAndPause) {
-                    artcontrolplayAndPause.addEventListener("click", () => {
-                        if (this.player.video.paused) {
-                            this.player.play();
-                        } else {
-                            this.player.pause();
+        if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i)) {
+            corsUrl = ""
+            this.loadingPlayer = false;
+            if (!this.loadingPlayer) {
+                this.displayVideo(corsUrl);
+            }
+        } else {
+            fetch("https://cors-anywhere-lkdy.onrender.com/")
+                .then((res) => {
+                    this.loadingPlayer = false;
+                    corsUrl = "https://cors-anywhere-lkdy.onrender.com/";
+                    if (!this.loadingPlayer) {
+                        this.displayVideo(corsUrl);
+                    }
+                })
+                .catch((err) => {
+                    this.loadingPlayer = false;
+                    // alert("Error: " + err)
+                    console.log("Error Cors 1: ", err);
+
+                    fetch("https://gaudy-infrequent-cod.glitch.me/").then(() => {
+                        corsUrl = "https://gaudy-infrequent-cod.glitch.me/";
+                        if (!this.loadingPlayer) {
+                            this.displayVideo(corsUrl);
+                        }
+                    }).catch((err) => {
+                        console.log("Error Cors 2: ", err);
+                        corsUrl = "";
+                        if (!this.loadingPlayer) {
+                            this.displayVideo(corsUrl);
                         }
                     });
-                }
-                // console.log("corsUrl", corsUrl);
-            })
-            .catch((err) => {
-                this.loadingPlayer = false;
-                // alert("Error: " + err)
-                console.log("Error", err);
-                if (!this.loadingPlayer) {
-                    this.displayVideo(corsUrl);
-                }
-            });
+                });
+        }
+        if (!this.loadingPlayer) {
+            const artcontrolplayAndPause = document.querySelector(".artplayer-control-playAndPause");
+            if (artcontrolplayAndPause) {
+                artcontrolplayAndPause.addEventListener("click", () => {
+                    if (this.player.video.paused) {
+                        this.player.play();
+                    } else {
+                        this.player.pause();
+                    }
+                });
+            }
+        }
+
     },
     methods: {
         filterFilter(obj, exp) {
