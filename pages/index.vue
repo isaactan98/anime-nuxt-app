@@ -263,28 +263,48 @@ export default {
             var mm = this.date.month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = this.date.year = today.getFullYear();
             // console.log("today", dd, mm, yyyy);
-            fetch("https://cors-anywhere-lkdy.onrender.com/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd).then((res) => {
-                // console.log("res", res);
-                return res.json()
-            }).then(r => {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(r.html, "text/html");
-                this.result = doc.querySelectorAll(".tsl-link");
-                this.result.forEach((item, index) => {
-                    // console.log("item", item);
-                    if (this.lists[index] === undefined) {
-                        this.lists[index] = {};
-                    }
-                    this.lists[index].title = item.querySelector(".dynamic-name").innerText;
-                    this.lists[index].time = item.querySelector(".time").innerText;
-                    this.lists[index].episode = item.querySelector(".btn-play").innerText;
-                });
+            fetch("https://cors-anywhere-lkdy.onrender.com/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
+                .then((res) => {
+                    return res.json()
+                }).then(r => {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(r.html, "text/html");
+                    this.result = doc.querySelectorAll(".tsl-link");
+                    this.result.forEach((item, index) => {
+                        // console.log("item", item);
+                        if (this.lists[index] === undefined) {
+                            this.lists[index] = {};
+                        }
+                        this.lists[index].title = item.querySelector(".dynamic-name").innerText;
+                        this.lists[index].time = item.querySelector(".time").innerText;
+                        this.lists[index].episode = item.querySelector(".btn-play").innerText;
+                    });
 
-                this.loading.todayStreaming = false;
-                // console.log("lists", this.lists);
-            }).catch((err) => {
-                console.log("Error:", err);
-            });
+                    this.loading.todayStreaming = false;
+                    // console.log("lists", this.lists);
+                }).catch((err) => {
+                    console.log("Error:", err);
+
+                    fetch("https://gaudy-infrequent-cod.glitch.me/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
+                        .then((res) => {
+                            return res.json()
+                        }).then(r => {
+                            var parser = new DOMParser();
+                            var doc = parser.parseFromString(r.html, "text/html");
+                            this.result = doc.querySelectorAll(".tsl-link");
+                            this.result.forEach((item, index) => {
+                                // console.log("item", item);
+                                if (this.lists[index] === undefined) {
+                                    this.lists[index] = {};
+                                }
+                                this.lists[index].title = item.querySelector(".dynamic-name").innerText;
+                                this.lists[index].time = item.querySelector(".time").innerText;
+                                this.lists[index].episode = item.querySelector(".btn-play").innerText;
+                            });
+
+                            this.loading.todayStreaming = false;
+                        })
+                })
         }
     }
 }
