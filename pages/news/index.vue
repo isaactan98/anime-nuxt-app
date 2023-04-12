@@ -44,7 +44,7 @@ export default {
                         news.newId = news.id.split('/')[1]
                         news.uuId = news.id.split('/')[2]
                     })
-                    console.log("JSON:", this.news)
+                    // console.log("JSON:", this.news)
                 })
         }
     }
