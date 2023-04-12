@@ -84,6 +84,7 @@ export default {
                 { id: 'home', name: 'Home', route: '/' },
                 { id: 'about', name: 'About', route: '/about' },
                 { id: 'manga', name: 'Manga', route: '/manga' },
+                { id: 'news', name: 'News', route: '/news' },
                 { id: 'version1', name: 'V1', route: '/v1'}
             ],
             checkUserId: '',

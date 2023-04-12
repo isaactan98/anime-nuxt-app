@@ -54,6 +54,7 @@ export default defineNuxtConfig({
       apiUrl3: process.env.NUXT_PUBLIC_API_URL3,
       apiUrlV1: process.env.NUXT_PUBLIC_API_URL_V1,
       mangaApi: process.env.NUXT_PUBLIC_MANGA_API,
+      newsApi: process.env.NUXT_PUBLIC_NEWS_API,
     },
   },
 });
