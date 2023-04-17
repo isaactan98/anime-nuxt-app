@@ -63,7 +63,7 @@
             <h1 class="mb-4 text-lg">Latest Update - {{ date.year }} {{ date.month }} {{ date.day }}</h1>
             <div v-if="!loading.todayStreaming && lists && lists.length > 0" class="w-full text-xs md:text-sm">
                 <div v-for="l in lists" :key="l" class="mb-3 bg-gray-800 px-3 py-4 rounded-lg">
-                    <div class="flex w-full justify-between font-bold">
+                    <nuxt-link :to="'/search/' + l.title" class="flex w-full justify-between font-bold">
                         <div class="w-9/12">
                             <h1 class="">
                                 <span class="block md:inline-block mr-5 text-xs text-gray-400 mb-2 md:mb-0">
@@ -75,7 +75,7 @@
                         <div class="flex items-center justify-end text-right w-3/12 text-purple-400">
                             {{ l.episode }}
                         </div>
-                    </div>
+                    </nuxt-link>
                 </div>
             </div>
             <div v-else class="w-full">
