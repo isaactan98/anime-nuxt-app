@@ -2,12 +2,12 @@
     <div class="container px-4 mx-auto min-h-screen text-white">
         <h1 class="font-bold my-3">News</h1>
 
-        <div class="grid gap-3 grid-cols-1 md:grid-cols-3">
+        <div class="grid gap-5 md:gap-10 grid-cols-1 md:grid-cols-3" v-if="!loading">
             <nuxt-link :to="'news/' + news.newId + '?date=' + news.date + '&uuid=' + news.uuId" v-for="news in news"
-                :key="news.id" class="mb-2">
+                :key="news.id" class="mb-3">
                 <div class="relative">
                     <div class="relative">
-                        <img :src="news.thumbnail" alt="" class="rounded-xl object-cover w-full lg:w-96 h-64 lg:h-[32rem]">
+                        <img :src="news.thumbnail" alt="" class="rounded-xl object-cover w-full h-60 lg:h-[32rem]">
                         <span class="absolute bottom-0 left-0 text-xs bg-purple-700 py-2 px-3 rounded-lg">
                             {{ news.uploadedAt }}
                         </span>
@@ -19,6 +19,10 @@
                 </p>
             </nuxt-link>
         </div>
+
+        <div v-else class="grid place-content-center h-[30vh]">
+            <spining-loading></spining-loading>
+        </div>
     </div>
 </template>
 
@@ -26,7 +30,8 @@
 export default {
     data() {
         return {
-            news: []
+            news: [],
+            loading: true
         }
     },
     mounted() {
@@ -44,6 +49,7 @@ export default {
                         news.newId = news.id.split('/')[1]
                         news.uuId = news.id.split('/')[2]
                     })
+                    this.loading = false
                     // console.log("JSON:", this.news)
                 })
         }
