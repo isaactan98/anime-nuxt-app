@@ -53,8 +53,10 @@ export default {
                     // alert("Error: " + err)
                     console.log("Error Cors 1: ", err);
 
-                    fetch("https://gaudy-infrequent-cod.glitch.me/").then(() => {
-                        corsUrl = "https://gaudy-infrequent-cod.glitch.me/";
+                    let config = useRuntimeConfig()
+
+                    fetch(config.corsApi).then(() => {
+                        corsUrl = config.corsApi;
                         if (!this.loadingPlayer) {
                             this.displayVideo(corsUrl);
                         }

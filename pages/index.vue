@@ -285,7 +285,9 @@ export default {
                 }).catch((err) => {
                     console.log("Error:", err);
 
-                    fetch("https://gaudy-infrequent-cod.glitch.me/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
+                    let config = useRuntimeConfig();
+
+                    fetch(config.corsApi + "https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
                         .then((res) => {
                             return res.json()
                         }).then(r => {
