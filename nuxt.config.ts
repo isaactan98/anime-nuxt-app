@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt"],
   app: {
     head: {
       title: "Shadow Anime",
@@ -55,7 +55,16 @@ export default defineNuxtConfig({
       apiUrlV1: process.env.NUXT_PUBLIC_API_URL_V1,
       mangaApi: process.env.NUXT_PUBLIC_MANGA_API,
       newsApi: process.env.NUXT_PUBLIC_NEWS_API,
-      corsApi: process.env.NUXT_PUBLIC_CORS_API
+      corsApi: process.env.NUXT_PUBLIC_CORS_API,
+    },
+  },
+  pwa: {
+    manifest: {
+      name: "Shadow Anime",
+      short_name: "Shadow Anime",
+      description: "Shadow Anime - Shadow Garden Anime",
+      lang: "en",
+      theme_color: "#581c87",
     },
   },
 });
