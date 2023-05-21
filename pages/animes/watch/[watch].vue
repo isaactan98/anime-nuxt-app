@@ -3,8 +3,10 @@
         <!-- video player -->
         <div v-if="info" class="mx-auto mt-4">
             <!-- <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer> -->
-            <VideoPlayer2 v-if="video" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2>
-            <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80">
+            <div id="setIframe" class="lg:w-3/4 mx-auto"></div>
+            <VideoPlayer2 v-if="video || !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto">
+            </VideoPlayer2>
+            <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                 <SpiningLoading></SpiningLoading>
             </div>
 
@@ -61,8 +63,7 @@
                 </div>
             </div>
 
-            <div v-if="otherServerLink.length > 0"
-                class="mt-5 mx-auto w-full lg:w-3/4 container px-3 text-white">
+            <div v-if="otherServerLink.length > 0" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 text-white">
                 <h1 class="font-bold mb-3 block">Watch on Other Server</h1>
                 <div v-for="link in otherServerLink" :key="link"
                     class="inline-flex mr-3 mb-2 bg-purple-600 py-2 px-4 rounded-lg">
@@ -91,10 +92,11 @@ export default {
             info: null,
             video: null,
             thisEp: null,
-            otherServerLink: []
+            otherServerLink: [],
+            disabled: false
         }
     },
-    mounted() {
+    async mounted() {
         const route = useRoute();
         const config = useRuntimeConfig();
         var id = route.query.id;
@@ -113,9 +115,9 @@ export default {
             watchUrl = config.apiUrl2 + 'watch?episodeId=' + epid
         }
 
-        this.getInfo(infoUrl, epid);
-        this.getEpisode(watchUrl, id);
-        this.getOtherServerLink(config.apiUrl, epid)
+        await this.getOtherServerLink(config.apiUrl, epid)
+        await this.getInfo(infoUrl, epid);
+        await this.getEpisode(watchUrl, id);
     },
     methods: {
         async getInfo(api, id) {
@@ -152,8 +154,8 @@ export default {
             })
                 .then(res => {
                     if (!res.ok) {
-                        window.location.href = '/animes/' + id
-                        throw Error('Server is not responding. Please try again later.')
+                        // window.location.href = '/animes/' + id
+                        throw Error('Provider is not responding. Switching to other server.')
                     }
                     return res.json()
                 })
@@ -163,6 +165,16 @@ export default {
                 }).catch(err => {
                     alert(err)
                     console.log(err)
+
+                    let iframe = document.createElement('iframe')
+                    iframe.src = this.otherServerLink[2].url
+                    iframe.width = '100%'
+                    iframe.height = '100%'
+                    iframe.allowFullscreen = true
+                    iframe.style.aspectRatio = '16/9'
+                    console.log('iframe:', this.otherServerLink[2].url)
+                    document.getElementById('setIframe').appendChild(iframe)
+                    this.disabled = true
                 })
         },
         setContinueWatching(id, episode) {
