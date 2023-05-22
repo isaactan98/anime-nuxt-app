@@ -166,13 +166,15 @@ export default {
                     alert(err)
                     console.log(err)
 
+                    console.clear()
+
                     let iframe = document.createElement('iframe')
-                    iframe.src = this.otherServerLink[2].url
+                    iframe.src = this.otherServerLink[4].url ?? this.otherServerLink[2].url ?? this.otherServerLink[0].url
                     iframe.width = '100%'
                     iframe.height = '100%'
                     iframe.allowFullscreen = true
                     iframe.style.aspectRatio = '16/9'
-                    console.log('iframe:', this.otherServerLink[2].url)
+                    console.log(iframe)
                     document.getElementById('setIframe').appendChild(iframe)
                     this.disabled = true
                 })
