@@ -3,7 +3,15 @@
         <!-- video player -->
         <div v-if="info" class="mx-auto mt-4">
             <!-- <VideoPlayer :videoDetails="video" :info="info" class=" lg:w-3/4 mx-auto mb-5"></VideoPlayer> -->
-            <div id="setIframe" class="lg:w-3/4 mx-auto"></div>
+            <div id="setIframe" class="lg:w-3/4 mx-auto" v-show="disabled"></div>
+            <select
+                class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-800 border-none text-sm mx-auto flex justify-center my-10"
+                v-if="otherServerLink.length > 0 && disabled" @change="selectOtherServerLink">
+                <option value="" selected disabled>Select Server</option>
+                <option :value="key" v-for="link, key in otherServerLink">
+                    {{ link.name }}
+                </option>
+            </select>
             <VideoPlayer2 v-if="video || !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto">
             </VideoPlayer2>
             <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
@@ -168,14 +176,7 @@ export default {
 
                     console.clear()
 
-                    let iframe = document.createElement('iframe')
-                    iframe.src = this.otherServerLink[4].url ?? this.otherServerLink[2].url ?? this.otherServerLink[0].url
-                    iframe.width = '100%'
-                    iframe.height = '100%'
-                    iframe.allowFullscreen = true
-                    iframe.style.aspectRatio = '16/9'
-                    console.log(iframe)
-                    document.getElementById('setIframe').appendChild(iframe)
+
                     this.disabled = true
                 })
         },
@@ -289,7 +290,23 @@ export default {
                     // console.log(data)
                     this.otherServerLink = data
                 }).catch(err => console.log(err))
-        }
+        },
+        selectOtherServerLink(id) {
+            // console.log("id: ",id.target.value)
+            if (id !== null) {
+                let iframe = document.createElement('iframe')
+                iframe.src = this.otherServerLink[id.target.value].url
+                iframe.width = '100%'
+                iframe.height = '100%'
+                iframe.allowFullscreen = true
+                // iframe.sandbox = 'allow-scripts allow-same-origin allow-presentation'
+                iframe.style.aspectRatio = '16/9'
+                iframe.style.overflowY = 'hidden'
+                console.log(iframe)
+                document.getElementById('setIframe').innerHTML = ''
+                document.getElementById('setIframe').appendChild(iframe)
+            }
+        },
     }
 }
 </script>
