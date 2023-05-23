@@ -12,7 +12,7 @@
                     {{ link.name }}
                 </option>
             </select>
-            <VideoPlayer2 v-if="video || !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto">
+            <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto">
             </VideoPlayer2>
             <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                 <SpiningLoading></SpiningLoading>
