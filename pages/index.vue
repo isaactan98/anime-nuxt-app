@@ -18,14 +18,14 @@
             </h1>
         </div>
         <div class="flex overflow-x-auto w-full gap-3 py-4">
-            <div v-for="g in genre" :key="g.id" class="">
+            <div v-for="g, k in Genres" :key="k" class="">
                 <div class="text-xs px-4 py-2 rounded-full bg-purple-500 border-purple-500 text-white whitespace-nowrap cursor-pointer"
-                    v-if="g.id == 'all'">
-                    {{ g.name }}
+                    v-if="k == 'all'">
+                    {{ g }}
                 </div>
-                <NuxtLink v-if="g.id != 'all'" :to="'/genre/' + g.id + '?page=1'"
+                <NuxtLink v-if="k != 'all'" :to="'/genre/' + k + '?page=1'"
                     class="text-xs px-4 py-2 rounded-full bg-purple-900 border-purple-500 text-white whitespace-nowrap cursor-pointer">
-                    {{ g.name }}
+                    {{ g }}
                 </NuxtLink>
             </div>
         </div>
@@ -60,7 +60,21 @@
         </div>
 
         <div class="w-full text-white">
-            <h1 class="mb-4 text-lg">Latest Update - {{ date.year }} {{ date.month }} {{ date.day }}</h1>
+            <div class="flex items-center">
+                <h1 class="mb-4 text-lg">Latest Update - {{ date.month }}, {{ date.day }}</h1>
+                <button class="mb-4 ml-4 p-2 bg-gray-600 rounded-xl" v-if="skipDate > 0" @click="previousDate">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <button class="mb-4 ml-4 p-2 bg-gray-600 rounded-xl" @click="nextDate">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </button>
+            </div>
             <div v-if="!loading.todayStreaming && lists && lists.length > 0" class="w-full text-xs md:text-sm">
                 <div v-for="l in lists" :key="l" class="mb-3 bg-gray-800 px-3 py-4 rounded-lg">
                     <nuxt-link :to="'/search/' + l.title" class="flex w-full justify-between font-bold">
@@ -95,58 +109,6 @@ export default {
         return {
             isOpen: false,
             recentRelease: [],
-            genre: [
-                { id: 'all', name: 'All' },
-                { id: 'action', name: 'Action' },
-                { id: 'adventure', name: "Adventure" },
-                { id: 'cars', name: "Cars" },
-                { id: 'comedy', name: "Comedy" },
-                { id: 'crime', name: "Crime" },
-                { id: 'dementia', name: "Dementia" },
-                { id: 'demons', name: "Demons" },
-                { id: 'drama', name: "Drama" },
-                { id: 'dub', name: "Dub" },
-                { id: 'ecchi', name: "Ecchi" },
-                { id: 'family', name: "Family" },
-                { id: 'fantasy', name: "Fantasy" },
-                { id: 'game', name: "Game" },
-                { id: 'gourmet', name: "Gourmet" },
-                { id: 'harem', name: "Harem" },
-                { id: 'hentai', name: "Hentai" },
-                { id: 'historical', name: "Historical" },
-                { id: 'horror', name: "Horror" },
-                { id: 'isekai', name: "Isekai" },
-                { id: 'josei', name: "Josei" },
-                { id: 'kids', name: "Kids" },
-                { id: 'magic', name: "Magic" },
-                { id: 'martial-arts', name: "Martial Art" },
-                { id: 'mecha', name: "Mecha" },
-                { id: 'military', name: "Military" },
-                { id: 'Mmusic', name: "Mmusic" },
-                { id: 'mystery', name: "Mystery" },
-                { id: 'parody', name: "Parody" },
-                { id: 'police', name: "Police" },
-                { id: 'psychological', name: "Psychological" },
-                { id: 'romance', name: "Romance" },
-                { id: 'samurai', name: "Samurai" },
-                { id: 'school', name: "School" },
-                { id: 'sci-fi', name: "Sci-Fi" },
-                { id: 'seinen', name: "Seinen" },
-                { id: 'shoujo', name: "Shoujo" },
-                { id: 'shoujo-ai', name: "Shoujo-ai" },
-                { id: 'shounen', name: "Shounen" },
-                { id: 'shounen-ai', name: "Shounen-ai" },
-                { id: 'slice-of-Life', name: "Slice of Life" },
-                { id: 'space', name: "Space" },
-                { id: 'sports', name: "Sports" },
-                { id: 'super-power', name: "Super Power" },
-                { id: 'supernatural', name: "Supernatural" },
-                { id: 'suspense', name: "Suspense" },
-                { id: 'thriller', name: "Thriller" },
-                { id: 'vampire', name: "Vampire" },
-                { id: 'yaoi', name: "Yaoi" },
-                { id: 'yuri', name: "Yuri" },
-            ],
             server: '',
             topAiring: [],
             result: [],
@@ -156,9 +118,11 @@ export default {
                 month: '',
                 day: ''
             },
+            fullDate: '',
             loading: {
                 todayStreaming: true,
-            }
+            },
+            skipDate: 0,
         }
     },
     mounted() {
@@ -259,11 +223,20 @@ export default {
         },
         getTodayStreaming() {
             var today = new Date();
+            if (this.skipDate > 0) {
+                today.setDate(today.getDate() + this.skipDate);
+            } else if (this.skipDate < 0) {
+                today.setDate(today.getDate() - this.skipDate);
+            }
+            this.fullDate = today;
             var dd = this.date.day = String(today.getDate()).padStart(2, '0');
             var mm = this.date.month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = this.date.year = today.getFullYear();
+
+            this.date.month = this.fullDate.toLocaleString('default', { month: 'long' })
+            let config = useRuntimeConfig();
             // console.log("today", dd, mm, yyyy);
-            fetch("https://cors-anywhere-lkdy.onrender.com/https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
+            fetch(config.corsApi + "https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
                 .then((res) => {
                     return res.json()
                 }).then(r => {
@@ -307,6 +280,16 @@ export default {
                             this.loading.todayStreaming = false;
                         })
                 })
+        },
+        nextDate() {
+            this.loading.todayStreaming = true;
+            this.skipDate += 1;
+            this.getTodayStreaming()
+        },
+        previousDate() {
+            this.loading.todayStreaming = true;
+            this.skipDate -= 1;
+            this.getTodayStreaming()
         }
     }
 }
