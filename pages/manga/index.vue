@@ -38,7 +38,8 @@
                 <NuxtLink class="text-white px-3 py-3 bg-slate-800 rounded-2xl mb-3" v-for="m in manga" :key="m"
                     :to="'/manga/' + m.id">
                     <div class="object-contain">
-                        <img :src="m.image" alt="" class="rounded-lg w-full">
+                        <img :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + m.image + '&referer=http://www.mangahere.cc'"
+                            alt="" class="rounded-lg w-full">
                     </div>
                     <hr class=" my-2">
                     <div>{{ m.title }}</div>
@@ -93,7 +94,8 @@ export default {
                 await fetch(mangaApi + this.search)
                     .then(res => res.json())
                     .then(data => {
-                        // console.log(data)
+                        console.log(mangaApi)
+                        console.log(data)
                         if (data.message) {
                             alert(data.error)
                         } else {

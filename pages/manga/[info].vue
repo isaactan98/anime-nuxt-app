@@ -2,7 +2,8 @@
     <div class="container p-4 mx-auto min-h-screen">
         <div v-if="manga != null" class="">
             <div>
-                <img :src="manga.image" alt="" class="rounded-2xl w-full">
+                <img :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + manga.image + '&referer=http://www.mangahere.cc'"
+                    alt="" class="rounded-2xl w-full">
             </div>
             <div class="text-white mt-3">
                 <h1 class="font-bold text-xl">
@@ -27,7 +28,8 @@
             <div class="text-white my-3">
                 <h1 class=" font-bold">Chapters:</h1>
                 <div class="grid grid-cols-3 gap-2 mt-2">
-                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + manga.id + '/' + chp.id"
+                    <!-- <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + manga.id + '/' + chp.id" -->
+                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + chp.id"
                         class=" bg-purple-500 py-3 px-4 rounded-md text-sm">
                         {{ chp.title ? chp.title : "No Title" }}
                     </NuxtLink>
@@ -57,7 +59,7 @@ export default {
         async getMangaInfo(id) {
             const config = useRuntimeConfig();
             const mangaApi = config.mangaApi
-            await fetch(mangaApi + "info/" + id)
+            await fetch(mangaApi + "info?id=" + id)
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data)

@@ -1,6 +1,8 @@
 <template>
     <div v-if="chapter">
-        <img v-for="c in chapter" loading="lazy" :key="c" :src="c.img" alt="" class="w-full">
+        <img v-for="c in chapter" loading="lazy" :key="c"
+            :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + c.img + '&referer=http://www.mangahere.cc'"
+            alt="" class="w-full">
     </div>
     <div v-else class="w-full min-h-screen flex justify-center mt-5">
         <SpiningLoading></SpiningLoading>
@@ -33,20 +35,20 @@ export default {
     },
     methods: {
         async getMangaInfo() {
-            await fetch(this.mangaApi + "info/" + this.$route.params.manga)
+            await fetch(this.mangaApi + "info?id=" + this.$route.params.manga)
                 .then(res => res.json())
                 .then(data => {
                     // console.log("info", data)
                     this.manga = data
-                    this.thisChapter = this.filterFilter(data.chapters, { id: this.$route.params.volume })
+                    this.thisChapter = this.filterFilter(data.chapters, { id: this.$route.params.manga + "/" + this.$route.params.volume })
+                    // console.log("getChapNum", this.thisChapter)
                     var getChapNum = this.thisChapter[0].title.split(" ")[1]
-                    // console.log("getChapNum", getChapNum)
                     this.nextChapter = this.filterFilter(data.chapters, { title: "Chapter " + (parseInt(getChapNum) + 1) }).length > 0 ? this.filterFilter(data.chapters, { title: "Chapter " + (parseInt(getChapNum) + 1) }) : null
                     // console.log("next chapter", this.nextChapter)
                 })
         },
         async getChapter() {
-            await fetch(this.mangaApi + 'read/' + this.$route.params.volume)
+            await fetch(this.mangaApi + 'read?chapterId=' + this.$route.params.manga + "/" + this.$route.params.volume)
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data)
