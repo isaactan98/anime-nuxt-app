@@ -31,10 +31,6 @@ export const useNewScapper = (url: string) => {
           a.classList.add("text-blue-400");
           a.classList.add("underline");
         });
-        // mainContainer?.querySelectorAll("iframe").forEach((iframe) => {
-        //   content.iframe.push(iframe);
-        //   iframe.remove();
-        // });
         content.main = mainContainer;
         resolve(content);
       })

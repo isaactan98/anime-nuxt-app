@@ -1,6 +1,5 @@
 <template>
-    <div class="container px-4 mx-auto min-h-screen text-white"
-        style="max-width: 390px;width: 390px; display: table-cell; vertical-align: top;">
+    <div class="container px-4 mx-auto min-h-screen text-white">
         <div v-if="news !== null" class="">
             <!-- <h1>{{ news.title }}</h1>
             <p class="text-xs my-1">{{ news.uploadedAt }}</p>
@@ -78,6 +77,17 @@ hr {
 }
 
 img {
+    margin: 1rem 0;
+}
+
+.sub-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+table {
+    font-size: 0.8rem;
     margin: 1rem 0;
 }
 </style>
