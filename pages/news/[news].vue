@@ -1,17 +1,18 @@
 <template>
-    <div class="container px-4 mx-auto min-h-screen text-white">
-        <h1 class="font-bold mb-5">NEWS</h1>
-        <div v-if="news !== null" class="grid">
-            <h1>{{ news.title }}</h1>
+    <div class="container px-4 mx-auto min-h-screen text-white"
+        style="max-width: 390px;width: 390px; display: table-cell; vertical-align: top;">
+        <div v-if="news !== null" class="">
+            <!-- <h1>{{ news.title }}</h1>
             <p class="text-xs my-1">{{ news.uploadedAt }}</p>
             <img :src="news.image" alt="" class="my-3">
             <p class="underline">{{ news.intro }}</p>
             <section class="my-5 text-justify">
                 {{ news.description }}
-            </section>
+            </section> -->
 
+            <div id="newBody"></div>
             <a :href="news.url" target="_blank"
-                class="justify-center text-center underline bg-purple-500 py-1 rounded-md md:w-1/4">
+                class="flex justify-center text-center underline bg-purple-500 py-1 rounded-md md:w-1/4 mt-5">
                 View Source
             </a>
         </div>
@@ -43,7 +44,10 @@ export default {
                 .then(response => response.json())
                 .then(json => {
                     this.news = json
-                    // console.log("JSON:", this.news)
+                    useNewScapper(this.news.url).then((data) => {
+                        console.log("data:", data)
+                        document.getElementById('newBody').appendChild(data.main)
+                    })
                 })
         },
         async getRecent(api) {
@@ -63,4 +67,17 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+p,
+blockquote {
+    text-align: justify;
+}
+
+hr {
+    margin: 1rem 0;
+}
+
+img {
+    margin: 1rem 0;
+}
+</style>
