@@ -205,7 +205,7 @@ export default {
                 where("userId", "==", sessionStorage.getItem('userId')),
                 where("server", "==", localStorage.getItem('server'))
             );
-            const querySnapshot = await getDocs(q);
+            const querySnapshot = getDocs(q);
 
             querySnapshot.then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
