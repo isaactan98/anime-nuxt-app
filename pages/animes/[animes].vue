@@ -134,7 +134,7 @@ export default {
             similarList: []
         }
     },
-    mounted() {
+    async mounted() {
         this.setTitle();
 
         this.userId = sessionStorage.getItem('userId');
@@ -155,9 +155,9 @@ export default {
             this.serverUrl = "https://zoro.to"
         }
 
-        fetch(url)
+        await fetch(url)
             .then(response => response.json())
-            .then(data => {
+            .then(async data => {
                 // console.log(data)
                 if (data.id != null) {
                     this.anime.id = data.id;
@@ -175,9 +175,9 @@ export default {
                     this.sortEpisode(data.episodes);
                     this.anime.episode = data.episodes;
                     this.setTitle();
-                    this.getAddedList()
+                    await this.getAddedList()
                     // console.log(this.addedList)
-                    this.findSimilar(config.apiUrl + this.anime.title)
+                    await this.findSimilar(config.apiUrl + this.anime.title)
                 } else {
                     alert('Server is down or not found, trying to search the anime...')
                     this.$router.push('/search/' + id + "?page=1")
@@ -198,14 +198,14 @@ export default {
                 return b.number - a.number;
             });
         },
-        getAddedList() {
+        async getAddedList() {
             const db = getFirestore();
             const q = query(collection(db, "watch-list"),
                 where("animeId", "==", this.anime.id),
                 where("userId", "==", sessionStorage.getItem('userId')),
                 where("server", "==", localStorage.getItem('server'))
             );
-            const querySnapshot = getDocs(q);
+            const querySnapshot = await getDocs(q);
 
             querySnapshot.then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -220,12 +220,12 @@ export default {
             })
             // console.log('outer', this.selectStatus)
         },
-        addToList() {
+        async addToList() {
             const db = getFirestore();
             if (this.addedList != 'true') {
                 this.addedList = '';
                 try {
-                    addDoc(collection(db, "watch-list"), {
+                    await addDoc(collection(db, "watch-list"), {
                         animeId: this.anime.id,
                         userId: sessionStorage.getItem('userId'),
                         server: localStorage.getItem('server'),
@@ -233,6 +233,7 @@ export default {
                         status: 'no_status'
                     }).then(() => {
                         this.addedList = 'true';
+                        this.selectStatus = 'no_status';
                     })
                 } catch (error) {
                     console.log(error)
@@ -258,17 +259,18 @@ export default {
                 }
             }
         },
-        changeStatus(value) {
+        async changeStatus(value) {
             const db = getFirestore();
             const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
-            const querySnapshot = getDocs(q);
+            const querySnapshot = await getDocs(q);
 
             querySnapshot.then((querySnapshot) => {
-                querySnapshot.forEach((docs) => {
+                querySnapshot.forEach(async (docs) => {
                     // console.log(docs.data())
                     if (docs.data().userId == sessionStorage.getItem('userId') && docs.data().server == localStorage.getItem('server')) {
-                        updateDoc(doc(db, "watch-list", docs.id), {
-                            status: value
+                        await updateDoc(doc(db, "watch-list", docs.id), {
+                            status: value,
+                            createdAt: new Date()
                         }).then(() => {
                             this.selectStatus = value;
                             // alert('Status updated successfully.')
@@ -286,8 +288,8 @@ export default {
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
         },
-        findSimilar(api) {
-            fetch(api)
+        async findSimilar(api) {
+            await fetch(api)
                 .then(response => response.json())
                 .then(data => {
                     this.similarList = data.results;
