@@ -41,9 +41,9 @@ export default {
         async getNews(api, params, query) {
             await fetch(api + 'info?id=' + query.date + '/' + params.news + '/' + query.uuid)
                 .then(response => response.json())
-                .then(json => {
+                .then(async json => {
                     this.news = json
-                    useNewScapper(this.news.url).then((data) => {
+                    await useNewScapper(this.news.url).then((data) => {
                         console.log("data:", data)
                         document.getElementById('newBody').appendChild(data.main)
                     })
