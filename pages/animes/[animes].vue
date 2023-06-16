@@ -232,6 +232,7 @@ export default {
                         createdAt: new Date(),
                         status: 'no_status'
                     }).then(() => {
+                        console.log("Document successfully written!");
                         this.addedList = 'true';
                         this.selectStatus = 'no_status';
                     })
@@ -239,7 +240,7 @@ export default {
                     console.log(error)
                 }
             }
-            if (this.addedList == 'true') {
+            else if (this.addedList == 'true') {
                 this.addedList = '';
                 try {
                     const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
@@ -262,7 +263,7 @@ export default {
         async changeStatus(value) {
             const db = getFirestore();
             const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
-            const querySnapshot = await getDocs(q);
+            const querySnapshot = getDocs(q);
 
             querySnapshot.then((querySnapshot) => {
                 querySnapshot.forEach(async (docs) => {
