@@ -39,7 +39,7 @@
                     :to="'/manga/' + m.id">
                     <div class="object-contain">
                         <img :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + m.image + '&referer=http://www.mangahere.cc'"
-                            alt="" class="rounded-lg w-full">
+                            alt="" class="rounded-xl object-cover w-full h-64 lg:h-[32rem]">
                     </div>
                     <hr class=" my-2">
                     <div>{{ m.title }}</div>
@@ -54,6 +54,17 @@
             <div class="w-full md:w-2/3" v-if="manga.length == 0">
                 <img src="https://shadow-garden.jp/assets/img/character/chara10_main1.png" class=" w-full" alt="">
             </div>
+
+            <div v-if="nextPage" class="w-full flex">
+                <div class="w-full md:w-1/3 mx-auto">
+                    <button type="button"
+                        class="bg-slate-800 text-white px-3 py-2 rounded-xl w-full flex items-center place-content-center gap-3"
+                        @click="loadMore()">
+                        Load More
+                        <SpiningLoading v-if="nextLoading" />
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -65,6 +76,9 @@ export default {
             manga: [],
             loading: false,
             search: '',
+            nextPage: false,
+            currentPage: 1,
+            nextLoading: false,
         }
     },
     async mounted() {
@@ -88,10 +102,13 @@ export default {
             if (this.search == '') {
                 return
             } else {
-                this.loading = true
+                if (this.currentPage == 1) {
+                    this.loading = true
+                }
+                this.nextLoading = true
                 const config = useRuntimeConfig();
                 const mangaApi = config.mangaApi
-                await fetch(mangaApi + this.search)
+                await fetch(mangaApi + this.search + '?page=' + this.currentPage)
                     .then(res => res.json())
                     .then(data => {
                         console.log(mangaApi)
@@ -99,13 +116,21 @@ export default {
                         if (data.message) {
                             alert(data.error)
                         } else {
-                            this.manga = data.results
+                            this.nextPage = data.hasNextPage
+                            if (this.manga.length == 0) {
+                                this.manga = data.results
+                            } else {
+                                this.manga = this.manga.concat(data.results)
+                            }
                         }
-                        this.loading = false
+                        this.loading = this.nextLoading = false
                     })
             }
-
         },
+        async loadMore() {
+            this.currentPage++
+            await this.searchManga()
+        }
     },
 }
 </script>

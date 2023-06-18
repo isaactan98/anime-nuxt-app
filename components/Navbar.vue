@@ -96,14 +96,16 @@ export default {
     mounted() {
         this.checkUserId = sessionStorage.getItem('userId')
 
+        const searchInput = document.getElementById('price')
+
         // if clicked enter key
-        document.getElementById('price').addEventListener('keyup', (e) => {
+        searchInput.addEventListener('keyup', (e) => {
             if (e.key === 'Enter') {
                 this.searchAnime()
             }
         })
 
-        document.getElementById('price').addEventListener('keyup', (e) => {
+        searchInput.addEventListener('keyup', (e) => {
             if (e.key === 'Escape' && this.showSearch == true) {
                 this.toggleSearch()
             }
@@ -137,6 +139,11 @@ export default {
         toggleSearch() {
             this.showSearch = !this.showSearch
             this.searchQuery = ''
+
+            const searchInput = document.getElementById('price')
+            setTimeout(() => {
+                searchInput.focus()
+            }, 300);
         },
         searchAnime() {
             // console.log('search anime')
