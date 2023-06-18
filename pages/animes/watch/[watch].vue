@@ -30,7 +30,7 @@
                 </span>
             </div>
 
-            <div class="w-11/12 mx-auto py-3 px-5 text-white bg-slate-800 rounded-xl md:hidden">
+            <div class="md:w-3/4 w-11/12 mx-auto py-3 px-5 text-white bg-slate-800 rounded-xl">
                 <div class="font-bold">Genres:</div>
                 <div v-for="g in info.genres" :key="g" class="inline-block mr-2 text-sm" :id="g"
                     :style="'color:' + randomColor(g)">

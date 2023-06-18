@@ -9,12 +9,11 @@
                 <h1 class="font-bold text-xl">
                     {{ manga.title }}
                 </h1>
-                <div class="my-2" v-if="manga.genres">
-                    <h1>Genres:</h1>
-                    <div class="w-full">
-                        <p v-for="g in manga.genres" :key="g" class="text-zinc-400 text-sm mr-3 inline-block">
-                            {{ g }}
-                        </p>
+                <div class="md:w-full mx-auto py-3 my-3 px-5 text-white bg-slate-800 rounded-xl" v-if="manga.genres">
+                    <div class="font-bold">Genres:</div>
+                    <div v-for="g in manga.genres" :key="g" class="inline-block mr-2 text-sm" :id="g"
+                        :style="'color:' + randomColor(g)">
+                        {{ g }}
                     </div>
                 </div>
                 <div v-if="manga.status">
@@ -66,6 +65,15 @@ export default {
                     this.manga = data
                     this.loading = false
                 })
+        },
+        randomColor() {
+            var letters = 'BCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * letters.length)];
+            }
+            return color;
+            // return '#' + Math.floor(Math.random() * 16777215).toString(16);
         },
     },
 }
