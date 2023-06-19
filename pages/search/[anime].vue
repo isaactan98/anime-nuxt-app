@@ -12,7 +12,7 @@
         </div>
 
         <div v-if="loading == false">
-            <div v-if="animeList.results.length > 0"
+            <div v-if="animeList.results?.length > 0"
                 class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-4 min-h-screen">
                 <div class="relative" v-for="anime in animeList.results" :key="anime">
                     <a :href="'/animes/' + anime.id" class="relative">
@@ -41,7 +41,7 @@
             <SpiningLoading></SpiningLoading>
         </div>
 
-        <div class="flex items-center justify-center w-full text-white mt-10" v-if="animeList.results.length > 0">
+        <div class="flex items-center justify-center w-full text-white mt-10" v-if="animeList.results?.length > 0">
             <button class="rounded-full py-1 px-3 mx-2"
                 :class="animeList?.currentPage == pl ? ' bg-purple-700' : 'bg-purple-500 opacity-50'" v-for="pl in pageList"
                 :key="pl" @click="pageChange(pl)">
