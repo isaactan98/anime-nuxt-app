@@ -43,8 +43,9 @@
                 class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="rr in recentRelease" :key="rr" :release="rr" class="snap-start" />
             </div>
-            <div v-else class="h-28 grid place-content-center">
-                <SpiningLoading></SpiningLoading>
+            <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                <!-- <SpiningLoading></SpiningLoading> -->
+                <LoadingAnimeCard v-for="i in 5" :key="i"></LoadingAnimeCard>
             </div>
         </div>
 
@@ -54,8 +55,9 @@
                 class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="ta in topAiring" :key="ta" :release="ta" class="snap-start" />
             </div>
-            <div v-else class="h-28 grid place-content-center">
-                <SpiningLoading></SpiningLoading>
+            <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                <!-- <SpiningLoading></SpiningLoading> -->
+                <LoadingAnimeCard v-for="i in 5" :key="i"></LoadingAnimeCard>
             </div>
         </div>
 
