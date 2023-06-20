@@ -27,8 +27,8 @@
                 </div>
             </NuxtLink>
         </div>
-        <div v-else class="text-white container px-4 mx-auto min-h-screen flex justify-center">
-            <SpiningLoading></SpiningLoading>
+        <div v-else class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 min-h-screen">
+            <LoadingAnimeCard v-for="i in 5" :key="i" class="!w-full !min-w-full" :height="'h-56 lg:h-96'" />
         </div>
         <!-- pagination component -->
         <div class="flex items-center justify-center w-full text-white mt-10">

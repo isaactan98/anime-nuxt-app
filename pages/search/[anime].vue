@@ -37,8 +37,8 @@
                 <h1 class="text-white font-bold">No Result Found.</h1>
             </div>
         </div>
-        <div v-else class="grid place-items-center min-h-screen">
-            <SpiningLoading></SpiningLoading>
+        <div v-else class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-4 min-h-screen">
+            <LoadingAnimeCard v-for="i in 5" :key="i" class="!w-full !min-w-full" :height="'h-56 lg:h-96'" />
         </div>
 
         <div class="flex items-center justify-center w-full text-white mt-10" v-if="animeList.results?.length > 0">
