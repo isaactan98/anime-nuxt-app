@@ -61,11 +61,11 @@ var isOpen = ref(props.isOpenModal)
 var loadServer = ref(false)
 
 const serverList = [
-    { id: 'gogoanime', name: 'Gogoanime (Preferred)' },
+    { id: 'gogoanime', name: 'Gogoanime' },
     { id: 'zoro', name: 'Zoro.to' },
 ]
 
-var activeServer = localStorage.getItem('server') == 'gogoanime' ? 'gogoanime' : 'zoro'
+var activeServer = localStorage.getItem('server') == 'gogoanime' ? 'gogoanime' : 'gogoanime'
 
 function closeModal() {
     isOpen.value = false
