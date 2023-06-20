@@ -57,7 +57,7 @@
             </div>
             <div v-else class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
                 <!-- <SpiningLoading></SpiningLoading> -->
-                <LoadingAnimeCard v-for="i in 10" :key="i" class="!h-56 !lg:h-96 !w-full !min-w-full"></LoadingAnimeCard>
+                <LoadingAnimeCard v-for="i in 10" :key="i" class="!w-full !min-w-full" :height="'h-56 lg:h-96'" />
             </div>
         </div>
         <!-- collapse div -->
