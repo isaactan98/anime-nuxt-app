@@ -146,7 +146,14 @@ export default {
             return
         } else {
             this.getRecentRelease()
-            this.getTodayStreaming()
+            this.getTodayStreaming().then(() => {
+                this.loading.todayStreaming = false
+                setTimeout(() => {
+                    this.horizonScroll()
+                }, 300);
+            }).catch(() => {
+                this.loading.todayStreaming = false
+            })
         }
 
         this.server = localStorage.getItem('server') ?? ''
@@ -217,13 +224,21 @@ export default {
         },
 
         horizonScroll() {
-            const scrollContainer = document.querySelector('.scroll-smooth');
-            scrollContainer?.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                scrollContainer.scrollLeft += e.deltaY;
+            const scrollContainer = document.querySelectorAll('.scroll-smooth');
+            scrollContainer.forEach((container) => {
+                container.addEventListener('mouseover', (m) => {
+                    container.addEventListener('wheel', (e) => {
+                        var scrollAmount = (e.deltaY || e.detail || e.wheelDelta) * 10;
+                        container.scrollLeft += scrollAmount;
+                        e.preventDefault();
+                    });
+                })
             });
         },
-        getTodayStreaming() {
+        async getTodayStreaming(retryCount = 3, retryDelay = 1000) {
+            this.lists = []
+            this.loading.todayStreaming = true;
+
             var today = new Date();
             if (this.skipDate > 0) {
                 today.setDate(today.getDate() + this.skipDate);
@@ -237,13 +252,11 @@ export default {
 
             this.date.month = this.fullDate.toLocaleString('default', { month: 'long' })
             let config = useRuntimeConfig();
-            // console.log("today", dd, mm, yyyy);
-            fetch(config.corsApi + "https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
-                .then((res) => {
-                    return res.json()
-                }).then(r => {
+
+            return await fetch(config.corsApi + "https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
+                .then((res) => res.json()).then((html) => {
                     var parser = new DOMParser();
-                    var doc = parser.parseFromString(r.html, "text/html");
+                    var doc = parser.parseFromString(html.html, "text/html");
                     this.result = doc.querySelectorAll(".tsl-link");
                     this.result.forEach((item, index) => {
                         // console.log("item", item);
@@ -254,33 +267,15 @@ export default {
                         this.lists[index].time = item.querySelector(".time").innerText;
                         this.lists[index].episode = item.querySelector(".btn-play").innerText;
                     });
-
                     this.loading.todayStreaming = false;
-                    // console.log("lists", this.lists);
                 }).catch((err) => {
-                    console.log("Error:", err);
-
-                    let config = useRuntimeConfig();
-
-                    fetch(config.corsApi + "https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
-                        .then((res) => {
-                            return res.json()
-                        }).then(r => {
-                            var parser = new DOMParser();
-                            var doc = parser.parseFromString(r.html, "text/html");
-                            this.result = doc.querySelectorAll(".tsl-link");
-                            this.result.forEach((item, index) => {
-                                // console.log("item", item);
-                                if (this.lists[index] === undefined) {
-                                    this.lists[index] = {};
-                                }
-                                this.lists[index].title = item.querySelector(".dynamic-name").innerText;
-                                this.lists[index].time = item.querySelector(".time").innerText;
-                                this.lists[index].episode = item.querySelector(".btn-play").innerText;
-                            });
-
-                            this.loading.todayStreaming = false;
+                    console.log("Error: ", err);
+                    if (retryCount > 0) {
+                        console.log("Retrying in " + (retryDelay / 1000) + "ms...");
+                        return new Promise(resolve => setTimeout(resolve, retryDelay)).then(() => {
+                            this.newFetchCall(retryCount - 1, retryDelay);
                         })
+                    }
                 })
         },
         nextDate() {
