@@ -211,6 +211,7 @@ export default {
 .art-progress-played,
 .art-progress-indicator,
 .art-layer-miniProgressBar {
+    height: 1px !important;
     background-color: #a855f7 !important;
 }
 
