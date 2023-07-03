@@ -137,8 +137,6 @@ export default {
     async mounted() {
         this.setTitle();
 
-        this.userId = sessionStorage.getItem('userId');
-
         const route = useRoute();
         var id = route.params.animes;
         const config = useRuntimeConfig();
@@ -178,6 +176,10 @@ export default {
                     await this.getAddedList()
                     // console.log(this.addedList)
                     await this.findSimilar(config.apiUrl + this.anime.title)
+
+                    setTimeout(() => {
+                        this.userId = sessionStorage.getItem('userId');
+                    }, 300);
                 } else {
                     alert('Server is down or not found, trying to search the anime...')
                     this.$router.push('/search/' + id + "?page=1")
