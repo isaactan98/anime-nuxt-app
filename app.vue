@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-slate-900">
+    <CookiePopup v-if="!cookieAccepted" />
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>
       <NuxtLoadingIndicator />
@@ -16,6 +17,7 @@ export default {
   data() {
     return {
       userId: '',
+      cookieAccepted: false
     }
   },
   mounted() {
@@ -26,6 +28,9 @@ export default {
         this.userId = user.uid
       }
     });
+    if (localStorage.getItem('cookie-accepted')) {
+      this.cookieAccepted = true
+    }
   }
 }
 
