@@ -95,9 +95,8 @@
                 </div>
             </div>
             <div v-else class="w-full">
-                <h1 class="text-gray-500 my-5 text-xs font-bold">
-                    Loading Today Streaming List <span id="animateDot">...</span>
-                </h1>
+                <div class="py-7 w-full bg-gray-800 mb-3 animate-pulse rounded-lg" v-for="i in 3">
+                </div>
             </div>
         </div>
     </div>
