@@ -159,17 +159,6 @@ export default {
         if (this.server == 'gogoanime') {
             this.getTopAiring()
         }
-
-        if (this.loading.todayStreaming) {
-            let animateDot = document.getElementById('animateDot')
-            setInterval(() => {
-                if (animateDot.innerHTML.length >= 3) {
-                    animateDot.innerHTML = ''
-                } else {
-                    animateDot.innerHTML += '.'
-                }
-            }, 500)
-        }
     },
     methods: {
         async getRecentRelease() {
@@ -252,7 +241,10 @@ export default {
             this.date.month = this.fullDate.toLocaleString('default', { month: 'long' })
             let config = useRuntimeConfig();
 
-            return await fetch(config.corsApi + "https://zoro.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd)
+            // let testUrl = "https://aniwatch.to/ajax/schedule/list?tzOffset=-480&date=2023-07-06"
+            let testUrl = "https://aniwatch.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd
+
+            return await fetch(config.corsApi + testUrl)
                 .then((res) => res.json()).then((html) => {
                     var parser = new DOMParser();
                     var doc = parser.parseFromString(html.html, "text/html");
@@ -272,8 +264,14 @@ export default {
                     if (retryCount > 0) {
                         console.log("Retrying in " + (retryDelay / 1000) + "ms...");
                         return new Promise(resolve => setTimeout(resolve, retryDelay)).then(() => {
-                            this.newFetchCall(retryCount - 1, retryDelay);
+                            this.getTodayStreaming(retryCount - 1, retryDelay);
                         })
+                    } else {
+                        this.loading.todayStreaming = false;
+                        this.lists[0] = {}
+                        this.lists[0].title = "Error in fetching"
+                        this.lists[0].time = ""
+                        this.lists[0].episode = ""
                     }
                 })
         },
