@@ -148,7 +148,7 @@ export default {
             this.getTodayStreaming().then(() => {
                 this.loading.todayStreaming = false
                 setTimeout(() => {
-                    this.horizonScroll()
+                    // this.horizonScroll()
                 }, 300);
             }).catch(() => {
                 this.loading.todayStreaming = false
