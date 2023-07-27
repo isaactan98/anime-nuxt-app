@@ -73,7 +73,8 @@
 
                 <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 mx-auto md:w-3/4">
                     <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
-                        class="border-2 border-white py-2 rounded-xl text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
+                        class="border-2 border-white py-2 rounded-xl text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent "
+                        :class="{ 'bg-indigo-600': this.watchList[0]?.episode == e.number }">
                         <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
@@ -101,7 +102,7 @@
 </template>
 
 <script>
-import { getFirestore, query, where, getDocs, updateDoc, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { getFirestore, query, where, getDocs, updateDoc, collection, addDoc, deleteDoc, orderBy, doc } from "firebase/firestore";
 
 export default {
     data() {
@@ -131,7 +132,8 @@ export default {
             ],
             selectStatus: null,
             success: false,
-            similarList: []
+            similarList: [],
+            watchList: []
         }
     },
     async mounted() {
@@ -179,6 +181,8 @@ export default {
 
                     setTimeout(() => {
                         this.userId = sessionStorage.getItem('userId');
+
+                        this.getLastWatched();
                     }, 300);
                 } else {
                     alert('Server is down or not found, trying to search the anime...')
@@ -300,6 +304,27 @@ export default {
                         return item.id !== this.anime.id
                     })
                 })
+        },
+        getLastWatched() {
+            const db = getFirestore();
+            const q = query(collection(db, "continue-watching"), where("userId", "==", this.userId), where("server", "==", 'gogoanime'), orderBy("createdAt", "desc"));
+            const querySnapshot = getDocs(q);
+            // console.log('querySnapshot', querySnapshot)
+            querySnapshot.then((querySnapshot) => {
+                return querySnapshot;
+            }).then((s) => {
+                // console.log('s', s)
+                s.docs.forEach((doc) => {
+                    // console.log('doc', doc.data())
+                    this.watchList.push(doc.data())
+                })
+                // console.log('watchList', this.watchList)
+            }).then(() => {
+                this.watchList = this.watchList.filter((item) => {
+                    return item.animeId === this.anime.id
+                })
+                // console.log('watchList', this.watchList[0].episode)
+            })
         }
     }
 }
