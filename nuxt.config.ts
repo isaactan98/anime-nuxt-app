@@ -5,10 +5,14 @@ export default defineNuxtConfig({
     head: {
       title: "Shadow Anime",
       titleTemplate: "%s - Shadow Garden Anime",
-      link: [{ rel: "icon", type: "image/x-icon", href: "/delta_icon.png" }],
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/delta_icon.png" },
+        { rel: "manifest", href: "/manifest.json" },
+      ],
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "theme-color", content: "#581c87" },
         {
           hid: "description",
           name: "description",
@@ -56,15 +60,6 @@ export default defineNuxtConfig({
       mangaApi: process.env.NUXT_PUBLIC_MANGA_API,
       newsApi: process.env.NUXT_PUBLIC_NEWS_API,
       corsApi: process.env.NUXT_PUBLIC_CORS_API,
-    },
-  },
-  pwa: {
-    manifest: {
-      name: "Shadow Anime",
-      short_name: "Shadow Anime",
-      description: "Shadow Anime - Shadow Garden Anime",
-      lang: "en",
-      theme_color: "#581c87",
     },
   },
 });
