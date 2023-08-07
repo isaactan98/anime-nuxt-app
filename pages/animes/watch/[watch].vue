@@ -12,8 +12,8 @@
                     {{ link.name }}
                 </option>
             </select>
-            <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto">
-            </VideoPlayer2>
+            <!-- <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2> -->
+            <VidstackPlayer v-if="video && !disabled" :src="video[0].url" :poster="info.image" :title="info.title" />
             <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                 <SpiningLoading></SpiningLoading>
             </div>
@@ -170,6 +170,7 @@ export default {
                 .then(data => {
                     this.video = JSON.parse(JSON.stringify(data));
                     // console.log('video', this.video)
+                    this.video = this.video.sources.filter((s) => s.quality == "default")
                 }).catch(err => {
                     alert(err)
                     console.log(err)
