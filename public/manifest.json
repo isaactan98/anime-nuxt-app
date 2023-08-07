@@ -3,14 +3,14 @@
   "short_name": "Shadow Anime",
   "description": "Shadow Anime - Shadow Garden Anime",
   "lang": "en",
-  "theme_color": "#581c87",
-  "background_color": "#581c87",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
   "start_url": "/",
   "display": "standalone",
   "icons": [
     {
       "src": "/delta_icon.png",
-      "sizes": "192x192",
+      "sizes": "400x400",
       "type": "image/png",
       "purpose": "any"
     }
