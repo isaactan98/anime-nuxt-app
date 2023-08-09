@@ -13,6 +13,12 @@
       "sizes": "400x400",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/delta_icon520.png",
+      "sizes": "520x520",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
