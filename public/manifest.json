@@ -19,6 +19,12 @@
       "sizes": "520x520",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/delta_icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
