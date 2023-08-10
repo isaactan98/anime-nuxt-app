@@ -20,8 +20,13 @@
             </nuxt-link>
         </div>
 
-        <div v-else class="grid place-content-center h-[30vh]">
-            <spining-loading></spining-loading>
+        <div v-else class="grid gap-5 md:gap-10 grid-cols-1 md:grid-cols-3">
+            <div class="" v-for="i in 5">
+                <div class="w-full h-60 lg:h-[32rem] bg-purple-900 bg-opacity-50 rounded-xl animate-pulse"></div>
+                <div class="mt-3">
+                    <div class="bg-purple-900 rounded-lg animate-pulse w-full h-8"></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
