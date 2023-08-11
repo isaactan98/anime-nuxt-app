@@ -17,7 +17,8 @@ export default {
   data() {
     return {
       userId: '',
-      cookieAccepted: false
+      cookieAccepted: false,
+      setTimeoutVar: null
     }
   },
   mounted() {
@@ -30,6 +31,30 @@ export default {
     });
     if (localStorage.getItem('cookie-accepted')) {
       this.cookieAccepted = true
+    }
+    this.checkInactive();
+    this.resetTimeout();
+  },
+  methods: {
+    checkInactive() {
+
+      document.addEventListener('mousemove', this.resetTimeout);
+      document.addEventListener('mousedown', this.resetTimeout);
+      document.addEventListener('keydown', this.resetTimeout);
+      document.addEventListener('touchmove', this.resetTimeout);
+      document.addEventListener('touchstart', this.resetTimeout);
+
+    },
+    resetTimeout() {
+      // console.warn('resetTimeout');
+      // 1 hour timeout
+      const timeoutMinute = 60 * 60 * 1000;
+      clearTimeout(this.setTimeoutVar);
+      this.setTimeoutVar = setTimeout(() => {
+        console.warn('refreshing');
+        window.location.href = '/';
+      }, timeoutMinute);
+
     }
   }
 }
