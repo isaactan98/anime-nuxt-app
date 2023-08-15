@@ -34,8 +34,12 @@ export default {
     props: ['release'],
     data() {
         return {
-            loading: false
+            loading: false,
+            loadingClass: new Loading()
         }
+    },
+    mounted() {
+        this.loading = this.loadingClass.getLoading();
     },
     methods: {
         startLoading() {
@@ -43,7 +47,9 @@ export default {
             load.startLoading();
             this.loading = load.getLoading();
             window.location.href = '/animes/' + this.release.id;
-            this.loading = false;
+            setTimeout(() => {
+                this.loading = false;
+            }, 300);
         }
     }
 }
