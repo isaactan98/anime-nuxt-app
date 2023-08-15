@@ -43,6 +43,7 @@ export default {
             load.startLoading();
             this.loading = load.getLoading();
             window.location.href = '/animes/' + this.release.id;
+            this.loading = false;
         }
     }
 }
