@@ -1,7 +1,8 @@
 <template>
     <div class="snap-start">
         <div v-if="release != null" class="mb-5 relative">
-            <a :href="'/animes/' + release.id" class="relative">
+            <button class="relative" @click="startLoading">
+                <TransLoading v-if="loading" />
                 <div class="min-w-[220px] lg:min-w-[380px]">
                     <img :src="release.image" loading="lazy" alt=""
                         class="rounded-xl object-cover w-56 lg:w-96 h-72 lg:h-[32rem]">
@@ -19,7 +20,7 @@
                         EP {{ release.episode ?? release.episodeNumber }}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
         <div v-else>
             Loading...
@@ -31,6 +32,19 @@
 
 export default {
     props: ['release'],
+    data() {
+        return {
+            loading: false
+        }
+    },
+    methods: {
+        startLoading() {
+            const load = new Loading();
+            load.startLoading();
+            this.loading = load.getLoading();
+            window.location.href = '/animes/' + this.release.id;
+        }
+    }
 }
 </script>
 

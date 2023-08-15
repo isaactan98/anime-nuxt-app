@@ -137,6 +137,9 @@ export default {
         }
     },
     async mounted() {
+        const clickLoading = new Loading();
+        clickLoading.stopLoading();
+
         this.setTitle();
 
         const route = useRoute();
