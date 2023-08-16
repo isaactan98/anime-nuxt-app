@@ -35,6 +35,10 @@
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                     </div>
                     <a v-else :href="'/animes/' + list.id" class="relative">
+                        <div v-if="list.status == 'Completed'"
+                            class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white">
+                            Completed
+                        </div>
                         <div class=" object-cover h-56 lg:h-96">
                             <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                         </div>
@@ -113,6 +117,10 @@
                             class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                         </div>
                         <a v-else :href="'/animes/' + list.id" class="relative">
+                            <div v-if="list.status == 'Completed'"
+                                class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white">
+                                Completed
+                            </div>
                             <div class=" object-cover h-56 lg:h-96">
                                 <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                             </div>
