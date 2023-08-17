@@ -32,7 +32,7 @@
                 v-if="releasedList.length > 0 && releasedList[0] != ''">
                 <div v-for="list in releasedList" :key="list" class="mb-3 transition-all ease-in-out delay-150">
                     <div v-if="list == ''"
-                        class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+                        class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse z-50">
                     </div>
                     <a v-else :href="'/animes/' + list.id" class="relative">
                         <div v-if="list.status == 'Completed'"
@@ -114,7 +114,7 @@
                 <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
                     <div v-for="list in releasedList[y]" :key="list" class="mb-3 transition-all">
                         <div v-if="list == ''"
-                            class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
+                            class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse z-50">
                         </div>
                         <a v-else :href="'/animes/' + list.id" class="relative">
                             <div v-if="list.status == 'Completed'"
