@@ -36,7 +36,7 @@
                     </div>
                     <a v-else :href="'/animes/' + list.id" class="relative">
                         <div v-if="list.status == 'Completed'"
-                            class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-50">
+                            class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-[49]">
                             Completed
                         </div>
                         <div class=" object-cover h-56 lg:h-96">
@@ -118,7 +118,7 @@
                         </div>
                         <a v-else :href="'/animes/' + list.id" class="relative">
                             <div v-if="list.status == 'Completed'"
-                                class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-50">
+                                class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-[49]">
                                 Completed
                             </div>
                             <div class=" object-cover h-56 lg:h-96">

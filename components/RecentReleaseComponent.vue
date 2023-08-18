@@ -2,7 +2,7 @@
     <div class="snap-start">
         <div v-if="release != null" class="mb-5 relative">
             <button class="relative" @click="startLoading">
-                <TransLoading v-if="loading" />
+                <TransLoading v-if="loadingClass.getLoading()" />
                 <div class="min-w-[220px] lg:min-w-[380px]">
                     <img :src="release.image" loading="lazy" alt=""
                         class="rounded-xl object-cover w-56 lg:w-96 h-72 lg:h-[32rem]">
@@ -34,22 +34,14 @@ export default {
     props: ['release'],
     data() {
         return {
-            loading: false,
             loadingClass: new Loading()
         }
-    },
-    mounted() {
-        this.loading = this.loadingClass.getLoading();
     },
     methods: {
         startLoading() {
             const load = new Loading();
             load.startLoading();
-            this.loading = load.getLoading();
             window.location.href = '/animes/' + this.release.id;
-            setTimeout(() => {
-                this.loading = false;
-            }, 300);
         }
     }
 }
