@@ -14,3 +14,5 @@ export class Loading {
     return this.loading;
   }
 }
+
+export const clickLoading = new Loading();
