@@ -3,7 +3,7 @@
     <CookiePopup v-if="!cookieAccepted" />
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>
-      <NuxtLoadingIndicator />
+      <NuxtLoadingIndicator color="#c084fc" />
       <NuxtPage />
     </NuxtLayout>
     <Footer class="mt-10"></Footer>

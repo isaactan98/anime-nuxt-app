@@ -36,9 +36,7 @@ export default {
         startLoading() {
             clickLoading.startLoading();
             console.warn('clicked', clickLoading.getLoading())
-            setTimeout(() => {
-                window.location.href = '/animes/' + this.release.id;
-            }, 100);
+            navigateTo('/animes/' + this.release.id)
         }
     }
 }
