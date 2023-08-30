@@ -57,7 +57,7 @@
                 <div v-if="list == ''"
                     class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                 </div>
-                <a v-else :href="'/animes/watch/' + list.episodeId + '?id=' + list.id" class="relative">
+                <button v-else @click="navTo('/animes/watch/' + list.episodeId + '?id=' + list.id)" class="relative">
                     <div class=" object-cover h-56 lg:h-96">
                         <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                     </div>
@@ -73,7 +73,7 @@
                             EP {{ list.currentEpisode }}
                         </span>
                     </div>
-                </a>
+                </button>
                 <button class="absolute top-1 right-1 p-3 rounded-full text-black bg-white shadow-md hover:bg-gray-200"
                     @click="deleteContinueWatching(list.docId, list.title)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -160,13 +160,20 @@ export default {
             });
         },
         getAnimeInfo(id, counter, episode, docId) {
+            // console.warn("id" + id)
             const config = useRuntimeConfig();
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             fetch(url).then(response => response.json()).then(data => {
+                // console.warn(data)
                 data.currentEpisode = episode
                 data.episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
                 data.counter = counter
                 data.docId = docId
+
+                if (data.id == "gogoanimehd.io") {
+                    console.warn("data split", data.url.split('/'))
+                    data.id = data.url.split('/')[4]
+                }
                 // console.log(data)
                 this.watchListResult.push(data)
                 // this.sortByReleaseYearFunction()

@@ -34,7 +34,7 @@
                     <div v-if="list == ''"
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                     </div>
-                    <a v-else :href="'/animes/' + list.id" class="relative">
+                    <button v-else @click="navTo('/animes/' + list.id)" class="relative">
                         <div v-if="list.status == 'Completed'"
                             class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-[49]">
                             Completed
@@ -56,7 +56,7 @@
                                 EP {{ list.episode ?? list.totalEpisodes }}
                             </span>
                         </div>
-                    </a>
+                    </button>
                 </div>
             </div>
             <div v-else class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
@@ -83,7 +83,7 @@
                     <div v-if="list == ''"
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                     </div>
-                    <a v-else :href="'/animes/' + list.id" class="relative">
+                    <button v-else @click="navTo('/animes/' + list.id)" class="relative">
                         <div class=" object-cover h-56 lg:h-96">
                             <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
                         </div>
@@ -101,7 +101,7 @@
                                 EP {{ list.episode ?? list.totalEpisodes }}
                             </span>
                         </div>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@
                         <div v-if="list == ''"
                             class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                         </div>
-                        <a v-else :href="'/animes/' + list.id" class="relative">
+                        <button v-else @click="navTo('/animes/' + list.id)" class=" relative">
                             <div v-if="list.status == 'Completed'"
                                 class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-[49]">
                                 Completed
@@ -138,7 +138,7 @@
                                     EP {{ list.episode ?? list.totalEpisodes }}
                                 </span>
                             </div>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -247,7 +247,15 @@ export default {
             this.watchListResult[counter] = '';
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             await fetch(url).then(response => response.json()).then(data => {
-                // console.log(data)
+                console.log("data::", data)
+
+                if (data.id == "gogoanimehd.io") {
+                    // console.log("data::", data.url.split('/')[4])
+                    data.id = data.url.split('/')[4]
+                }
+
+                console.warn("data::", data)
+
                 this.watchListResult[counter] = data
                 this.watchListResult[counter].counter = counter
                 this.checkReleaseAnime(counter)
