@@ -163,6 +163,9 @@ export default {
                 // console.log(data)
                 if (data.id != null) {
                     this.anime.id = data.id;
+                    if (data.id == "gogoanimehd.io") {
+                        this.anime.id = data.url.split('/')[4];
+                    }
                     this.anime.title = data.title;
                     this.anime.otherName = data.otherName
                     this.anime.description = data.description;

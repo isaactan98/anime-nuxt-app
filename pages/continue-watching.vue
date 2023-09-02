@@ -153,10 +153,12 @@ export default {
             );
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-                this.watchList.push(doc.data())
                 // console.log(doc.data())
-                this.getAnimeInfo(doc.data().animeId, counter, doc.data().episode, doc.id)
-                counter++
+                if (doc.data().animeId != "gogoanimehd.io") {
+                    this.watchList.push(doc.data())
+                    this.getAnimeInfo(doc.data().animeId, counter, doc.data().episode, doc.id)
+                    counter++
+                }
             });
         },
         getAnimeInfo(id, counter, episode, docId) {
@@ -164,15 +166,17 @@ export default {
             const config = useRuntimeConfig();
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             fetch(url).then(response => response.json()).then(data => {
-                // console.warn(data)
+                // console.warn(data.message)
                 data.currentEpisode = episode
                 data.episodeId = this.filterFilter(data.episodes, { number: episode })[0].id
                 data.counter = counter
                 data.docId = docId
 
                 if (data.id == "gogoanimehd.io") {
-                    console.warn("data split", data.url.split('/'))
+                    // console.warn("data split", data.url.split('/'))
                     data.id = data.url.split('/')[4]
+                } else {
+                    data.id = data.id
                 }
                 // console.log(data)
                 this.watchListResult.push(data)
@@ -217,6 +221,7 @@ export default {
         },
         sortCounter() {
             this.watchListResult.sort((a, b) => { return a.counter - b.counter })
+            // console.log(this.watchListResult.length)
         },
         deleteContinueWatching(id, title) {
             this.deleteId = this.deleteId == id ? '' : id
