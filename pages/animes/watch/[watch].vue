@@ -133,6 +133,11 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     // console.log('data:', data)
+
+                    if (data.id == "gogoanimehd.io") {
+                        data.id = data.url.split('/')[4]
+                    }
+
                     this.sortEpisode(data.episodes)
                     this.info = data;
                     this.shuffle(data.genres)
