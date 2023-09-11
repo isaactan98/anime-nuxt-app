@@ -34,13 +34,13 @@
                     <div v-if="list == ''"
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                     </div>
-                    <button v-else @click="navTo('/animes/' + list.id)" class="relative">
+                    <button v-else @click="navTo('/animes/' + list.id)" class="relative w-full">
                         <div v-if="list.status == 'Completed'"
                             class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-[49]">
                             Completed
                         </div>
                         <div class=" object-cover h-56 lg:h-96">
-                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
                         </div>
                         <div class="relative flex justify-between items-center ">
                             <div
@@ -83,9 +83,9 @@
                     <div v-if="list == ''"
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                     </div>
-                    <button v-else @click="navTo('/animes/' + list.id)" class="relative">
+                    <button v-else @click="navTo('/animes/' + list.id)" class="relative w-full">
                         <div class=" object-cover h-56 lg:h-96">
-                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
                         </div>
                         <div class="relative flex justify-between items-center ">
                             <div
@@ -116,13 +116,13 @@
                         <div v-if="list == ''"
                             class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                         </div>
-                        <button v-else @click="navTo('/animes/' + list.id)" class=" relative">
+                        <button v-else @click="navTo('/animes/' + list.id)" class=" relative w-full">
                             <div v-if="list.status == 'Completed'"
                                 class="absolute top-2 bg-green-600 rounded-lg py-1 px-2 left-2 text-xs text-white z-[49]">
                                 Completed
                             </div>
                             <div class=" object-cover h-56 lg:h-96">
-                                <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                                <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
                             </div>
                             <div class="relative flex justify-between items-center ">
                                 <div

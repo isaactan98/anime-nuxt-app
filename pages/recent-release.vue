@@ -14,7 +14,7 @@
         </div>
         <div v-if="loading == false" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 min-h-screen">
             <div v-for="release in recentRelease" :key="release" class="relative mb-3">
-                <a :href="'/animes/' + release.id" class="relative">
+                <button @click="navTo('/animes/' + release.id)" class="relative">
                     <div class="">
                         <img :src="release.image" loading="lazy" alt="" class="rounded-xl object-cover h-72 lg:h-[32rem]">
                     </div>
@@ -31,7 +31,7 @@
                             EP {{ release.episode ?? release.episodeNumber }}
                         </span>
                     </div>
-                </a>
+                </button>
             </div>
         </div>
         <div v-else class="w-full flex min-h-screen justify-center mt-10">
@@ -85,6 +85,7 @@ export default {
             await fetch(config.apiUrl + 'recent-episodes?page=' + this.currentPage)
                 .then(response => response.json())
                 .then(data => {
+                    console.warn(data)
                     this.loading = false
                     if (data.results.length > 0) {
                         this.hasNextPage = data.hasNextPage

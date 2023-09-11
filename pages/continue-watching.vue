@@ -57,9 +57,9 @@
                 <div v-if="list == ''"
                     class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
                 </div>
-                <button v-else @click="navTo('/animes/watch/' + list.episodeId + '?id=' + list.id)" class="relative">
+                <button v-else @click="navTo('/animes/watch/' + list.episodeId + '?id=' + list.id)" class="relative w-full">
                     <div class=" object-cover h-56 lg:h-96">
-                        <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover w-full h-full">
+                        <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
                     </div>
                     <div class="relative flex justify-between items-center ">
                         <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
