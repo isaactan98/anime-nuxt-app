@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-900">
+  <div class="min-h-screen " style="background-color: #15151d;">
     <CookiePopup v-if="!cookieAccepted" />
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>

@@ -1,9 +1,9 @@
 <template>
-    <div class="z-50 bg-slate-900">
+    <div class="z-50 bg-zinc-950 bg-opacity-60 backdrop-blur">
         <nav class="w-full shadow-md">
             <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
                 <li class="text-white">
-                    <button @click="toggleSidebar()" class="p-2 bg-gray-900 rounded-md text-white shadow shadow-black">
+                    <button @click="toggleSidebar()" class="p-2 bg-gray-950 rounded-md text-white shadow shadow-black">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -29,10 +29,9 @@
             </ul>
         </nav>
         <!-- search input -->
-        <transition enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0">
+        <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+            leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
             <div class="absolute w-full" v-show="showSearch">
                 <div class="flex relative justify-center container mx-auto">
                     <input type="text" name="price" id="price"
@@ -85,7 +84,7 @@ export default {
                 { id: 'about', name: 'About', route: '/about' },
                 { id: 'manga', name: 'Manga', route: '/manga' },
                 { id: 'news', name: 'News', route: '/news' },
-                { id: 'version1', name: 'V1', route: '/v1'}
+                { id: 'version1', name: 'V1', route: '/v1' }
             ],
             checkUserId: '',
             showSearch: false,
