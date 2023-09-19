@@ -28,10 +28,10 @@
                 <h1 class=" font-bold">Chapters:</h1>
                 <div class="grid grid-cols-3 gap-2 mt-2">
                     <!-- <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + manga.id + '/' + chp.id" -->
-                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + chp.id"
+                    <button v-for="chp in manga.chapters" :key="chp" @click="navTo('/manga/' + chp.id)"
                         class=" bg-purple-500 py-3 px-4 rounded-md text-sm">
                         {{ chp.title ? chp.title : "No Title" }}
-                    </NuxtLink>
+                    </button>
                 </div>
             </div>
         </div>

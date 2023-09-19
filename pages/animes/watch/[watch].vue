@@ -20,7 +20,7 @@
 
             <div v-if="info" class="md:mb-4 text-white felx md:justify-center md:text-center py-4 px-5">
                 <h1 class="text-xl font-black md:hidden mb-3">
-                    <NuxtLink :to="'/animes/' + info.id">{{ info.title }}</NuxtLink>
+                    <button @click="navTo('/animes/' + info.id)">{{ info.title }}</button>
                 </h1>
                 <h1 class=" text-zinc-300 inline-block text-sm md:text-base md:block md:text-white">
                     You are watching
@@ -47,7 +47,7 @@
                         {{ info.otherName }}
                     </h1>
                     <h1 class="mb-3 text-lg hidden lg:block lg:text-2xl">
-                        <NuxtLink :to="'/animes/' + info.id">{{ info.title }}</NuxtLink>
+                        <button @click="navTo('/animes/' + info.id)">{{ info.title }}</button>
                     </h1>
                     <span class="text-xs mt-3">
                         <span v-if="info.subOrDub == 'both'">

@@ -9,7 +9,7 @@
             Results: {{ genreFetch.results.length }} / Page {{ page }}
         </div>
         <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 min-h-screen" v-if="genreFetch">
-            <NuxtLink v-for="g in genreFetch.results" :key="g" :to="'/animes/' + g.id" class="mb-3">
+            <button v-for="g in genreFetch.results" :key="g" @click="navTo('/animes/' + g.id)" class="mb-3">
                 <div class=" object-cover h-56 lg:h-96">
                     <img :src="g.image" alt="" class="rounded-xl object-cover w-full h-full">
                 </div>
@@ -25,7 +25,7 @@
                             EP {{ list.currentEpisode }}
                         </span> -->
                 </div>
-            </NuxtLink>
+            </button>
         </div>
         <div v-else class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 min-h-screen">
             <LoadingAnimeCard v-for="i in 5" :key="i" class="!w-full !min-w-full" :height="'h-56 lg:h-96'" />

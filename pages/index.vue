@@ -23,21 +23,21 @@
                     v-if="k == 'all'">
                     {{ g }}
                 </div>
-                <NuxtLink v-if="k != 'all'" :to="'/genre/' + k + '?page=1'"
+                <button v-if="k != 'all'" @click="navTo('/genre/' + k + '?page=1')"
                     class="text-xs px-4 py-2 rounded-full bg-purple-900 border-purple-500 text-white whitespace-nowrap cursor-pointer">
                     {{ g }}
-                </NuxtLink>
+                </button>
             </div>
         </div>
         <div class="my-5">
             <div class="flex justify-between text-white">
                 <h1 class="mb-4 text-xl">Recent Release</h1>
-                <NuxtLink class="text-xs flex items-center" to="/recent-release?page=1">View More <svg
+                <button class="text-xs flex items-center" @click="navTo('/recent-release?page=1')">View More <svg
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-4 h-4 ml-2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                </NuxtLink>
+                </button>
             </div>
             <div v-if="recentRelease != null && recentRelease.length > 0"
                 class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">

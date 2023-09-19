@@ -35,10 +35,10 @@
                     <div class="text-zinc-300 text-sm my-3" v-if="anime.genres">
                         Genres:
                         <div class="mt-1">
-                            <NuxtLink v-for="g of anime.genres" :key="g" :to="'/genre/' + g + '?page=1'"
+                            <button v-for="g of anime.genres" :key="g" @click="navTo('/genre/' + g + '?page=1')"
                                 class="text-white border border-zinc-400 hover:bg-white hover:text-zinc-700 rounded-full mr-2 mt-2 px-2 text-xs inline-block">
                                 {{ g }}
-                            </NuxtLink>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -72,11 +72,11 @@
                 </div>
 
                 <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 mx-auto md:w-3/4">
-                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/animes/watch/' + e.id + '?id=' + anime.id"
+                    <button v-for="e of anime.episode" :key="e" @click="navTo('/animes/watch/' + e.id + '?id=' + anime.id)"
                         class="border-2 border-white py-2 rounded-xl text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent "
                         :class="{ 'bg-indigo-600': this.watchList[0]?.episode == e.number }">
                         <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
-                    </NuxtLink>
+                    </button>
                 </div>
             </div>
             <div class="p-4 mt-4 mx-auto md:w-3/4" v-if="anime.genres">
