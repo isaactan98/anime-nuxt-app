@@ -63,7 +63,7 @@
                     <p class="mt-3 overflow-y-auto text-sm max-h-24 scrollbar-hide text-justify">{{ info.description }}</p>
                     <div class="mt-5 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" v-if="info != null">
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
-                            class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-purple-700 to-indigo-800 hover:border-none"
+                            class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-zinc-700 to-indigo-800 hover:border-none"
                             :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
                             <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                         </button>
@@ -74,7 +74,7 @@
             <div v-if="otherServerLink.length > 0" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 text-white">
                 <h1 class="font-bold mb-3 block">Watch on Other Server</h1>
                 <div v-for="link in otherServerLink" :key="link"
-                    class="inline-flex mr-3 mb-2 bg-purple-600 py-2 px-4 rounded-lg">
+                    class="inline-flex mr-3 mb-2 bg-zinc-600 py-2 px-4 rounded-lg">
                     <a :href="link.url" target="_blank" class="text-sm">{{ link.name }}</a>
                 </div>
             </div>

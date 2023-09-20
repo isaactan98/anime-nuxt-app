@@ -43,7 +43,7 @@
 
         <div class="flex items-center justify-center w-full text-white mt-10" v-if="animeList.results?.length > 0">
             <button class="rounded-full py-1 px-3 mx-2"
-                :class="animeList?.currentPage == pl ? ' bg-purple-700' : 'bg-purple-500 opacity-50'" v-for="pl in pageList"
+                :class="animeList?.currentPage == pl ? ' bg-zinc-700' : 'bg-zinc-500 opacity-50'" v-for="pl in pageList"
                 :key="pl" @click="pageChange(pl)">
                 {{ pl }}
             </button>

@@ -11,16 +11,16 @@
 
             <div id="newBody"></div>
             <a :href="news.url" target="_blank"
-                class="flex justify-center text-center underline bg-purple-500 py-1 rounded-md md:w-1/4 mt-5">
+                class="flex justify-center text-center underline bg-zinc-500 py-1 rounded-md md:w-1/4 mt-5">
                 View Source
             </a>
         </div>
         <div class="" v-if="news === null">
-            <div class=" w-2/3 bg-purple-800 bg-opacity-25 rounded-xl h-72 animate-pulse"></div>
+            <div class=" w-2/3 bg-zinc-800 bg-opacity-25 rounded-xl h-72 animate-pulse"></div>
             <!-- few line -->
-            <div class=" w-full bg-purple-800 bg-opacity-25 rounded-xl h-10 animate-pulse mt-3"></div>
-            <div class=" w-full bg-purple-800 bg-opacity-25 rounded-xl h-10 animate-pulse mt-3"></div>
-            <div class=" w-full bg-purple-800 bg-opacity-25 rounded-xl h-10 animate-pulse mt-3"></div>
+            <div class=" w-full bg-zinc-800 bg-opacity-25 rounded-xl h-10 animate-pulse mt-3"></div>
+            <div class=" w-full bg-zinc-800 bg-opacity-25 rounded-xl h-10 animate-pulse mt-3"></div>
+            <div class=" w-full bg-zinc-800 bg-opacity-25 rounded-xl h-10 animate-pulse mt-3"></div>
         </div>
     </div>
 </template>

@@ -2,7 +2,7 @@
     <div class="container p-4 mx-auto min-h-screen">
         <div class="text-white my-4 min-h-[20vh] flex items-center" id="genreHeader">
             <h1 class="text-4xl font-extrabold">
-                <span class=" text-purple-500">{{ genre }}</span> Anime
+                <span class=" text-zinc-500">{{ genre }}</span> Anime
             </h1>
         </div>
         <div v-if="genreFetch" class="text-zinc-300 text-xs">
@@ -16,7 +16,7 @@
                 <div class="relative flex justify-between items-center ">
                     <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
                     </div>
-                    <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
+                    <div class="px-2 py-1 rounded-md bg-zinc-500 text-white absolute left-1 bottom-1">
                         <h3 class="truncate text-xs lg:text-sm max-w-[8rem]">
                             {{ g.title }}
                         </h3>
@@ -33,7 +33,7 @@
         <!-- pagination component -->
         <div class="flex items-center justify-center w-full text-white mt-10">
             <button class="rounded-full py-1 px-3 mx-2"
-                :class="genreFetch?.currentPage == pl ? ' bg-purple-700' : 'bg-purple-500 opacity-50'"
+                :class="genreFetch?.currentPage == pl ? ' bg-zinc-700' : 'bg-zinc-500 opacity-50'"
                 v-for="pl in pageList" :key="pl" @click="pageChange(pl)">
                 {{ pl }}
             </button>

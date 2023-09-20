@@ -10,13 +10,13 @@
                     </div>
                 </div>
             </div>
-            <div class="z-10 relative bg-slate-900">
+            <div class="z-10 relative" style="background-color: #15151d;">
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-2">
                         {{ anime.otherName ?? anime.title }}
                         <br> <span class="text-sm font-bold">EP: {{ anime.totalEpisodes }} - <p
-                                class="text-purple-400 inline-block">Latest</p></span>
+                                class="text-zinc-400 inline-block">Latest</p></span>
                     </h1>
                     <div v-if="anime.releaseDate" class="text-zinc-300 text-sm my-3 flex items-center">
                         Release Date: <span class="text-white font-bold ml-3">{{ anime.releaseDate }}</span>
@@ -60,7 +60,7 @@
                             <path
                                 d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                         </svg>
-                        <SpiningLoading v-if="addedList == ''" class="text-purple-600 m-0"></SpiningLoading>
+                        <SpiningLoading v-if="addedList == ''" class="text-zinc-600 m-0"></SpiningLoading>
                     </button>
                     <select v-if="addedList == 'true' && selectStatus != null" @change="changeStatus(selectStatus)"
                         class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500 border-none text-sm w-2/5 px-3 appearance-none text-center"

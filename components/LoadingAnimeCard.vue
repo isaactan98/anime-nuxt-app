@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-2xl object-cover min-w-[220px] lg:min-w-[380px] bg-purple-800 bg-opacity-40 animate-pulse"
+    <div class="rounded-2xl object-cover min-w-[220px] lg:min-w-[380px] bg-zinc-800 bg-opacity-40 animate-pulse"
         :class="height">
     </div>
 </template>
