@@ -1,6 +1,6 @@
 <template>
-    <div class="z-50 bg-zinc-950 bg-opacity-60 backdrop-blur">
-        <nav class="w-full shadow-md">
+    <div class="z-50">
+        <nav class="w-full shadow-md bg-zinc-950 bg-opacity-60 backdrop-blur">
             <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
                 <li class="text-white">
                     <button @click="toggleSidebar()" class="p-2 bg-gray-950 rounded-md text-white shadow shadow-black">
@@ -59,7 +59,7 @@
         </transition>
         <!-- collapse sidebar -->
         <div class="w-full min-h-screen absolute overflow-hidden z-50 hidden">
-            <div class="bg-gray-900 w-3/4 md:w-2/5 lg:w-1/5" id="collapse-sidebar">
+            <div class="bg-zinc-950 bg-opacity-50 backdrop-blur-md w-3/4 md:w-2/5 lg:w-1/5" id="collapse-sidebar">
                 <div class="grid grid-cols-1 text-white">
                     <NuxtLink @click="toggleSidebar()" v-for="item in sidebar_item" :key="item.id" :to="item.route"
                         class="py-4 px-4 border-b w-full border-zinc-700 text-lg font-bold">
@@ -67,7 +67,7 @@
                     </NuxtLink>
                 </div>
             </div>
-            <div class="bg-black opacity-60 w-full min-h-screen absolute -z-10" id="collapse-sidebar-bg"
+            <div class="bg-black opacity-70 backdrop-blur w-full min-h-screen absolute -z-10" id="collapse-sidebar-bg"
                 @click="toggleSidebar()"></div>
         </div>
     </div>
