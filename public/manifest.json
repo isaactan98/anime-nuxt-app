@@ -3,8 +3,8 @@
   "short_name": "Shadow Anime",
   "description": "Shadow Anime - Shadow Garden Anime",
   "lang": "en",
-  "theme_color": "#15151d",
-  "background_color": "#15151d",
+  "theme_color": "#0d0d12",
+  "background_color": "#0d0d12",
   "start_url": "/",
   "display": "standalone",
   "icons": [

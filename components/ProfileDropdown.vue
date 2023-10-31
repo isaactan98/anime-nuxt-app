@@ -2,27 +2,27 @@
     <Menu>
         <MenuButton>
             <div class="rounded-full bg-white">
-                <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg"
-                    alt="" class="object-contain rounded-full w-8 h-8">
+                <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" alt=""
+                    class="object-contain rounded-full w-8 h-8">
             </div>
         </MenuButton>
-        <transition enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0">
-            <MenuItems class="absolute right-0 mt-2 mr-4 w-64 origin-top-right rounded-xl bg-gray-800 shadow-lg p-5">
-                <div class="text-white mb-5">Hello, 
+        <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+            leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+            <MenuItems class="absolute right-0 mt-2 mr-4 w-64 origin-top-right rounded-xl shadow-lg p-5"
+                style="background-color: #22222a;">
+                <div class="text-white mb-5">Hello,
                     <span v-if="user != null" class="text-purple-400 font-bold">
                         {{ user }}
                     </span>
                 </div>
                 <MenuItem class="mb-3" v-for="item in sidebarItems" :key="item" as="div" v-slot="{ close }">
                 <button type="button"
-                    class="text-left w-full text-sm font-light block py-2 px-5 rounded-full bg-gray-700 text-white"
+                    class="text-left w-full text-sm font-light block py-2 px-5 rounded-full bg-zinc-700 text-white"
                     v-if="item.id == 'server'" @click="openModal">
                     {{ item.name }}
                 </button>
-                <NuxtLink class="bg-gray-700 text-left text-sm font-light block py-2 px-5 rounded-full text-white"
+                <NuxtLink class="bg-zinc-700 text-left text-sm font-light block py-2 px-5 rounded-full text-white"
                     v-if="item.id != 'server' && item.id != 'logout'" :to="item.route" @click="close">
                     {{ item.name }}
                 </NuxtLink>
@@ -95,6 +95,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
