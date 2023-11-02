@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       ],
       meta: [
         { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "viewport", content: "width=device-width; initial-scale=1; viewport-fit=cover" },
         { name: "theme-color", content: "#0d0d12" },
         {
           hid: "description",
@@ -41,6 +41,21 @@ export default defineNuxtConfig({
           name: "robots",
           content: "index, follow",
         },
+        {
+          hid: "mobile-web-app-capable",
+          name: "mobile-web-app-capable",
+          content: "yes",
+        },
+        {
+          hid: "apple-mobile-web-app-capable",
+          name: "apple-mobile-web-app-capable",
+          content: "yes",
+        },
+        {
+          hid: "apple-mobile-web-app-status-bar-style",
+          name: "apple-mobile-web-app-status-bar-style",
+          content: "black-translucent",
+        }
       ],
     },
   },
