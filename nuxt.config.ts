@@ -57,6 +57,9 @@ export default defineNuxtConfig({
           content: "black-translucent",
         }
       ],
+      script: [
+        "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+      ]
     },
   },
   runtimeConfig: {
@@ -77,4 +80,9 @@ export default defineNuxtConfig({
       corsApi: process.env.NUXT_PUBLIC_CORS_API,
     },
   },
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag == "lottie-player",
+    }
+  }
 });
