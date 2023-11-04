@@ -78,6 +78,7 @@ export default defineNuxtConfig({
       mangaApi: process.env.NUXT_PUBLIC_MANGA_API,
       newsApi: process.env.NUXT_PUBLIC_NEWS_API,
       corsApi: process.env.NUXT_PUBLIC_CORS_API,
+      anifyApi: process.env.NUXT_PUBLIC_ANIFY_API,
     },
   },
   vue: {

@@ -84,7 +84,8 @@ export default {
                 { id: 'about', name: 'About', route: '/about' },
                 { id: 'manga', name: 'Manga', route: '/manga' },
                 { id: 'news', name: 'News', route: '/news' },
-                { id: 'version1', name: 'V1', route: '/v1' }
+                { id: 'version1', name: 'V1', route: '/v1' },
+                { id: 'anify', name: 'Anify', route: '/anify' }
             ],
             checkUserId: '',
             showSearch: false,
