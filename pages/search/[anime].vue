@@ -13,8 +13,8 @@
 
         <div v-if="loading == false">
             <div v-if="animeList.results?.length > 0"
-                class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-4 min-h-screen">
-                <div class="relative" v-for="anime in animeList.results" :key="anime">
+                class="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
+                <div class="relative mb-3" v-for="anime in animeList.results" :key="anime">
                     <button @click="navTo('/animes/' + anime.id)" class="relative w-full">
                         <div class=" object-cover h-56 lg:h-96">
                             <img :src="anime.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">

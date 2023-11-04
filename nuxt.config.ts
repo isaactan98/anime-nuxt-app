@@ -83,7 +83,7 @@ export default defineNuxtConfig({
   },
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) => tag == "lottie-player",
+      isCustomElement: (tag) => tag == "lottie-player" || tag.startsWith('media-'),
     }
   }
 });

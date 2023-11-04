@@ -32,6 +32,8 @@
             enter-to-class="transform translate-y-0" leave-active-class="transition duration-500 ease-out"
             leave-from-class="transform translate-y-0" leave-to-class="transform translate-y-full">
             <div v-if="openSection.animeDetail" class="my-3">
+                <VidstackPlayer v-if="openSection.animeStream" :title="animeEpisode.title" :src="videoStream.sources.url"
+                    :poster="''" />
                 <div class="object-cover w-full relative">
                     <img :src="animeDetail.bannerImage" class="object-cover rounded-lg h-[20vh] w-full">
                     <button class=" absolute bg-white bg-opacity-50 p-1 top-0 right-0 rounded-full"
@@ -69,7 +71,7 @@
                 <div class="my-3" v-if="animeDetail.episodes.data.length > 0">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Episodes</p>
                     <div class="grid grid-cols-3 gap-3">
-                        <button v-for="ep in animeDetail.episodes.data[0].episodes"
+                        <button v-for="ep in animeDetail.episodes.data[2].episodes" @click="getEpisodeStream(ep)"
                             class="bg-purple-700 text-zinc-300 px-2 py-1 text-sm rounded-lg">
                             {{ ep.title }}
                         </button>
@@ -104,6 +106,8 @@ export default {
                 search: true,
             },
             animeDetail: {} as any,
+            animeEpisode: {} as any,
+            videoStream: {} as any,
         }
     },
     mounted() {
@@ -123,6 +127,7 @@ export default {
             }
         },
         showAnimeDetail(anime: any) {
+            console.warn(anime);
             this.openSection.search = false;
             this.openSection.animeList = false;
             this.openSection.animeDetail = true;
@@ -134,7 +139,20 @@ export default {
                 this.openSection.search = true;
                 this.openSection.animeList = true;
                 this.animeDetail = {};
+                this.videoStream = {};
+                this.animeEpisode = {};
             }, 500);
+        },
+        async getEpisodeStream(episodes: any) {
+            console.warn(episodes);
+            this.animeEpisode = episodes;
+            const watchId = encodeURIComponent(episodes.id);
+            const response = await fetch(`${this.anifyUrl}sources?providerId=gogoanime&watchId=${watchId}&episodeNumber=${episodes.number}&id=${this.animeDetail.id}&subType=sub`);
+            const data = await response.json();
+            this.openSection.animeStream = true;
+            this.videoStream = data;
+            this.videoStream.sources = this.videoStream.sources.filter((item: any) => item.quality == 'default')[0]
+            console.warn(this.videoStream);
         }
     }
 }
