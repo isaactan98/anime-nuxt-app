@@ -28,10 +28,9 @@
                 </button>
             </div>
         </div>
-        <transition enter-active-class="transition duration-500 ease-in-out"
-            enter-from-class="transform translate-y-full opacity-0" enter-to-class="transform translate-y-0 opacity-100"
-            leave-active-class="transition duration-500 ease-in-out" leave-from-class="transform translate-y-0 opacity-100"
-            leave-to-class="transform translate-y-full opacity-0">
+        <transition enter-active-class="transition duration-500 ease-in-out" enter-from-class="transform translate-y-full"
+            enter-to-class="transform translate-y-0" leave-active-class="transition duration-500 ease-out"
+            leave-from-class="transform translate-y-0" leave-to-class="transform translate-y-full">
             <div v-if="openSection.animeDetail" class="my-3">
                 <div class="object-cover w-full relative">
                     <img :src="animeDetail.bannerImage" class="object-cover rounded-lg h-[20vh] w-full">
@@ -65,7 +64,7 @@
                 </div>
                 <div class="my-3">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Description</p>
-                    <p class="text-zinc-400 text-sm text-justify overflow-y-auto h-32">{{ animeDetail.description }}</p>
+                    <p class="text-zinc-400 text-sm text-justify overflow-y-auto h-32" v-html="animeDetail.description"></p>
                 </div>
                 <div class="my-3" v-if="animeDetail.episodes.data.length > 0">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Episodes</p>
@@ -130,10 +129,12 @@ export default {
             this.animeDetail = anime;
         },
         closeAnimeDetail() {
-            this.openSection.search = true;
-            this.openSection.animeList = true;
             this.openSection.animeDetail = false;
-            this.animeDetail = {};
+            setTimeout(() => {
+                this.openSection.search = true;
+                this.openSection.animeList = true;
+                this.animeDetail = {};
+            }, 500);
         }
     }
 }
