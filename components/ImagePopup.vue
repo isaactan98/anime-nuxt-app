@@ -10,7 +10,7 @@
                         class="relative text-left rtl:text-right overflow-hidden w-full flex flex-col bg-gray-900 shadow-xl sm:max-w-lg rounded-lg sm:my-8">
                         <div class="p-4">
                             <div
-                                class="relative overflow-hidden rounded border border-dashed border-gray-500 px-4 flex items-center justify-center max-h-screen">
+                                class="relative overflow-hidden rounded border border-dashed border-gray-500 flex items-center justify-center max-h-screen">
                                 <img :src="image" class="rounded-lg h-full w-full">
                             </div>
                         </div>

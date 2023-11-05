@@ -16,7 +16,7 @@
             </form>
         </div>
         <SpiningLoading v-if="openSection.loading" />
-        <div v-if="openSection.animeList" class="grid grid-cols-2 gap-3">
+        <div v-if="openSection.animeList" class="grid grid-cols-2 gap-3 my-3">
             <div v-for="anime in animeList" :key="anime" class="relative">
                 <button class="mb-3" @click="showAnimeDetail(anime)">
                     <div class="object-cover h-64">
@@ -70,9 +70,9 @@
                 </div>
                 <div class="my-3" v-if="animeDetail.episodes.data.length > 0">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Episodes</p>
-                    <div class="grid grid-cols-5 gap-3">
+                    <div class="grid grid-cols-4 gap-3">
                         <button v-for="ep in animeDetail.episodes.data[2].episodes" @click="getEpisodeStream(ep)"
-                            class="bg-purple-700 text-zinc-300 px-2 py-1 text-sm rounded-lg">
+                            class="bg-purple-700 text-zinc-300 px-2 py-2 text-sm rounded-lg">
                             {{ ep.number }}
                         </button>
                     </div>
@@ -83,6 +83,23 @@
                         <iframe :src="'https://www.youtube.com/embed/' + animeDetail.trailer.split('=')[1]" frameborder="0"
                             class="w-full col-span-3">
                         </iframe>
+                    </div>
+                </div>
+                <div class="my-3" v-if="animeDetail.characters.length > 0">
+                    <p class="text-zinc-200 text-sm font-bold mb-2">Characters</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div v-for="char in removeDuplicates(animeDetail.characters)" class="relative">
+                            <button class="mb-3">
+                                <div class="object-cover h-64">
+                                    <img v-if="char.image" :src="char.image"
+                                        class="rounded-xl object-cover max-w-full w-full h-full">
+                                    <div v-else class="rounded-xl max-w-full h-full bg-black"></div>
+                                </div>
+                                <div class="w-full my-2">
+                                    <p class="text-zinc-300 text-sm text-left">{{ char.name }}</p>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="my-5" v-if="animeDetail.artwork.length > 0">
@@ -180,6 +197,16 @@ export default {
             this.openImage.open = false;
             this.openImage.image = "";
         },
+        removeDuplicates(arr: any) {
+            const uniqueNames = {} as any;
+            return arr.filter((obj: { name: string | number; }) => {
+                if (!uniqueNames[obj.name]) {
+                    uniqueNames[obj.name] = true;
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 }
 </script>
