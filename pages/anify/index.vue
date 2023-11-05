@@ -71,8 +71,9 @@
                 <div class="my-3" v-if="animeDetail.episodes.data.length > 0">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Episodes</p>
                     <div class="grid grid-cols-4 gap-3">
-                        <button v-for="ep in animeDetail.episodes.data[2].episodes" @click="getEpisodeStream(ep)"
-                            class="bg-purple-700 text-zinc-300 px-2 py-2 text-sm rounded-lg">
+                        <button
+                            v-for="ep in animeDetail.episodes.data.filter((e: any) => e.providerId == 'gogoanime')[0].episodes"
+                            @click="getEpisodeStream(ep)" class="bg-purple-700 text-zinc-300 px-2 py-2 text-sm rounded-lg">
                             {{ ep.number }}
                         </button>
                     </div>
