@@ -59,7 +59,7 @@
                 <div class="my-3">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Genres</p>
                     <div class="flex gap-2">
-                        <span class="text-zinc-400 text-xs" v-for="genre in animeDetail.tags.splice(0, 5)">
+                        <span class="text-zinc-400 text-xs" v-for="genre in animeDetail.tags.slice(0, 5)">
                             {{ genre }}
                         </span>
                     </div>
@@ -70,10 +70,10 @@
                 </div>
                 <div class="my-3" v-if="animeDetail.episodes.data.length > 0">
                     <p class="text-zinc-200 text-sm font-bold mb-2">Episodes</p>
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="grid grid-cols-5 gap-3">
                         <button v-for="ep in animeDetail.episodes.data[2].episodes" @click="getEpisodeStream(ep)"
                             class="bg-purple-700 text-zinc-300 px-2 py-1 text-sm rounded-lg">
-                            {{ ep.title }}
+                            {{ ep.number }}
                         </button>
                     </div>
                 </div>
@@ -84,6 +84,19 @@
                             class="w-full col-span-3">
                         </iframe>
                     </div>
+                </div>
+                <div class="my-5" v-if="animeDetail.artwork.length > 0">
+                    <p class="text-zinc-200 text-sm font-bold mb-2">Artwork - Poster & Banner</p>
+                    <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth mb-4">
+                        <img v-for="img in animeDetail.artwork.filter((i: any) => i.type == 'poster')" :src="img.img"
+                            class="snap-start object-cover rounded-md w-full h-[30vh]" @click="showBigImg(img.img)">
+                    </div>
+                    <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth mb-4">
+                        <img v-for="img in animeDetail.artwork.filter((i: any) => i.type == 'banner')" :src="img.img"
+                            class="object-cover rounded-md snap-start w-full h-[30vh]" @click="showBigImg(img.img)">
+                    </div>
+                    <ImagePopup v-if="openImage.open" :image="openImage.image" :isOpen="openImage.open"
+                        @close="closeBigImg" />
                 </div>
             </div>
         </transition>
@@ -108,6 +121,10 @@ export default {
             animeDetail: {} as any,
             animeEpisode: {} as any,
             videoStream: {} as any,
+            openImage: {
+                image: "",
+                open: false,
+            },
         }
     },
     mounted() {
@@ -153,7 +170,16 @@ export default {
             this.videoStream = data;
             this.videoStream.sources = this.videoStream.sources.filter((item: any) => item.quality == 'default')[0]
             console.warn(this.videoStream);
-        }
+        },
+        showBigImg(img: string) {
+            this.openImage.open = true;
+            this.openImage.image = img;
+            console.warn(img);
+        },
+        closeBigImg() {
+            this.openImage.open = false;
+            this.openImage.image = "";
+        },
     }
 }
 </script>
