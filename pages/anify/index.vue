@@ -112,8 +112,7 @@
                         <img v-for="img in animeDetail.artwork.filter((i: any) => i.type == 'banner')" :src="img.img"
                             class="object-cover rounded-md snap-start w-full h-[30vh]" @click="showBigImg(img.img)">
                     </div>
-                    <ImagePopup v-if="openImage.open" :image="openImage.image" :isOpen="openImage.open"
-                        @close="closeBigImg" />
+                    <ImagePopup :image="openImage.image" :isOpen="openImage.open" @close="closeBigImg" />
                 </div>
             </div>
         </transition>
