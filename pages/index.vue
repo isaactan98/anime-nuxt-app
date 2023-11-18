@@ -1,6 +1,7 @@
 <template>
-    <div class="container px-4 mx-auto min-h-screen">
-
+    <div class="absolute h-32 pb-10 w-full z-50" :style="{ top: topPosition + 'px' }" @touchstart="onMouseDown"
+        @touchmove="onMouseMove" @touchend="onMouseUp" draggable></div>
+    <div class="container px-4 mx-auto min-h-screen relative" :style="{ top: topPosition + 'px' }">
         <div v-if="isOpen">
             <ServerModal :isOpenModal="isOpen"></ServerModal>
         </div>
@@ -124,6 +125,11 @@ export default {
                 todayStreaming: true,
             },
             skipDate: 0,
+            dragging: false,
+            startPosition: { x: 0, y: 0 },
+            currentPosition: { x: 0, y: 0 },
+            topPosition: 0,
+            leftPosition: 0,
         }
     },
     mounted() {
@@ -284,7 +290,33 @@ export default {
             this.loading.todayStreaming = true;
             this.skipDate -= 1;
             this.getTodayStreaming()
-        }
+        },
+        onMouseDown(event) {
+            this.dragging = true;
+            this.startPosition.x = event.changedTouches[0].clientX - this.leftPosition;
+            this.startPosition.y = event.changedTouches[0].clientY - this.topPosition;
+        },
+        onMouseMove(event) {
+            if (this.dragging) {
+                this.currentPosition.x = event.changedTouches[0].clientX - this.startPosition.x;
+                this.currentPosition.y = event.changedTouches[0].clientY - this.startPosition.y;
+
+                this.leftPosition = this.currentPosition.x;
+                this.topPosition = this.currentPosition.y;
+            }
+        },
+        onMouseUp() {
+            this.dragging = false;
+            if (this.currentPosition.y > 300) {
+                this.refreshPage();
+            } else {
+                this.topPosition = 0;
+                this.leftPosition = 0;
+            }
+        },
+        refreshPage() {
+            this.$router.go(); // Reload the current route
+        },
     }
 }
 

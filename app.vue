@@ -4,7 +4,7 @@
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>
       <NuxtLoadingIndicator color="#c084fc" />
-      <NuxtPage />
+      <NuxtPage class=" relative" />
     </NuxtLayout>
     <Footer class="mt-10"></Footer>
     <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
