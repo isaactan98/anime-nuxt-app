@@ -1,5 +1,11 @@
 <template>
-    <div class="absolute h-32 pb-10 w-full z-50" :style="{ top: topPosition + 'px' }" @touchstart="onMouseDown"
+    <transition>
+        <lottie-player v-if="dragging" class=" grid place-content-center items-center w-full absolute"
+            src="https://lottie.host/ce281adb-dd49-45e6-b756-87b6aaf0814f/KxbGN4rpqQ.json" background="##FFFFFF" speed="1"
+            loop autoplay direction="1" style="height: 100px;" :style="{ top: topPosition + 'px' }" mode="normal">
+        </lottie-player>
+    </transition>
+    <div class="absolute h-32 pb-10 w-full z-20" :style="{ top: topPosition + 'px' }" @touchstart="onMouseDown"
         @touchmove="onMouseMove" @touchend="onMouseUp" draggable></div>
     <div class="container px-4 mx-auto min-h-screen relative" :style="{ top: topPosition + 'px' }">
         <div v-if="isOpen">
@@ -307,7 +313,7 @@ export default {
         },
         onMouseUp() {
             this.dragging = false;
-            if (this.currentPosition.y > 300) {
+            if (this.currentPosition.y > 150) {
                 this.refreshPage();
             } else {
                 this.topPosition = 0;
