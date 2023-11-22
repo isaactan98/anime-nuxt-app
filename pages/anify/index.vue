@@ -22,8 +22,8 @@
                     <div class="object-cover h-64">
                         <img :src="anime.coverImage" class="rounded-xl object-cover max-w-full w-full h-full">
                     </div>
-                    <div class="w-full my-2">
-                        <p class="text-zinc-300 text-sm text-left">{{ anime.title.native }}</p>
+                    <div class="w-full my-2" v-if="anime.title">
+                        <p class="text-zinc-300 text-sm text-left">{{ anime.title?.native }}</p>
                     </div>
                 </button>
             </div>
@@ -154,7 +154,7 @@ export default {
                 const response = await fetch(`${this.anifyUrl}search/anime/${this.searchAnime}`);
                 const data = await response.json();
                 console.warn(data);
-                this.animeList = data;
+                this.animeList = data.results;
                 this.searchAnime = "";
                 this.openSection.animeList = true;
                 this.openSection.loading = false;
