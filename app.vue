@@ -4,7 +4,7 @@
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>
       <NuxtLoadingIndicator color="#c084fc" />
-      <NuxtPage />
+      <NuxtPage class=" relative" />
     </NuxtLayout>
     <Footer class="mt-10"></Footer>
     <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
@@ -13,7 +13,7 @@
       <button @click="goToTop" v-show="showButton" id="goToTopButton"
         class="fixed z-50 p-3 bg-white rounded-full bottom-4 right-4 shadow-lg">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-3 h-3">
+          class=" w-5 h-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
         </svg>
       </button>

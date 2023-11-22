@@ -1,6 +1,13 @@
 <template>
-    <div class="container px-4 mx-auto min-h-screen">
-
+    <transition>
+        <lottie-player v-if="dragging" class=" grid place-content-center items-center w-full absolute"
+            src="https://lottie.host/ce281adb-dd49-45e6-b756-87b6aaf0814f/KxbGN4rpqQ.json" background="##FFFFFF" speed="1"
+            loop autoplay direction="1" style="height: 100px;" :style="{ top: topPosition + 'px' }" mode="normal">
+        </lottie-player>
+    </transition>
+    <div class="absolute h-32 pb-10 w-full z-20" :style="{ top: topPosition + 'px' }" @touchstart="onMouseDown"
+        @touchmove="onMouseMove" @touchend="onMouseUp" draggable></div>
+    <div class="container px-4 mx-auto min-h-screen relative" :style="{ top: topPosition + 'px' }">
         <div v-if="isOpen">
             <ServerModal :isOpenModal="isOpen"></ServerModal>
         </div>
@@ -124,6 +131,11 @@ export default {
                 todayStreaming: true,
             },
             skipDate: 0,
+            dragging: false,
+            startPosition: { x: 0, y: 0 },
+            currentPosition: { x: 0, y: 0 },
+            topPosition: 0,
+            leftPosition: 0,
         }
     },
     mounted() {
@@ -284,7 +296,33 @@ export default {
             this.loading.todayStreaming = true;
             this.skipDate -= 1;
             this.getTodayStreaming()
-        }
+        },
+        onMouseDown(event) {
+            this.dragging = true;
+            this.startPosition.x = event.changedTouches[0].clientX - this.leftPosition;
+            this.startPosition.y = event.changedTouches[0].clientY - this.topPosition;
+        },
+        onMouseMove(event) {
+            if (this.dragging) {
+                this.currentPosition.x = event.changedTouches[0].clientX - this.startPosition.x;
+                this.currentPosition.y = event.changedTouches[0].clientY - this.startPosition.y;
+
+                this.leftPosition = this.currentPosition.x;
+                this.topPosition = this.currentPosition.y;
+            }
+        },
+        onMouseUp() {
+            this.dragging = false;
+            if (this.currentPosition.y > 150) {
+                this.refreshPage();
+            } else {
+                this.topPosition = 0;
+                this.leftPosition = 0;
+            }
+        },
+        refreshPage() {
+            this.$router.go(); // Reload the current route
+        },
     }
 }
 
