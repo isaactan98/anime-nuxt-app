@@ -40,7 +40,8 @@
                             Completed
                         </div>
                         <div class=" object-cover h-56 lg:h-96">
-                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
+                            <img :src="list.image" loading="lazy" alt=""
+                                class="rounded-xl object-cover max-w-full w-full h-full">
                         </div>
                         <div class="relative flex justify-between items-center ">
                             <div
@@ -85,7 +86,8 @@
                     </div>
                     <button v-else @click="navTo('/animes/' + list.id)" class="relative w-full">
                         <div class=" object-cover h-56 lg:h-96">
-                            <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
+                            <img :src="list.image" loading="lazy" alt=""
+                                class="rounded-xl object-cover max-w-full w-full h-full">
                         </div>
                         <div class="relative flex justify-between items-center ">
                             <div
@@ -122,7 +124,8 @@
                                 Completed
                             </div>
                             <div class=" object-cover h-56 lg:h-96">
-                                <img :src="list.image" loading="lazy" alt="" class="rounded-xl object-cover max-w-full w-full h-full">
+                                <img :src="list.image" loading="lazy" alt=""
+                                    class="rounded-xl object-cover max-w-full w-full h-full">
                             </div>
                             <div class="relative flex justify-between items-center ">
                                 <div
@@ -244,23 +247,29 @@ export default {
         },
         async getAnimeInfo(id, counter) {
             const config = useRuntimeConfig();
-            this.watchListResult[counter] = '';
+            this.watchListResult[counter] = null;
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
-            await fetch(url).then(response => response.json()).then(data => {
-                console.log("data::", data)
-
+            return await fetch(url).then(response => response.json()).then(data => {
+                // console.log("data::", data)
                 if (data.id == "gogoanimehd.io") {
                     // console.log("data::", data.url.split('/')[4])
                     data.id = data.url.split('/')[4]
                 }
-
-                console.warn("data::", data)
-
+                // console.warn("data::", data)
                 this.watchListResult[counter] = data
                 this.watchListResult[counter].counter = counter
                 this.checkReleaseAnime(counter)
             }).catch(err => {
-                console.log(err)
+                if (this.watchListResult[counter].retry == undefined || this.watchListResult[counter].retry == null) {
+                    this.watchListResult[counter].retry = 1
+                }
+                if (this.watchListResult[counter].retry < 3) {
+                    return new Promise(resolve => setTimeout(resolve, 2000)).then(() => {
+                        this.watchListResult[counter].retry += 1
+                        this.getAnimeInfo(id, counter)
+                        console.warn("retry in : ", id, counter, this.watchListResult[counter].retry)
+                    })
+                }
             })
         },
         checkReleaseAnime(counter) {
