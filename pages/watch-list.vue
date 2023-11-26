@@ -246,8 +246,14 @@ export default {
             }
         },
         async getAnimeInfo(id, counter) {
+            // console.clear()
             const config = useRuntimeConfig();
-            this.watchListResult[counter] = null;
+            if (this.watchListResult[counter] == undefined || this.watchListResult[counter] == null) {
+                this.watchListResult[counter] = {}
+                this.watchListResult[counter]['retry'] = 1
+            }
+            let retry = []
+            retry[counter] = this.watchListResult[counter]['retry']
             const url = localStorage.getItem('server') == 'gogoanime' ? config.apiUrl + 'info/' + id : config.apiUrl2 + 'info?id=' + id
             return await fetch(url).then(response => response.json()).then(data => {
                 // console.log("data::", data)
@@ -260,16 +266,21 @@ export default {
                 this.watchListResult[counter].counter = counter
                 this.checkReleaseAnime(counter)
             }).catch(err => {
-                if (this.watchListResult[counter].retry == undefined || this.watchListResult[counter].retry == null) {
-                    this.watchListResult[counter].retry = 1
+                // console.log("this.watchListResult[counter].retry ", this.watchListResult[counter].retry)
+                if (this.watchListResult[counter].retry == undefined || this.watchListResult[counter].retry == null || this.watchListResult[counter].retry == 0) {
+                    // console.log("undefined ", id, counter, this.watchListResult[counter])
+                    this.watchListResult[counter].retry = retry[counter]
                 }
-                if (this.watchListResult[counter].retry < 3) {
-                    return new Promise(resolve => setTimeout(resolve, 2000)).then(() => {
-                        this.watchListResult[counter].retry += 1
+                // console.warn(id, this.watchListResult[counter]['retry'])
+                if (this.watchListResult[counter]['retry'] <= 3) {
+                    return new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
+                        this.watchListResult[counter]['retry'] += 1
                         this.getAnimeInfo(id, counter)
-                        console.warn("retry in : ", id, counter, this.watchListResult[counter].retry)
+                        // console.warn("retry in : ", id, counter, this.watchListResult[counter]['retry'])
                     })
                 }
+            }).finally(() => {
+                // console.log("finally this.watchListResult[counter] ", this.watchListResult[counter])
             })
         },
         checkReleaseAnime(counter) {
