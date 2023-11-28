@@ -1,7 +1,7 @@
 <template>
     <div class="z-50">
         <nav class="w-full shadow-md bg-zinc-950 bg-opacity-60 backdrop-blur">
-            <ul class="flex items-center justify-between container list-none px-2 py-4 mx-auto">
+            <ul class="flex items-center justify-between container list-none px-4 py-2 mx-auto">
                 <li class="text-white">
                     <button @click="toggleSidebar()" class="p-2 bg-gray-950 rounded-md text-white shadow shadow-black">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
