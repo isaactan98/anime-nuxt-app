@@ -13,9 +13,11 @@
                 </option>
             </select>
             <!-- <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2> -->
-            <VidstackPlayer v-if="video && !disabled" :src="video[0].url" :poster="info.image" :title="info.title" />
-            <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
-                <SpiningLoading></SpiningLoading>
+            <div class="mx-5">
+                <VidstackPlayer v-if="video && !disabled" :src="video[0].url" :poster="info.image" :title="info.title" />
+                <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
+                    <SpiningLoading></SpiningLoading>
+                </div>
             </div>
 
             <div v-if="info" class="md:mb-4 text-white felx md:justify-center md:text-center py-4 px-5">
