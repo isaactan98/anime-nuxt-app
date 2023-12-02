@@ -67,6 +67,7 @@ export default {
       const timeoutMinute = 60 * 60 * 1000;
       clearTimeout(this.setTimeoutVar);
       this.setTimeoutVar = setTimeout(() => {
+        alert('You have been inactive for 1 hour. Refreshing the page.');
         console.warn('refreshing');
         window.location.href = '/';
       }, timeoutMinute);
