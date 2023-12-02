@@ -164,6 +164,7 @@ export default {
             collapse: true,
             isGroupBy: false,
             years: [],
+            deleteListId: []
         }
     },
     mounted() {
@@ -202,7 +203,8 @@ export default {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 this.watchList.push(doc.data())
-                this.getAnimeInfo(doc.data().animeId, counter)
+                // console.log("doc.data() ", doc.id, doc.data())
+                this.getAnimeInfo(doc.data().animeId, counter, doc.id)
                 counter++
             });
             if (this.checkShowCompleted == 'loading') {
@@ -232,10 +234,10 @@ export default {
                 querySnapshot.then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         this.watchList.push(doc.data())
-                        this.getAnimeInfo(doc.data().animeId, counter)
+                        this.getAnimeInfo(doc.data().animeId, counter, doc.id)
                         counter++
                     });
-                }).then(() => {
+                }).finally(() => {
                     setTimeout(() => {
                         this.checkShowCompleted = true
                     }, 2000);
@@ -245,8 +247,9 @@ export default {
                 this.getLikeList()
             }
         },
-        async getAnimeInfo(id, counter) {
+        async getAnimeInfo(id, counter, docId) {
             // console.clear()
+            // console.log("id ", id, counter, docId)
             const config = useRuntimeConfig();
             if (this.watchListResult[counter] == undefined || this.watchListResult[counter] == null) {
                 this.watchListResult[counter] = {}
@@ -275,12 +278,20 @@ export default {
                 if (this.watchListResult[counter]['retry'] <= 3) {
                     return new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
                         this.watchListResult[counter]['retry'] += 1
-                        this.getAnimeInfo(id, counter)
+                        this.getAnimeInfo(id, counter, docId)
                         // console.warn("retry in : ", id, counter, this.watchListResult[counter]['retry'])
                     })
+                } else {
+                    this.deleteListId.push({ id: docId, title: id })
+                    // console.log("deleteId ", this.deleteListId)
                 }
             }).finally(() => {
                 // console.log("finally this.watchListResult[counter] ", this.watchListResult[counter])
+                if (this.deleteListId.length > 0) {
+                    alert("Some anime in your list was not found! Please check your list again \n" + this.deleteListId.map((item) => {
+                        return item.title
+                    }).join(',\n'))
+                }
             })
         },
         checkReleaseAnime(counter) {
