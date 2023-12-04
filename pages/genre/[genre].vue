@@ -1,6 +1,6 @@
 <template>
     <div class="container p-4 mx-auto min-h-screen">
-        <div class="text-white my-4 min-h-[20vh] flex items-center" id="genreHeader">
+        <div class="text-white my-4 min-h-[10vh] flex items-center" id="genreHeader">
             <h1 class="text-4xl font-extrabold">
                 <span class=" text-zinc-500">{{ genre }}</span> Anime
             </h1>

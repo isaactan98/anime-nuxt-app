@@ -12,7 +12,7 @@
             <ServerModal :isOpenModal="isOpen"></ServerModal>
         </div>
 
-        <div class="text-white my-4 min-h-[20vh] flex items-center">
+        <div class="text-white my-4 min-h-[10vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your Favourite <br>
                 <span class="text-purple-500 flex items-center">Anime

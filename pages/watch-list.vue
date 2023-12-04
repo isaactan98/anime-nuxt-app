@@ -1,6 +1,6 @@
 <template>
     <div class="container p-4 mx-auto min-h-screen" id="screenHeader">
-        <div class="text-white my-4 min-h-[20vh] flex items-center">
+        <div class="text-white my-4 min-h-[10vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your <br>
                 <span class="text-purple-500 flex items-baseline gap-3">Favourite List
@@ -146,6 +146,11 @@
                 </div>
             </div>
         </div>
+        <transition enter-active-class="transition duration-300 ease-out" enter-from-class="transform scale-95 opacity-0"
+            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+            leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+            <ErrorToast v-if="error" :type="'warning'" :message="errorMessages" />
+        </transition>
     </div>
 </template>
 
@@ -164,7 +169,9 @@ export default {
             collapse: true,
             isGroupBy: false,
             years: [],
-            deleteListId: []
+            deleteListId: [],
+            error: false,
+            errorMessages: ''
         }
     },
     mounted() {
@@ -269,6 +276,8 @@ export default {
                 this.watchListResult[counter].counter = counter
                 this.checkReleaseAnime(counter)
             }).catch(err => {
+                this.error = true
+                this.errorMessages = "Fetching anime info failed! Retrying..."
                 // console.log("this.watchListResult[counter].retry ", this.watchListResult[counter].retry)
                 if (this.watchListResult[counter].retry == undefined || this.watchListResult[counter].retry == null || this.watchListResult[counter].retry == 0) {
                     // console.log("undefined ", id, counter, this.watchListResult[counter])
@@ -288,9 +297,16 @@ export default {
             }).finally(() => {
                 // console.log("finally this.watchListResult[counter] ", this.watchListResult[counter])
                 if (this.deleteListId.length > 0) {
-                    alert("Some anime in your list was not found! Please check your list again \n" + this.deleteListId.map((item) => {
-                        return item.title
-                    }).join(',\n'))
+                    console.log("this.deleteListId.length ", (this.watchListResult.length), this.watchList.length)
+                    if ((this.watchListResult.length) == this.watchList.length) {
+                        this.error = true
+                        this.errorMessages = "Fetching anime info failed! Please check your list again"
+                    }
+
+                    setTimeout(() => {
+                        this.error = false
+                        this.errorMessages = ''
+                    }, 5000);
                 }
             })
         },

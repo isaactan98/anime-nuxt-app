@@ -1,6 +1,6 @@
 <template>
     <div class="container px-4 mx-auto min-h-screen">
-        <div class="text-white my-4 min-h-[20vh] flex items-center">
+        <div class="text-white my-4 min-h-[10vh] flex items-center">
             <h1 class="text-2xl font-extrabold">
                 Search Result for: <br>
                 <span class="text-purple-500"><i>{{ query }}</i></span>

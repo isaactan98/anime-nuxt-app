@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen relative " style="background-color: #15151d;">
+  <div class="relative " style="background-color: #15151d; min-height: 100svh;">
     <CookiePopup v-if="!cookieAccepted" />
     <Navbar class="sticky top-0" :user-id="userId" />
     <NuxtLayout>
@@ -11,10 +11,12 @@
       enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-100 ease-out"
       leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
       <button @click="goToTop" v-show="showButton" id="goToTopButton"
-        class="fixed z-50 p-3 bg-white rounded-full bottom-4 right-4 shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class=" w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
+        class="fixed z-50 bg-black rounded-full bottom-4 right-4 shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          class=" w-10 h-10 rotate-180 text-white">
+          <path fill-rule="evenodd"
+            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-.53 14.03a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V8.25a.75.75 0 00-1.5 0v5.69l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3z"
+            clip-rule="evenodd" />
         </svg>
       </button>
     </transition>

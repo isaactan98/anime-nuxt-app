@@ -1,5 +1,5 @@
 <template>
-    <div class="my-5 mx-2 fixed top-20 right-1 md:right-28 z-30">
+    <div class="my-5 mx-2 fixed top-12 right-1 md:right-28 z-50">
         <div id="toast-warning" class="flex items-center w-full max-w-xs p-4 rounded-xl shadow text-gray-400 bg-gray-800"
             role="alert">
             <div v-if="type === 'warning'"
