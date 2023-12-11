@@ -34,7 +34,9 @@
                 </div>
                 <div class="md:col-span-2 flex items-center">
                     <div class=" mt-12 md:mt-0">
-                        <img src="https://shadow-garden.jp/assets/img/character/chara4_main1.png" alt="">
+                        <button class="p-5" @click="navToSec()">
+                            <img src="https://shadow-garden.jp/assets/img/character/chara4_main1.png" alt="">
+                        </button>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,8 @@ export default {
 
             },
             isSaving: false,
-            success: false
+            success: false,
+            clickCount: 0
         }
     },
     mounted() {
@@ -126,6 +129,14 @@ export default {
                 this.success = false;
             }, 5000);
         },
+        navToSec() {
+            console.log(this.clickCount);
+            if (this.clickCount != 3) {
+                this.clickCount++;
+            }
+            else if (this.clickCount == 3)
+                this.$router.push('/secret');
+        }
 
     }
 }

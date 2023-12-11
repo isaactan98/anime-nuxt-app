@@ -79,6 +79,7 @@ export default defineNuxtConfig({
       newsApi: process.env.NUXT_PUBLIC_NEWS_API,
       corsApi: process.env.NUXT_PUBLIC_CORS_API,
       anifyApi: process.env.NUXT_PUBLIC_ANIFY_API,
+      hanimeApi: process.env.NUXT_PUBLIC_HANIME_API
     },
   },
   vue: {
