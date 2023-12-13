@@ -12,7 +12,7 @@
                 </span>
             </h1>
         </div>
-        <div v-if="loading == false" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 min-h-screen">
+        <div v-if="loading == false" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 min-h-screen">
             <div v-for="release in recentRelease" :key="release" class="relative mb-3">
                 <button @click="navTo('/animes/' + release.id)" class="relative">
                     <div class="">

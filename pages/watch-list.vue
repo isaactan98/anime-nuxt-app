@@ -28,7 +28,7 @@
             </div>
         </div>
         <div v-if="!isGroupBy">
-            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
+            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5"
                 v-if="releasedList.length > 0 && releasedList[0] != ''">
                 <div v-for="list in releasedList" :key="list" class="mb-3 transition-all ease-in-out delay-150">
                     <div v-if="list == ''"
@@ -60,7 +60,7 @@
                     </button>
                 </div>
             </div>
-            <div v-else class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            <div v-else class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
                 <!-- <SpiningLoading></SpiningLoading> -->
                 <LoadingAnimeCard v-for="i in 10" :key="i" class="!w-full !min-w-full" :height="'h-56 lg:h-96'" />
             </div>
@@ -78,7 +78,7 @@
                 </svg>
             </div>
             <div id="collapseItem"
-                class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 transition-all duration-500 h-0">
+                class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 transition-all duration-500 h-0">
                 <div v-for="list in unreleaseList" :key="list" class="mb-3"
                     :class="collapse ? 'animate__fadeOut' : 'animate__animated'">
                     <div v-if="list == ''"
@@ -113,7 +113,7 @@
                 <div v-if="releasedList[y] && releasedList[y].length > 0" class="mt-5">
                     <h1 class="text-white font-bold text-2xl">Release Year {{ y }}</h1>
                 </div>
-                <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
                     <div v-for="list in releasedList[y]" :key="list" class="mb-3 transition-all">
                         <div v-if="list == ''"
                             class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">

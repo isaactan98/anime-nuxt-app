@@ -13,7 +13,7 @@
                     </span>
                 </h1>
             </div>
-            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            <div class="my-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
                 <div v-for="list in watchListResult" :key="list" class="mb-3 relative">
                     <div v-if="list == ''"
                         class="h-56 lg:h-96 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-800 animate-pulse">
