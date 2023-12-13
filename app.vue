@@ -1,4 +1,5 @@
 <template>
+  <SpeedInsights />
   <div class="relative " style="background-color: #15151d; min-height: 100svh;">
     <CookiePopup v-if="!cookieAccepted" />
     <Navbar class="sticky top-0" :user-id="userId" />
@@ -25,6 +26,7 @@
 
 <script>
 import { getAuth } from "firebase/auth";
+import { SpeedInsights } from '@vercel/speed-insights/nuxt'
 
 export default {
   data() {
