@@ -67,11 +67,11 @@ export default {
     },
     resetTimeout() {
       // console.warn('resetTimeout');
-      // 1 hour timeout
-      const timeoutMinute = 60 * 60 * 1000;
+      // 2 hour timeout
+      const timeoutMinute = 2 * 60 * 60 * 1000;
       clearTimeout(this.setTimeoutVar);
       this.setTimeoutVar = setTimeout(() => {
-        alert('You have been inactive for 1 hour. Refreshing the page.');
+        alert('You have been inactive for 2 hour. Page will be refreshed.');
         console.warn('refreshing');
         window.location.href = '/';
       }, timeoutMinute);
