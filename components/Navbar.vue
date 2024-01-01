@@ -3,13 +3,20 @@
         <nav class="w-full shadow-md bg-zinc-950 bg-opacity-60 backdrop-blur">
             <ul class="flex items-center justify-between container list-none px-4 py-2 mx-auto">
                 <li class="text-white">
-                    <button @click="toggleSidebar()" class="p-2 bg-gray-950 rounded-md text-white shadow shadow-black">
+                    <button @click="toggleSidebar()"
+                        class="p-2 bg-gray-950 rounded-md text-white shadow shadow-black md:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
                         </svg>
                     </button>
+                    <div class="md:flex gap-5 text-zinc-500 hidden">
+                        <NuxtLink v-for="item in sidebar_item" :key="item.id" :to="item.route"
+                            class="py-2 px-4 text-lg font-bold">
+                            {{ item.name }}
+                        </NuxtLink>
+                    </div>
                 </li>
                 <li class="flex items-center gap-3">
                     <button @click="toggleSearch" v-show="!showSearch" class="mr-1">
@@ -30,7 +37,7 @@
         </nav>
         <!-- search input -->
         <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
-            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-out"
+            enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-100 ease-out"
             leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
             <div class="absolute w-full" v-show="showSearch">
                 <div class="flex relative justify-center container mx-auto">
@@ -156,6 +163,11 @@ export default {
 </script>
 
 <style>
+.router-link-active {
+    color: white;
+    border-bottom: 2px solid #8869f7;
+}
+
 .fadeInFromLeft {
     animation: moveInFromLeft 0.25s ease-out;
 }
