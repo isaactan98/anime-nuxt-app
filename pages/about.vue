@@ -8,7 +8,7 @@
         </div>
 
         <div class="flex items-center mt-8">
-            <h1 class="text-white text-4xl">About Shadow Garden Anime</h1>
+            <h1 class="text-white text-4xl">About Shadow Anime</h1>
             <img src="~/assets/images/7shadow-delta.png" alt="" class="w-1/6 md:hidden">
         </div>
         <!-- generate about me description -->
@@ -84,11 +84,11 @@
 export default {
     mounted() {
         useHead({
-            title: 'About Shadow Garden Anime',
+            title: 'About Shadow Anime',
             meta: [
                 {
                     name: 'description',
-                    content: 'About Shadow Garden Anime',
+                    content: 'About Shadow Anime',
                 },
             ],
         })

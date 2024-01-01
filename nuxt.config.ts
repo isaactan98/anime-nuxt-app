@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Shadow Anime",
-      titleTemplate: "%s - Shadow Garden Anime",
+      titleTemplate: "%s - Shadow Anime",
       link: [
         { rel: "icon", type: "image/x-icon", href: "/delta_icon.png" },
         { rel: "manifest", href: "/manifest.json" },
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
         {
           hid: "og:title",
           property: "og:title",
-          content: "Shadow Anime - Shadow Garden Anime",
+          content: "Shadow Anime - Shadow Anime",
         },
         {
           hid: "og:description",
