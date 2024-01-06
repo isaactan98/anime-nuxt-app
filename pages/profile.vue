@@ -6,7 +6,7 @@
             </h1>
         </div>
         <div v-if="user.email != null && user.email != ''" class="flex items-center">
-            <div class="bg-gray-800 py-10 pl-10 pr-10 md:pr-0 rounded-3xl mx-auto grid md:grid-cols-5">
+            <div class=" md:w-3/4 py-10 pl-10 pr-10 md:pr-0 rounded-3xl mx-auto grid md:grid-cols-5">
                 <!-- <div class="flex justify-center items-center mb-8 rounded-full md:col-span-2">
                     <img src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg"
                         alt="" class="object-contain rounded-full w-16 h-16 p-1 bg-white shadow-md shadow-indigo-600">
@@ -32,7 +32,7 @@
                         <SpiningLoading v-if="isSaving" class="mr-3"></SpiningLoading> Save
                     </button>
                 </div>
-                <div class="md:col-span-2 flex items-center">
+                <div class="md:col-span-2 hidden  md:flex items-center">
                     <div class=" mt-12 md:mt-0">
                         <img src="https://shadow-garden.jp/assets/img/character/chara4_main1.png" alt="">
                     </div>
