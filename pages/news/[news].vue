@@ -84,9 +84,9 @@ hr {
     margin: 1rem 0;
 }
 
-img {
+/* img {
     margin: 1rem 0;
-}
+} */
 
 .sub-title {
     font-size: 1.5rem;
@@ -99,7 +99,11 @@ table {
     margin: 1rem 0;
 }
 
+figure > img {
+    @apply py-3
+}
+
 .fright {
-    @apply pb-3
+    @apply py-3
 }
 </style>
