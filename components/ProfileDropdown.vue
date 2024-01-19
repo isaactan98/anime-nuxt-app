@@ -49,7 +49,6 @@ var sidebarItems = [
     { id: 'profile', name: 'Profile', route: '/profile' },
     { id: 'watch_list', name: 'Watch List', route: '/watch-list' },
     { id: 'continue_watch', name: 'Continue Watch', route: '/continue-watching' },
-    { id: 'server', name: 'Server', route: '' },
     { id: 'logout', name: 'Logout', route: '/' },
 ]
 

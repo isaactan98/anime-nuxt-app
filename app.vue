@@ -38,6 +38,7 @@ export default {
     }
   },
   mounted() {
+    localStorage.setItem('server', 'gogoanime')
     const auth = getAuth();
     auth.onAuthStateChanged((user) => {
       if (user) {
