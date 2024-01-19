@@ -49,7 +49,7 @@
             </div>
             <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <!-- <SpiningLoading></SpiningLoading> -->
-                <LoadingAnimeCard v-for="i in 5" :key="i"></LoadingAnimeCard>
+                <LoadingAnimeCard v-for="i in 15" :key="i"></LoadingAnimeCard>
             </div>
         </div>
 
@@ -61,7 +61,7 @@
             </div>
             <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <!-- <SpiningLoading></SpiningLoading> -->
-                <LoadingAnimeCard v-for="i in 5" :key="i"></LoadingAnimeCard>
+                <LoadingAnimeCard v-for="i in 15" :key="i"></LoadingAnimeCard>
             </div>
         </div>
 
