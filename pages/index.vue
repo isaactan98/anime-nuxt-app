@@ -167,11 +167,11 @@ export default {
             const config = useRuntimeConfig();
             var url = ''
 
-            if (localStorage.getItem('server') == 'gogoanime') {
-                url = config.apiUrl + 'recent-episodes'
-            } else {
-                url = config.apiUrl2 + 'recent-episodes'
-            }
+            url = config.apiUrl + 'recent-episodes'
+            // if (localStorage.getItem('server') == 'gogoanime') {
+            // } else {
+            //     url = config.apiUrl2 + 'recent-episodes'
+            // }
 
             await fetch(url)
                 .then(response => response.json())
