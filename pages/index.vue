@@ -8,9 +8,6 @@
     <div class="absolute h-32 pb-10 w-full z-20" :style="{ top: topPosition + 'px' }" @touchstart="onMouseDown"
         @touchmove="onMouseMove" @touchend="onMouseUp" draggable></div>
     <div class="container px-4 mx-auto min-h-screen relative" :style="{ top: topPosition + 'px' }">
-        <div v-if="isOpen">
-            <ServerModal :isOpenModal="isOpen"></ServerModal>
-        </div>
 
         <div class="text-white my-4 min-h-[10vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
@@ -152,25 +149,18 @@ export default {
                 }
             ]
         })
-        this.getServer()
-        if (this.isOpen) {
-            return
-        } else {
-            this.getRecentRelease()
-            this.getTodayStreaming().then(() => {
-                this.loading.todayStreaming = false
-                setTimeout(() => {
-                    // this.horizonScroll()
-                }, 300);
-            }).catch(() => {
-                this.loading.todayStreaming = false
-            })
-        }
+        this.getRecentRelease()
+        this.getTodayStreaming().then(() => {
+            this.loading.todayStreaming = false
+            setTimeout(() => {
+                // this.horizonScroll()
+            }, 300);
+        }).catch(() => {
+            this.loading.todayStreaming = false
+        })
 
-        this.server = localStorage.getItem('server') ?? ''
-        if (this.server == 'gogoanime') {
-            this.getTopAiring()
-        }
+        this.getTopAiring()
+
     },
     methods: {
         async getRecentRelease() {
