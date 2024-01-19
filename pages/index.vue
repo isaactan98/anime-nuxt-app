@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="mt-5 pb-8" v-if="server == 'gogoanime'">
+        <div class="mt-5 pb-8">
             <h1 class="mb-4 text-white text-xl">Top Airing</h1>
             <div v-if="topAiring != null && topAiring.length > 0"
                 class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
