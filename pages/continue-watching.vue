@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container p-4 mx-auto min-h-screen">
+        <div class="container px-4 mx-auto min-h-screen">
             <div class="text-white my-4 min-h-[10vh] flex items-center" id="header">
                 <h1 class="text-4xl font-extrabold">
                     Continue <br>
