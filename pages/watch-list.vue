@@ -1,5 +1,5 @@
 <template>
-    <div class="container p-4 mx-auto min-h-screen" id="screenHeader">
+    <div class="container relative p-4 mx-auto min-h-screen" id="screenHeader">
         <div class="text-white my-4 min-h-[10vh] flex items-center">
             <h1 class="text-4xl font-extrabold">
                 Your <br>
