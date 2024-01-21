@@ -44,10 +44,10 @@
                 </button>
             </div>
             <div v-if="recentRelease != null && recentRelease.length > 0"
-                class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                class="flex overflow-x-auto gap-2 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="rr in recentRelease" :key="rr" :release="rr" class="snap-start" />
             </div>
-            <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+            <div v-else class="flex overflow-x-auto gap-2 w-full snap-x scroll-smooth">
                 <!-- <SpiningLoading></SpiningLoading> -->
                 <LoadingAnimeCard v-for="i in 15" :key="i"></LoadingAnimeCard>
             </div>
@@ -56,10 +56,10 @@
         <div class="mt-5 pb-8">
             <h1 class="mb-4 text-white text-xl">Top Airing</h1>
             <div v-if="topAiring != null && topAiring.length > 0"
-                class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                class="flex overflow-x-auto gap-2 w-full snap-x scroll-smooth">
                 <RecentReleaseComponent v-for="ta in topAiring" :key="ta" :release="ta" class="snap-start" />
             </div>
-            <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+            <div v-else class="flex overflow-x-auto gap-2 w-full snap-x scroll-smooth">
                 <!-- <SpiningLoading></SpiningLoading> -->
                 <LoadingAnimeCard v-for="i in 15" :key="i"></LoadingAnimeCard>
             </div>
