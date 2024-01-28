@@ -7,10 +7,10 @@
     <div v-else class="w-full min-h-screen flex justify-center mt-5">
         <SpiningLoading></SpiningLoading>
     </div>
-    <div class="w-full flex justify-center mt-5" v-if="nextChapter != null">
+    <div class="w-full flex justify-center mt-5" v-if="nextChapter">
         <NuxtLink class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full"
-            :to="'/manga/' + manga.id + '/' + nextChapter[0].id">
-            Next: <span class="font-bold">{{ nextChapter[0].title }}</span>
+            :to="'/manga/' + manga.id + '/' + goNextInfo.id">
+            Next: <span class="font-bold">{{ goNextInfo.title }}</span>
         </NuxtLink>
     </div>
 </template>
@@ -24,7 +24,8 @@ export default {
             thisChapter: null,
             nextChapter: null,
             manga: null,
-            mangaApi: ""
+            mangaApi: "",
+            goNextInfo: null
         }
     },
     mounted() {
@@ -38,13 +39,13 @@ export default {
             await fetch(this.mangaApi + "info?id=" + this.$route.params.manga)
                 .then(res => res.json())
                 .then(data => {
-                    // console.log("info", data)
+                    console.log("info", data, this.$route.params)
                     this.manga = data
-                    this.thisChapter = this.filterFilter(data.chapters, { id: this.$route.params.manga + "/" + this.$route.params.volume })
-                    // console.log("getChapNum", this.thisChapter)
-                    var getChapNum = this.thisChapter[0].title.split(" ")[1]
-                    this.nextChapter = this.filterFilter(data.chapters, { title: "Chapter " + (parseInt(getChapNum) + 1) }).length > 0 ? this.filterFilter(data.chapters, { title: "Chapter " + (parseInt(getChapNum) + 1) }) : null
-                    // console.log("next chapter", this.nextChapter)
+                    this.thisChapter = data.chapters.findIndex(x => x.id === this.$route.params.manga + "/" + this.$route.params.volume)
+                    console.log("getChapNum", this.thisChapter)
+                    this.nextChapter = this.hasNextChapter(data.chapters, this.thisChapter)
+                    console.log("next chapter", this.nextChapter)
+                    this.goNextInfo = data.chapters[this.thisChapter - 1]
                 })
         },
         async getChapter() {
@@ -61,6 +62,17 @@ export default {
                 return item[Object.keys(expression)[0]] == Object.values(expression)[0];
             });
         },
+        hasNextChapter(chapters, chapterIndex) {
+            const currentChapter = chapters[chapterIndex];
+            const nextChapter = chapters[chapterIndex - 1];
+
+            if (nextChapter && new Date(nextChapter.releasedDate) > new Date(currentChapter.releasedDate)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     },
 }
 </script>
