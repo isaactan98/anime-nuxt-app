@@ -8,8 +8,7 @@
         <SpiningLoading></SpiningLoading>
     </div>
     <div class="w-full flex justify-center mt-5" v-if="nextChapter">
-        <NuxtLink class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full"
-            :to="'/manga/' + manga.id + '/' + goNextInfo.id">
+        <NuxtLink class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full" :to="'/manga/' + goNextInfo.id">
             Next: <span class="font-bold">{{ goNextInfo.title }}</span>
         </NuxtLink>
     </div>
