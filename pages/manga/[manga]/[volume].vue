@@ -7,8 +7,12 @@
     <div v-else class="w-full min-h-screen flex justify-center mt-5">
         <SpiningLoading></SpiningLoading>
     </div>
-    <div class="w-full flex justify-center mt-5" v-if="nextChapter">
-        <NuxtLink class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full" :to="'/manga/' + goNextInfo.id">
+    <div class="w-full flex gap-3 justify-center mt-5" v-if="manga != null">
+        <NuxtLink class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full" :to="`/manga/${manga.id}`">
+            Main
+        </NuxtLink>
+        <NuxtLink v-if="nextChapter" class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full"
+            :to="'/manga/' + goNextInfo.id">
             Next: <span class="font-bold">{{ goNextInfo.title }}</span>
         </NuxtLink>
     </div>
@@ -38,12 +42,12 @@ export default {
             await fetch(this.mangaApi + "info?id=" + this.$route.params.manga)
                 .then(res => res.json())
                 .then(data => {
-                    console.log("info", data, this.$route.params)
+                    // console.log("info", data, this.$route.params)
                     this.manga = data
                     this.thisChapter = data.chapters.findIndex(x => x.id === this.$route.params.manga + "/" + this.$route.params.volume)
-                    console.log("getChapNum", this.thisChapter)
+                    // console.log("getChapNum", this.thisChapter)
                     this.nextChapter = this.hasNextChapter(data.chapters, this.thisChapter)
-                    console.log("next chapter", this.nextChapter)
+                    // console.log("next chapter", this.nextChapter)
                     this.goNextInfo = data.chapters[this.thisChapter - 1]
                 })
         },
@@ -62,10 +66,9 @@ export default {
             });
         },
         hasNextChapter(chapters, chapterIndex) {
-            const currentChapter = chapters[chapterIndex];
             const nextChapter = chapters[chapterIndex - 1];
 
-            if (nextChapter && new Date(nextChapter.releasedDate) > new Date(currentChapter.releasedDate)) {
+            if (nextChapter) {
                 return true;
             } else {
                 return false;
