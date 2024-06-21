@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 
 export default {
     data() {
@@ -167,7 +167,7 @@ export default {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, this.email, this.password)
                 .then((userCredential) => {
-                    // Signed in 
+                    // Signed in
                     const user = userCredential.user;
                     console.log(user)
                     this.isClicked = false
@@ -192,14 +192,11 @@ export default {
             this.isClicked = true
             const auth = getAuth();
             createUserWithEmailAndPassword(auth, this.email, this.password)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    console.log(user)
-                    this.isClicked = false
-                    sessionStorage.setItem('userId', user.uid)
-                    window.location.href = '/'
-
+                .then(async (userCredential) => {
+                  await sendEmailVerification(userCredential.user).then(() => {
+                    alert("A verification email has been sent to your registered email address. Please check your email and follow the instructions to verify your account before logging in.")
+                    this.formSelection = "login"
+                  })
                 })
                 .catch((error) => {
                     console.log('error sign up: ', error)
@@ -209,8 +206,7 @@ export default {
                     console.log(errorCode, errorMessage)
 
                     this.errorMessage = errorMessage
-                    this.isClicked = false
-                });
+                }).finally(() => this.isClicked = false);
         },
         resetPassword() {
             this.isClicked = true
