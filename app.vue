@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {getAuth, signOut} from "firebase/auth";
+import {getAuth, sendEmailVerification, signOut} from "firebase/auth";
 import {SpeedInsights} from '@vercel/speed-insights/nuxt'
 
 export default {
@@ -40,13 +40,17 @@ export default {
   mounted() {
     localStorage.setItem('server', 'gogoanime')
     const auth = getAuth();
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async (user) => {
       if (user) {
         if (!user.emailVerified) {
           alert("Your email address has not been verified. Please check your inbox for the verification email and follow the instructions to verify your email.")
+          if (confirm("Are you want to re-verify your email address?")) {
+            await sendEmailVerification(user)
+          }
           signOut(auth).then(() => {
             window.location.reload();
           })
+
         } else {
           sessionStorage.setItem('userId', user.uid)
           this.userId = user.uid
