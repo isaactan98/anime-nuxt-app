@@ -2,6 +2,7 @@
   <SpeedInsights/>
   <div class="relative " style="background-color: #15151d; min-height: 100svh;">
     <CookiePopup v-if="!cookieAccepted"/>
+    <Buymeacoffee v-if="!buymeacoffee"/>
     <Navbar class="sticky top-0" :user-id="userId"/>
     <NuxtLayout>
       <NuxtLoadingIndicator color="#c084fc"/>
@@ -34,7 +35,8 @@ export default {
       userId: '',
       cookieAccepted: false,
       setTimeoutVar: null,
-      showButton: false
+      showButton: false,
+      buymeacoffee: false,
     }
   },
   mounted() {
@@ -65,6 +67,25 @@ export default {
     window.addEventListener('scroll', () => {
       this.showButton = window.scrollY > 100
     });
+
+    setTimeout(() => {
+      const storedDate = localStorage.getItem('buymecoffee');
+      if (!storedDate) {
+        this.buymeacoffee = true;
+      } else {
+        const setDate = new Date(storedDate);
+        const currentDate = new Date();
+        const timeDifference = currentDate - setDate; // Difference in milliseconds
+        const hoursDifference = timeDifference / (1000 * 60 * 60); // Convert to hours
+
+        if (hoursDifference >= 24) {
+          this.buymeacoffee = true;
+        } else {
+          this.buymeacoffee = false;
+        }
+        console.log(`show is `, this.buymeacoffee)
+      }
+    }, 1000);
 
   },
   methods: {
