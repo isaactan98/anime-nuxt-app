@@ -2,6 +2,7 @@
   <SpeedInsights/>
   <div class="relative " style="background-color: #15151d; min-height: 100svh;">
     <CookiePopup v-if="!cookieAccepted"/>
+    <Buymeacoffee/>
     <Navbar class="sticky top-0" :user-id="userId"/>
     <NuxtLayout>
       <NuxtLoadingIndicator color="#c084fc"/>
@@ -34,7 +35,7 @@ export default {
       userId: '',
       cookieAccepted: false,
       setTimeoutVar: null,
-      showButton: false
+      showButton: false,
     }
   },
   mounted() {
@@ -94,7 +95,7 @@ export default {
         top: 0,
         behavior: 'smooth',
       });
-    }
+    },
   }
 }
 
