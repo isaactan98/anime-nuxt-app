@@ -4,10 +4,18 @@
               leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
     <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-[999]">
       <div class="bg-slate-800 p-8 rounded-3xl text-white shadow-md mx-5">
-        <a href="https://www.buymeacoffee.com/iztan98" target="_blank">
-          <img
-              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
-              style="height: 60px !important;width: 217px !important;"></a>
+        <div class="text-center mb-4">
+          <h2 class="text-2xl font-bold mb-2">Support My Work!</h2>
+          <p class="text-lg">If you enjoy the content, consider buying me a coffee. <br>Your support is greatly
+            appreciated!</p>
+        </div>
+        <div class="flex justify-center">
+          <a href="https://www.buymeacoffee.com/iztan98" target="_blank"
+             class="hover:opacity-80 transition-opacity duration-200">
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
+                 style="height: 60px !important;width: 217px !important;">
+          </a>
+        </div>
         <button @click="accept"
                 class="block mx-auto mt-4 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg">
           Close
