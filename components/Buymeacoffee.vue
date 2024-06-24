@@ -26,29 +26,29 @@ export default {
     };
   },
   mounted() {
-    setTimeout(() => {
-      const storedDate = localStorage.getItem('buymecoffee');
-      if (!storedDate) {
-        this.show = true;
-      } else {
-        const setDate = new Date(storedDate);
-        const currentDate = new Date();
-        const timeDifference = currentDate - setDate; // Difference in milliseconds
-        const hoursDifference = timeDifference / (1000 * 60 * 60); // Convert to hours
+    const storedDate = localStorage.getItem('buymecoffee');
+    if (!storedDate) {
+      this.buymeacoffee = true;
+    } else {
+      const setDate = new Date(storedDate);
+      const currentDate = new Date();
+      const timeDifference = currentDate - setDate; // Difference in milliseconds
+      const hoursDifference = timeDifference / (1000 * 60 * 60); // Convert to hours
 
-        if (hoursDifference >= 24) {
-          this.show = true;
-        } else {
-          this.show = false;
-        }
-        console.log(`show is `, this.show)
+      if (hoursDifference >= 24) {
+        this.buymeacoffee = true;
+      } else {
+        this.buymeacoffee = false;
       }
-    }, 1000);
+    }
+    this.show = this.buymeacoffee;
+    console.log(`show is `, this.buymeacoffee)
   },
   methods: {
     accept() {
       this.show = false;
       localStorage.setItem('buymecoffee', new Date().toISOString());
+      this.$emit('showPopup', false);
     },
   },
 }
