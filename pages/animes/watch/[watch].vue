@@ -14,7 +14,7 @@
             </select>
             <!-- <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2> -->
             <div class="mx-5">
-                <VidstackPlayer v-if="video && !disabled" :src="video.url" :poster="info.image" :title="info.title" />
+                <VidstackPlayer v-if="video && !disabled" :src="video" :poster="info.image" :title="info.title" />
                 <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                     <SpiningLoading></SpiningLoading>
                 </div>
@@ -189,10 +189,10 @@ export default {
 				.then((data) => {
 					this.video = JSON.parse(JSON.stringify(data));
 					// console.log('video', this.video)
-					this.video = this.video.sources.filter(
+					const filterOut = this.video.sources.filter(
 						(s) => s.quality === "default",
 					)[0].url;
-					this.video = config.corsApi + this.video;
+					this.video = config.corsApi + filterOut;
 				})
 				.catch((err) => {
 					alert(err);
