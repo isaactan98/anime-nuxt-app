@@ -14,7 +14,7 @@
             </select>
             <!-- <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2> -->
             <div class="mx-5">
-                <VidstackPlayer v-if="video && !disabled" :src="video[0].url" :poster="info.image" :title="info.title" />
+                <VidstackPlayer v-if="video && !disabled" :src="video.url" :poster="info.image" :title="info.title" />
                 <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                     <SpiningLoading></SpiningLoading>
                 </div>
@@ -94,229 +94,251 @@
 </template>
 
 <script>
-import { getFirestore, query, where, getDocs, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+	getFirestore,
+	query,
+	where,
+	getDocs,
+	collection,
+	addDoc,
+	deleteDoc,
+	doc,
+} from "firebase/firestore";
 
 export default {
-    data() {
-        return {
-            info: null,
-            video: null,
-            thisEp: null,
-            otherServerLink: [],
-            disabled: false
-        }
-    },
-    async mounted() {
-        const route = useRoute();
-        const config = useRuntimeConfig();
-        var id = route.query.id;
-        var epid = route.params.watch;
+	data() {
+		return {
+			info: null,
+			video: null,
+			thisEp: null,
+			otherServerLink: [],
+			disabled: false,
+		};
+	},
+	async mounted() {
+		const route = useRoute();
+		const config = useRuntimeConfig();
+		const id = route.query.id;
+		const epid = route.params.watch;
 
-        // console.log('id:', id)
+		// console.log('id:', id)
 
-        var watchUrl = '';
-        var infoUrl = ''
+		let watchUrl = "";
+		let infoUrl = "";
 
-        if (localStorage.getItem('server') == 'gogoanime') {
-            infoUrl = config.apiUrl + 'info/' + id
-            watchUrl = config.apiUrl + 'watch/' + epid
-        } else {
-            infoUrl = config.apiUrl2 + 'info?id=' + id
-            watchUrl = config.apiUrl2 + 'watch?episodeId=' + epid
-        }
+		if (localStorage.getItem("server") === "gogoanime") {
+			infoUrl = `${config.apiUrl}info/${id}`;
+			watchUrl = `${config.apiUrl}watch/${epid}`;
+		} else {
+			infoUrl = `${config.apiUrl2}info?id=${id}`;
+			watchUrl = `${config.apiUrl2}watch?episodeId=${epid}`;
+		}
 
-        await this.getOtherServerLink(config.apiUrl, epid)
-        await this.getInfo(infoUrl, epid);
-        await this.getEpisode(watchUrl, id);
-    },
-    methods: {
-        async getInfo(api, id) {
-            await fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                    // console.log('data:', data)
+		await this.getOtherServerLink(config.apiUrl, epid);
+		await this.getInfo(infoUrl, epid);
+		await this.getEpisode(watchUrl, id, config);
+	},
+	methods: {
+		async getInfo(api, id) {
+			await fetch(api)
+				.then((response) => response.json())
+				.then((data) => {
+					// console.log('data:', data)
 
-                    if (data.id == "gogoanimehd.io") {
-                        data.id = data.url.split('/')[4]
-                    }
+					if (data.id === "gogoanimehd.io") {
+						data.id = data.url.split("/")[4];
+					}
 
-                    this.sortEpisode(data.episodes)
-                    this.info = data;
-                    this.shuffle(data.genres)
-                    this.info.genres = data.genres
-                    this.thisEp = data.episodes.filter(e => e.id == id)[0];
+					this.sortEpisode(data.episodes);
+					this.info = data;
+					this.shuffle(data.genres);
+					this.info.genres = data.genres;
+					this.thisEp = data.episodes.filter((e) => e.id === id)[0];
 
-                    useHead({
-                        title: data.title + ' - EP' + this.thisEp.number
-                    })
+					useHead({
+						title: `${data.title} - EP${this.thisEp.number}`,
+					});
 
-                    if (sessionStorage.getItem('userId')) {
-                        this.setContinueWatching(data.id, this.thisEp.number);
-                    }
-                })
-                .catch(err => console.log(err));
-        },
+					if (sessionStorage.getItem("userId")) {
+						this.setContinueWatching(data.id, this.thisEp.number);
+					}
+				})
+				.catch((err) => console.log(err));
+		},
 
-        async getEpisode(api, id) {
-            await fetch(api, {
-                method: 'GET',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-                    'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization, X-Request-With',
-                    'Origin': '*'
-                }
-            })
-                .then(res => {
-                    if (!res.ok) {
-                        // window.location.href = '/animes/' + id
-                        throw Error('Provider is not responding. Switching to other server.')
-                    }
-                    return res.json()
-                })
-                .then(data => {
-                    this.video = JSON.parse(JSON.stringify(data));
-                    // console.log('video', this.video)
-                    this.video = this.video.sources.filter((s) => s.quality == "default")
-                }).catch(err => {
-                    alert(err)
-                    console.log(err)
+		async getEpisode(api, id, config) {
+			await fetch(api, {
+				method: "GET",
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+					"Access-Control-Allow-Headers":
+						"Origin, Content-Type, Accept, Authorization, X-Request-With",
+					Origin: "*",
+				},
+			})
+				.then((res) => {
+					if (!res.ok) {
+						// window.location.href = '/animes/' + id
+						throw Error(
+							"Provider is not responding. Switching to other server.",
+						);
+					}
+					return res.json();
+				})
+				.then((data) => {
+					this.video = JSON.parse(JSON.stringify(data));
+					// console.log('video', this.video)
+					this.video = this.video.sources.filter(
+						(s) => s.quality === "default",
+					)[0].url;
+					this.video = config.corsApi + this.video;
+				})
+				.catch((err) => {
+					alert(err);
+					console.log(err);
 
-                    console.clear()
+					console.clear();
 
+					this.disabled = true;
+				});
+		},
+		setContinueWatching(id, episode) {
+			let getEpisode = null;
 
-                    this.disabled = true
-                })
-        },
-        setContinueWatching(id, episode) {
-            var getEpisode = null
+			const db = getFirestore();
 
-            const db = getFirestore();
+			const q = query(
+				collection(db, "continue-watching"),
+				where("animeId", "==", id),
+				where("userId", "==", sessionStorage.getItem("userId")),
+				// where("episode", "==", episode),
+				where("server", "==", localStorage.getItem("server")),
+			);
+			const querySnapshot = getDocs(q);
 
-            const q = query(collection(db, "continue-watching"),
-                where("animeId", "==", id),
-                where("userId", "==", sessionStorage.getItem('userId')),
-                // where("episode", "==", episode),
-                where("server", "==", localStorage.getItem('server'))
-            );
-            const querySnapshot = getDocs(q);
+			querySnapshot
+				.then((query) => {
+					query.forEach((doc) => {
+						if (doc.data().animeId == id) {
+							getEpisode = doc;
+						}
+					});
+				})
+				.then(() => {
+					if (getEpisode == null) {
+						try {
+							addDoc(collection(db, "continue-watching"), {
+								animeId: id,
+								userId: sessionStorage.getItem("userId"),
+								server: localStorage.getItem("server"),
+								episode: episode,
+								createdAt: new Date(),
+							}).catch((err) => {
+								console.log(err);
+							});
+						} catch (error) {
+							console.log(error);
+						}
+					} else {
+						try {
+							deleteDoc(doc(db, "continue-watching", getEpisode.id)).catch(
+								(err) => {
+									console.log(err);
+								},
+							);
+							addDoc(collection(db, "continue-watching"), {
+								animeId: id,
+								userId: sessionStorage.getItem("userId"),
+								server: localStorage.getItem("server"),
+								episode: episode,
+								createdAt: new Date(),
+							}).catch((err) => {
+								console.log(err);
+							});
+						} catch (error) {
+							console.log(error);
+						}
+					}
+				});
 
-            querySnapshot.then((query) => {
-                query.forEach((doc) => {
-                    if (doc.data().animeId == id) {
-                        getEpisode = doc;
-                    }
-                });
-            }).then(() => {
-                if (getEpisode == null) {
-                    try {
-                        addDoc(collection(db, "continue-watching"), {
-                            animeId: id,
-                            userId: sessionStorage.getItem('userId'),
-                            server: localStorage.getItem('server'),
-                            episode: episode,
-                            createdAt: new Date()
-                        }).catch(err => {
-                            console.log(err)
-                        })
-                    } catch (error) {
-                        console.log(error)
-                    }
-                } else {
-                    try {
-                        deleteDoc(doc(db, "continue-watching", getEpisode.id)).catch(err => {
-                            console.log(err)
-                        })
-                        addDoc(collection(db, "continue-watching"), {
-                            animeId: id,
-                            userId: sessionStorage.getItem('userId'),
-                            server: localStorage.getItem('server'),
-                            episode: episode,
-                            createdAt: new Date()
-                        }).catch(err => {
-                            console.log(err)
-                        })
-                    } catch (error) {
-                        console.log(error)
-                    }
-                }
-            })
-
-            // querySnapshot.then((query) => {
-            //     query.forEach((doc) => {
-            //         if (doc.data().animeId == id) {
-            //             getEpisode = doc.data();
-            //         }
-            //     });
-            // }).then(() => {
-            //     if (getEpisode == null) {
-            //         try {
-            //             addDoc(collection(db, "continue-watching"), {
-            //                 animeId: id,
-            //                 userId: sessionStorage.getItem('userId'),
-            //                 server: localStorage.getItem('server'),
-            //                 episode: episode,
-            //                 createdAt: new Date()
-            //             }).catch(err => {
-            //                 console.log(err)
-            //             })
-            //         } catch (error) {
-            //             console.log(error)
-            //         }
-            //     }
-            // })
-        },
-        sortEpisode(arr) {
-            arr.sort((a, b) => {
-                return b.number - a.number;
-            });
-        },
-        changeEp(id, animeId) {
-            window.location.href = '/animes/watch/' + id + '?id=' + animeId
-        },
-        shuffle(array) {
-            array.sort(() => Math.random() - 0.5);
-        },
-        filterFilter(arr, expression) {
-            return arr.filter(function (item) {
-                return item[Object.keys(expression)[0]] == Object.values(expression)[0];
-            });
-        },
-        randomColor() {
-            var letters = 'BCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * letters.length)];
-            }
-            return color;
-            // return '#' + Math.floor(Math.random() * 16777215).toString(16);
-        },
-        async getOtherServerLink(url, id) {
-            await fetch(url + "servers/" + id)
-                .then((res) => res.json())
-                .then((data) => {
-                    // console.log(data)
-                    this.otherServerLink = data
-                }).catch(err => console.log(err))
-        },
-        selectOtherServerLink(id) {
-            // console.log("id: ",id.target.value)
-            if (id !== null) {
-                let iframe = document.createElement('iframe')
-                iframe.src = this.otherServerLink[id.target.value].url
-                iframe.width = '100%'
-                iframe.height = '100%'
-                iframe.allowFullscreen = true
-                // iframe.sandbox = 'allow-scripts allow-same-origin allow-presentation'
-                iframe.style.aspectRatio = '16/9'
-                iframe.style.overflowY = 'hidden'
-                console.log(iframe)
-                document.getElementById('setIframe').innerHTML = ''
-                document.getElementById('setIframe').appendChild(iframe)
-            }
-        },
-    }
-}
+			// querySnapshot.then((query) => {
+			//     query.forEach((doc) => {
+			//         if (doc.data().animeId == id) {
+			//             getEpisode = doc.data();
+			//         }
+			//     });
+			// }).then(() => {
+			//     if (getEpisode == null) {
+			//         try {
+			//             addDoc(collection(db, "continue-watching"), {
+			//                 animeId: id,
+			//                 userId: sessionStorage.getItem('userId'),
+			//                 server: localStorage.getItem('server'),
+			//                 episode: episode,
+			//                 createdAt: new Date()
+			//             }).catch(err => {
+			//                 console.log(err)
+			//             })
+			//         } catch (error) {
+			//             console.log(error)
+			//         }
+			//     }
+			// })
+		},
+		sortEpisode(arr) {
+			arr.sort((a, b) => {
+				return b.number - a.number;
+			});
+		},
+		changeEp(id, animeId) {
+			window.location.href = `/animes/watch/${id}?id=${animeId}`;
+		},
+		shuffle(array) {
+			array.sort(() => Math.random() - 0.5);
+		},
+		filterFilter(arr, expression) {
+			return arr.filter(
+				(item) =>
+					item[Object.keys(expression)[0]] === Object.values(expression)[0],
+			);
+		},
+		randomColor() {
+			const letters = "BCDEF".split("");
+			let color = "#";
+			for (let i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * letters.length)];
+			}
+			return color;
+			// return '#' + Math.floor(Math.random() * 16777215).toString(16);
+		},
+		async getOtherServerLink(url, id) {
+			await fetch(`${url}servers/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					// console.log(data)
+					this.otherServerLink = data;
+				})
+				.catch((err) => console.log(err));
+		},
+		selectOtherServerLink(id) {
+			// console.log("id: ",id.target.value)
+			if (id !== null) {
+				const iframe = document.createElement("iframe");
+				iframe.src = this.otherServerLink[id.target.value].url;
+				iframe.width = "100%";
+				iframe.height = "100%";
+				iframe.allowFullscreen = true;
+				// iframe.sandbox = 'allow-scripts allow-same-origin allow-presentation'
+				iframe.style.aspectRatio = "16/9";
+				iframe.style.overflowY = "hidden";
+				console.log(iframe);
+				document.getElementById("setIframe").innerHTML = "";
+				document.getElementById("setIframe").appendChild(iframe);
+			}
+		},
+	},
+};
 </script>
 
 <style>
