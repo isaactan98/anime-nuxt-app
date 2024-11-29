@@ -72,7 +72,7 @@ export default {
     methods: {
         async getRecentRelease() {
             const config = useRuntimeConfig();
-            await fetch(config.apiUrlV1 + 'recent-release')
+            await fetch(config.apiUrl2 + 'recent-episodes')
                 .then(response => response.json())
                 .then(data => {
                     // console.log("data: ", data)

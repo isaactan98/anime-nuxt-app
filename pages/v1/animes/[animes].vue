@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <div class="z-10 relative bg-slate-900">
+            <div class="z-10 relative bg-zinc-900">
                 <div class="p-4 mt-4 mx-auto md:w-3/4">
                     <div v-if="anime.otherName" class="text-zinc-400 mb-4 text-xs">{{ anime.title }}</div>
                     <h1 class="text-lg lg:text-2xl text-white mb-2">
@@ -72,9 +72,9 @@
                 </div> -->
 
                 <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mx-auto md:w-3/4">
-                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/v1/animes/watch/' + e.episodeId + '?id=' + anime.id"
+                    <NuxtLink v-for="e of anime.episode" :key="e" :to="'/v1/animes/watch/' + e.id + '?id=' + anime.id"
                         class="border-2 border-white py-2 rounded-xl text-white text-center my-1 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent ">
-                        <span class="w-3/4 mx-auto">EP{{ e.episodeNum }} {{ e.title ? ' - ' + e.title : '' }}</span>
+                        <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </NuxtLink>
                 </div>
             </div>
@@ -130,30 +130,30 @@ export default {
         var id = route.params.animes;
         const config = useRuntimeConfig();
 
-        var url = config.apiUrlV1 + "anime-details/" + id;
+        var url = config.apiUrl2 + "info?id=" + id;
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                // console.log(data)
+                console.log(data)
                 if (data != null) {
                     this.anime.id = id;
-                    this.anime.title = data.animeTitle;
-                    this.anime.otherName = data.otherNames
-                    this.anime.description = data.synopsis;
+                    this.anime.title = data.title;
+                    this.anime.otherName = data.japaneseTitle
+                    this.anime.description = data.description;
                     this.anime.url = data.url ?? "";
-                    this.anime.img = data.animeImg;
+                    this.anime.img = data.image;
                     this.anime.totalEpisodes = data.totalEpisodes;
                     this.anime.type = data.type;
                     this.anime.releaseDate = data.releasedDate ?? '';
-                    this.shuffle(data.genres);
+                    // this.shuffle(data.genres);
                     this.anime.genres = data.genres;
                     this.anime.status = data.status;
-                    this.sortEpisode(data.episodesList);
-                    this.anime.episode = data.episodesList;
+                    // this.sortEpisode(data.episodes);
+                    this.anime.episode = data.episodes;
                     this.setTitle();
                     // this.getAddedList()
-                    // console.log(this.addedList)
+                    console.log(this.anime.episode)
                 } else {
                     alert('Server is down or not found, trying to search the anime...')
                     // this.$router.push('/search/' + id + "?page=1")
@@ -172,85 +172,6 @@ export default {
         sortEpisode(arr) {
             arr.sort((a, b) => {
                 return b.number - a.number;
-            });
-        },
-        getAddedList() {
-            const db = getFirestore();
-            const q = query(collection(db, "watch-list"),
-                where("animeId", "==", this.anime.id),
-                where("userId", "==", sessionStorage.getItem('userId')),
-                where("server", "==", localStorage.getItem('server'))
-            );
-            const querySnapshot = getDocs(q);
-
-            querySnapshot.then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    this.addedList = 'true';
-                });
-                return querySnapshot;
-            }).then((s) => {
-                s.docs.forEach((doc) => {
-                    this.selectStatus = doc.data().status;
-                })
-                // console.log('inner', this.selectStatus)
-            })
-            // console.log('outer', this.selectStatus)
-        },
-        addToList() {
-            const db = getFirestore();
-            if (this.addedList != 'true') {
-                this.addedList = '';
-                try {
-                    addDoc(collection(db, "watch-list"), {
-                        animeId: this.anime.id,
-                        userId: sessionStorage.getItem('userId'),
-                        server: localStorage.getItem('server'),
-                        createdAt: new Date(),
-                        status: 'no_status'
-                    }).then(() => {
-                        this.addedList = 'true';
-                    })
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-            if (this.addedList == 'true') {
-                this.addedList = '';
-                try {
-                    const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
-                    const querySnapshot = getDocs(q);
-
-                    querySnapshot.then((querySnapshot) => {
-                        querySnapshot.forEach((docs) => {
-                            if (docs.data().userId == sessionStorage.getItem('userId') && docs.data().server == localStorage.getItem('server')) {
-                                deleteDoc(doc(db, "watch-list", docs.id)).then(() => {
-                                    this.addedList = 'false';
-                                })
-                            }
-                        });
-                    });
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        },
-        changeStatus(value) {
-            const db = getFirestore();
-            const q = query(collection(db, "watch-list"), where("animeId", "==", this.anime.id));
-            const querySnapshot = getDocs(q);
-
-            querySnapshot.then((querySnapshot) => {
-                querySnapshot.forEach((docs) => {
-                    // console.log(docs.data())
-                    if (docs.data().userId == sessionStorage.getItem('userId') && docs.data().server == localStorage.getItem('server')) {
-                        updateDoc(doc(db, "watch-list", docs.id), {
-                            status: value
-                        }).then(() => {
-                            this.selectStatus = value;
-                            alert('Status updated successfully.')
-                        })
-                    }
-                });
             });
         },
         // randomize array

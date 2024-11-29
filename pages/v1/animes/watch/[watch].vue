@@ -10,13 +10,13 @@
 
             <div v-if="info" class="md:mb-4 text-white felx md:justify-center md:text-center py-4 px-5">
                 <h1 class="text-xl font-black md:hidden mb-3">
-                    <NuxtLink :to="'/animes/' + id">{{ info.animeTitle }}</NuxtLink>
+                    <NuxtLink :to="'/animes/' + id">{{ info.title }}</NuxtLink>
                 </h1>
                 <h1 class=" text-zinc-300 inline-block text-sm md:text-base md:block md:text-white">
                     You are watching
                 </h1>
                 <span class="text-sm font-bold inline-block md:block ml-2 md:ml-0 text-purple-500">
-                    Episode {{ thisEp.episodeNum }}
+                    Episode {{ thisEp.number }}
                 </span>
             </div>
 
@@ -30,14 +30,14 @@
 
             <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 block md:flex gap-3">
                 <div class="w-full md:w-1/5 mb-5">
-                    <img :src="info.animeImg" alt="" srcset="" class="w-full rounded-xl">
+                    <img :src="info.image" alt="" srcset="" class="w-full rounded-xl">
                 </div>
                 <div class="text-white w-full md:w-4/5">
                     <h1 class="mb-3 text-lg block lg:hidden lg:text-2xl">
                         {{ info.otherNames }}
                     </h1>
                     <h1 class="mb-3 text-lg hidden lg:block lg:text-2xl">
-                        <NuxtLink :to="'/v1/animes/' + id">{{ info.animeTitle }}</NuxtLink>
+                        <NuxtLink :to="'/v1/animes/' + id">{{ info.title }}</NuxtLink>
                     </h1>
                     <span class="text-xs mt-3">
                         <span v-if="info.subOrDub == 'both'">
@@ -74,107 +74,105 @@
 </template>
 
 <script>
-import { getFirestore, query, where, getDocs, collection, addDoc, deleteDoc, doc } from "firebase/firestore";
-
 export default {
-    data() {
-        return {
-            info: null,
-            video: null,
-            thisEp: null,
-            id: null,
-        }
-    },
-    mounted() {
-        const route = useRoute();
-        const config = useRuntimeConfig();
-        this.id = route.query.id;
-        var epid = route.params.watch;
+	data() {
+		return {
+			info: null,
+			video: null,
+			thisEp: null,
+			id: null,
+		};
+	},
+	mounted() {
+		const route = useRoute();
+		const config = useRuntimeConfig();
+		this.id = route.query.id;
+		const epid = route.params.watch;
 
-        // console.log('id:', this.id)
+		// console.log('id:', this.id)
 
-        var watchUrl = config.apiUrlV1 + 'vidcdn/watch/' + epid;
-        var infoUrl = config.apiUrlV1 + 'anime-details/' + this.id;
+		const watchUrl = `${config.apiUrl2}watch/episodeId=${epid.replace("sub", "both")}`;
+		const infoUrl = `${config.apiUrl2}info?id=${this.id}`;
 
-        this.getInfo(infoUrl, epid);
-        this.getEpisode(watchUrl, this.id);
+		this.getInfo(infoUrl, epid);
+		this.getEpisode(watchUrl, this.id);
+	},
+	methods: {
+		async getInfo(api, id) {
+			await fetch(api)
+				.then((response) => response.json())
+				.then((data) => {
+					// console.log('data:', data)
+					// this.sortEpisode(data.episodesList);
+					this.info = data;
+					console.log("info", this.info);
 
-    },
-    methods: {
-        async getInfo(api, id) {
-            await fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                    // console.log('data:', data)
-                    this.sortEpisode(data.episodesList)
-                    this.info = data;
-                    this.shuffle(data.genres)
-                    this.info.genres = data.genres
-                    this.thisEp = data.episodesList.filter(e => e.episodeId == id)[0];
+					// this.shuffle(data.genres);
+					this.info.genres = data.genres;
+					this.thisEp = data.episodes.filter((e) => e.id == id)[0];
 
-                    useHead({
-                        title: data.animeTitle + ' - EP' + this.thisEp.episodeNum
-                    })
+					if (sessionStorage.getItem("userId")) {
+						// this.setContinueWatching(data.id, this.thisEp.number);
+					}
+				})
+				.catch((err) => console.log(err));
+		},
 
-                    if (sessionStorage.getItem('userId')) {
-                        // this.setContinueWatching(data.id, this.thisEp.number);
-                    }
-                })
-                .catch(err => console.log(err));
-        },
-
-        async getEpisode(api, id) {
-            await fetch(api, {
-                method: 'GET',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-                    'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization, X-Request-With',
-                    'Origin': '*'
-                }
-            })
-                .then(res => {
-                    if (!res.ok) {
-                        window.location.href = '/v1/animes/' + id
-                        throw Error('Server is not responding. Please try again later.')
-                    }
-                    return res.json()
-                })
-                .then(data => {
-                    this.video = JSON.parse(JSON.stringify(data));
-                    // console.log('video', this.video)
-                }).catch(err => {
-                    alert(err)
-                    console.log(err)
-                })
-        },
-        sortEpisode(arr) {
-            arr.sort((a, b) => {
-                return b.number - a.number;
-            });
-        },
-        changeEp(id, animeId) {
-            window.location.href = '/animes/watch/' + id + '?id=' + animeId
-        },
-        shuffle(array) {
-            array.sort(() => Math.random() - 0.5);
-        },
-        filterFilter(arr, expression) {
-            return arr.filter(function (item) {
-                return item[Object.keys(expression)[0]] == Object.values(expression)[0];
-            });
-        },
-        randomColor() {
-            var letters = 'BCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * letters.length)];
-            }
-            return color;
-            // return '#' + Math.floor(Math.random() * 16777215).toString(16);
-        }
-    }
-}
+		async getEpisode(api, id) {
+			await fetch(api, {
+				method: "GET",
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+					"Access-Control-Allow-Headers":
+						"Origin, Content-Type, Accept, Authorization, X-Request-With",
+					Origin: "*",
+				},
+			})
+				.then((res) => {
+					console.log("res::", res);
+					if (!res.ok) {
+						// window.location.href = '/v1/animes/' + id
+						// throw Error('Server is not responding. Please try again later.')
+					}
+					return res.json();
+				})
+				.then((data) => {
+					this.video = JSON.parse(JSON.stringify(data));
+					console.log("video", this.video);
+				})
+				.catch((err) => {
+					alert(err);
+					console.log(err);
+				});
+		},
+		sortEpisode(arr) {
+			arr.sort((a, b) => {
+				return b.number - a.number;
+			});
+		},
+		changeEp(id, animeId) {
+			window.location.href = "/animes/watch/" + id + "?id=" + animeId;
+		},
+		shuffle(array) {
+			array.sort(() => Math.random() - 0.5);
+		},
+		filterFilter(arr, expression) {
+			return arr.filter(function (item) {
+				return item[Object.keys(expression)[0]] == Object.values(expression)[0];
+			});
+		},
+		randomColor() {
+			var letters = "BCDEF".split("");
+			var color = "#";
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * letters.length)];
+			}
+			return color;
+			// return '#' + Math.floor(Math.random() * 16777215).toString(16);
+		},
+	},
+};
 </script>
 
 <style>
