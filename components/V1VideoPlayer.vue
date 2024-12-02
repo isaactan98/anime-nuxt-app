@@ -30,7 +30,7 @@ export default {
 
 		if (this.videoDetails.sources) {
 			var source = this.details.sources;
-			this.url.auto.url = config.corsApi + source[0].url;
+			this.url.auto.url = "https://anime-proxy.vercel.app/hianime-hls-proxy?url=" + source[0].url;
 
 			this.player = new Artplater({
 				container: ".artplayer-app",
