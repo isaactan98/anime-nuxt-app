@@ -91,7 +91,7 @@ export default {
 
 		// console.log('id:', this.id)
 
-		const watchUrl = `${config.apiUrl2}watch/episodeId=${epid.replace("sub", "both")}`;
+		const watchUrl = `${config.apiUrl2}watch/episodeId=${epid.replace("sub", "both")}?server=vidstreaming`;
 		const infoUrl = `${config.apiUrl2}info?id=${this.id}`;
 
 		this.getInfo(infoUrl, epid);
