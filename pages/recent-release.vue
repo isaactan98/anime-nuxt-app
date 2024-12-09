@@ -82,7 +82,7 @@ export default {
             this.pageList.push(this.currentPage)
             this.pageList.push(parseInt(this.currentPage) + 1)
             const config = useRuntimeConfig();
-            await fetch(config.apiUrl + 'recent-episodes?page=' + this.currentPage)
+            await fetch(config.apiUrl2 + 'recent-episodes?page=' + this.currentPage)
                 .then(response => response.json())
                 .then(data => {
                     console.warn(data)

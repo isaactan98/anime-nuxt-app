@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="p-4 flex justify-center gap-5 w-full md:w-3/4 lg:w-1/3 mt-4 mx-auto">
-                    <a :href="serverUrl + anime.url" target="_blank"
+                    <a :href="anime.url" target="_blank"
                         class=" bg-purple-500 shadow-lg shadow-purple-500 text-white w-2/5 px-5 py-2.5 rounded-lg text-center text-sm flex justify-center items-center">
                         View on {{ server }}
                     </a>
@@ -73,7 +73,7 @@
 
                 <div class="p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 mx-auto md:w-3/4">
                     <button v-for="e of anime.episode" :key="e" @click="navTo('/animes/watch/' + e.id + '?id=' + anime.id)"
-                        class="border-2 border-white py-2 rounded-xl text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent "
+                        class="border-2 border-white py-2 px-1 rounded-xl text-white text-center my-2 relative block truncate hover:bg-gradient-to-r animate-bg from-purple-500 to-indigo-800 hover:border-transparent "
                         :class="{ 'bg-indigo-600': this.watchList[0]?.episode == e.number }">
                         <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                     </button>
@@ -145,17 +145,17 @@ export default {
         var id = route.params.animes;
         const config = useRuntimeConfig();
 
-        this.server = localStorage.getItem('server') == 'gogoanime' ? 'Gogoanime' : 'Zoro.to';
+        this.server = 'HiAnime';
 
         var url = '';
 
-        if (localStorage.getItem('server') == 'gogoanime') {
-            url = config.apiUrl + 'info/' + id
-            this.serverUrl = "https://gogoanime.mom"
-        } else {
+        // if (localStorage.getItem('server') == 'gogoanime') {
+        //     url = config.apiUrl2 + 'info/' + id
+        //     this.serverUrl = "https://gogoanime.mom"
+        // } else {
             url = config.apiUrl2 + 'info?id=' + id
             this.serverUrl = "https://zoro.to"
-        }
+        // }
 
         await fetch(url)
             .then(response => response.json())
@@ -174,7 +174,7 @@ export default {
                     this.anime.totalEpisodes = data.totalEpisodes;
                     this.anime.type = data.type;
                     this.anime.releaseDate = data.releaseDate ?? '';
-                    this.shuffle(data.genres);
+                    // this.shuffle(data.genres);
                     this.anime.genres = data.genres;
                     this.anime.status = data.status;
                     this.sortEpisode(data.episodes);
@@ -182,7 +182,7 @@ export default {
                     this.setTitle();
                     await this.getAddedList()
                     // console.log(this.addedList)
-                    await this.findSimilar(config.apiUrl + this.anime.title)
+                    this.similarList = data.recommendations
 
                     setTimeout(() => {
                         this.userId = sessionStorage.getItem('userId');
@@ -300,16 +300,16 @@ export default {
         shuffle(array) {
             array.sort(() => Math.random() - 0.5);
         },
-        async findSimilar(api) {
-            await fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                    this.similarList = data.results;
-                    this.similarList = this.similarList.filter((item) => {
-                        return item.id !== this.anime.id
-                    })
-                })
-        },
+        // async findSimilar(api) {
+        //     await fetch(api)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             this.similarList = data.results;
+        //             this.similarList = this.similarList.filter((item) => {
+        //                 return item.id !== this.anime.id
+        //             })
+        //         })
+        // },
         getLastWatched() {
             const db = getFirestore();
             const q = query(collection(db, "continue-watching"), where("userId", "==", this.userId), where("server", "==", 'gogoanime'), orderBy("createdAt", "desc"));

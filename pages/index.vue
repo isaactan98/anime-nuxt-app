@@ -174,7 +174,7 @@ export default {
       const config = useRuntimeConfig();
       var url = ''
 
-      url = config.apiUrl + 'recent-episodes'
+      url = config.apiUrl2 + 'recent-episodes'
       // if (localStorage.getItem('server') == 'gogoanime') {
       // } else {
       //     url = config.apiUrl2 + 'recent-episodes'
@@ -202,7 +202,7 @@ export default {
     async getTopAiring() {
       const config = useRuntimeConfig();
       var url = ''
-      url = config.apiUrl + 'top-airing'
+      url = config.apiUrl2 + 'top-airing'
 
       await fetch(url)
           .then(response => response.json())

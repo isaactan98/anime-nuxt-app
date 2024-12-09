@@ -14,7 +14,7 @@
             </select>
             <!-- <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2> -->
             <div class="mx-5">
-                <VidstackPlayer v-if="video && !disabled" :src="video" :poster="info.image" :title="info.title" />
+                <VidstackPlayer v-if="video && !disabled" :src="video" :caption="caption" :poster="info.image" :title="info.title" />
                 <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                     <SpiningLoading></SpiningLoading>
                 </div>
@@ -32,13 +32,13 @@
                 </span>
             </div>
 
-            <div class="md:w-3/4 w-11/12 mx-auto py-3 px-5 text-white bg-slate-800 rounded-xl">
-                <div class="font-bold">Genres:</div>
-                <div v-for="g in info.genres" :key="g" class="inline-block mr-2 text-sm" :id="g"
-                    :style="'color:' + randomColor(g)">
-                    {{ g }}
-                </div>
-            </div>
+<!--            <div class="md:w-3/4 w-11/12 mx-auto py-3 px-5 text-white bg-slate-800 rounded-xl">-->
+<!--                <div class="font-bold">Genres:</div>-->
+<!--                <div v-for="g in info.genres" :key="g" class="inline-block mr-2 text-sm" :id="g"-->
+<!--                    :style="'color:' + randomColor(g)">-->
+<!--                    {{ g }}-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div v-if="info != null" class="mt-5 mx-auto w-full lg:w-3/4 container px-3 block md:flex gap-3">
                 <div class="w-full md:w-1/5 mb-5">
@@ -65,7 +65,7 @@
                     <p class="mt-3 overflow-y-auto text-sm max-h-24 scrollbar-hide text-justify">{{ info.description }}</p>
                     <div class="mt-5 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" v-if="info != null">
                         <button v-for="e of info.episodes" :key="e" @click="changeEp(e.id, info.id)"
-                            class="border-2 border-white py-2 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-zinc-700 to-indigo-800 hover:border-none"
+                            class="border-2 border-white py-2 px-1 rounded-lg text-white text-center my-2 relative block truncate animate-bg from-zinc-700 to-indigo-800 hover:border-none"
                             :class="thisEp.id == e.id ? 'bg-gradient-to-r' : 'hover:bg-gradient-to-r'">
                             <span class="w-3/4 mx-auto">EP{{ e.number }} {{ e.title ? ' - ' + e.title : '' }}</span>
                         </button>
@@ -110,6 +110,7 @@ export default {
 		return {
 			info: null,
 			video: null,
+      caption: null,
 			thisEp: null,
 			otherServerLink: [],
 			disabled: false,
@@ -119,22 +120,22 @@ export default {
 		const route = useRoute();
 		const config = useRuntimeConfig();
 		const id = route.query.id;
-		const epid = route.params.watch;
+		const epid = route.params.watch.toString().replace("sub", "both");
 
 		// console.log('id:', id)
 
 		let watchUrl = "";
 		let infoUrl = "";
 
-		if (localStorage.getItem("server") === "gogoanime") {
-			infoUrl = `${config.apiUrl}info/${id}`;
-			watchUrl = `${config.apiUrl}watch/${epid}`;
-		} else {
+		// if (localStorage.getItem("server") === "gogoanime") {
+		// 	infoUrl = `${config.apiUrl}info/${id}`;
+		// 	watchUrl = `${config.apiUrl}watch/${epid}`;
+		// } else {
 			infoUrl = `${config.apiUrl2}info?id=${id}`;
-			watchUrl = `${config.apiUrl2}watch?episodeId=${epid}`;
-		}
+			watchUrl = `${config.apiUrl2}watch/episodeId=${epid}?server=vidstreaming`;
+		// }
 
-		await this.getOtherServerLink(config.apiUrl, epid);
+		// await this.getOtherServerLink(config.apiUrl, epid);
 		await this.getInfo(infoUrl, epid);
 		await this.getEpisode(watchUrl, id, config);
 	},
@@ -151,9 +152,9 @@ export default {
 
 					this.sortEpisode(data.episodes);
 					this.info = data;
-					this.shuffle(data.genres);
+					// this.shuffle(data.genres);
 					this.info.genres = data.genres;
-					this.thisEp = data.episodes.filter((e) => e.id === id)[0];
+					this.thisEp = data.episodes.filter((e) => e.id === id.replace("both", "sub"))[0];
 
 					useHead({
 						title: `${data.title} - EP${this.thisEp.number}`,
@@ -189,10 +190,9 @@ export default {
 				.then((data) => {
 					this.video = JSON.parse(JSON.stringify(data));
 					// console.log('video', this.video)
-					const filterOut = this.video.sources.filter(
-						(s) => s.quality === "default",
-					)[0].url;
-					this.video = config.corsApi + filterOut;
+					const filterOut = this.video.sources[0].url;
+          this.caption = this.video.subtitles
+					this.video = `https://anime-proxy.vercel.app/hianime-hls-proxy?url=${filterOut}`;
 				})
 				.catch((err) => {
 					alert(err);
