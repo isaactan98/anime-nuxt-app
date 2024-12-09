@@ -16,8 +16,8 @@
                         </h3>
                     </div> -->
                     <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-3"
-                        v-if="release.episode || release.episodeNumber">
-                        EP {{ release.episode ?? release.episodeNumber }}
+                        v-if="release.sub || release.episodeNumber">
+                        EP {{ release.sub ?? release.episodeNumber }}
                     </span>
                 </div>
             </button>
