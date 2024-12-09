@@ -154,7 +154,8 @@ export default {
 					this.info = data;
 					// this.shuffle(data.genres);
 					this.info.genres = data.genres;
-					this.thisEp = data.episodes.filter((e) => e.id === id.replace("both", "sub"))[0];
+          const watchId = id.split("episode$")[1].split("$")[0]
+					this.thisEp = data.episodes.filter((e) => e.id.split("$")[2] === watchId)[0];
 
 					useHead({
 						title: `${data.title} - EP${this.thisEp.number}`,

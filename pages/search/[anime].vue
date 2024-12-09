@@ -78,18 +78,18 @@ export default {
         })
         const config = useRuntimeConfig()
 
-        if (localStorage.getItem('server') == 'gogoanime') {
-            this.apiUrl = config.apiUrl + this.query
-
-            if (this.page != 1) {
-                this.pageList.push(parseInt(this.page) - 1)
-                this.pageList.push(this.page)
-            } else {
-                this.pageList.push(this.page)
-            }
-        } else {
+        // if (localStorage.getItem('server') == 'gogoanime') {
+        //     this.apiUrl = config.apiUrl + this.query
+        //
+        //     if (this.page != 1) {
+        //         this.pageList.push(parseInt(this.page) - 1)
+        //         this.pageList.push(this.page)
+        //     } else {
+        //         this.pageList.push(this.page)
+        //     }
+        // } else {
             this.apiUrl = config.apiUrl2 + this.query
-        }
+        // }
         this.searchAnime(this.apiUrl, this.page)
 
     },
