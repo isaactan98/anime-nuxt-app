@@ -13,7 +13,7 @@
                 </option>
             </select>
             <!-- <VideoPlayer2 v-if="video && !disabled" :videoDetails="video" :info="info" class="lg:w-3/4 mx-auto"></VideoPlayer2> -->
-            <div class="mx-5">
+            <div class="mx-5 h-80">
                 <VidstackPlayer v-if="video && !disabled" :src="video" :caption="caption" :poster="info.image" :title="info.title" />
                 <div v-else class="lg:w-3/4 mx-auto flex justify-center items-center h-80" :class="{ 'hidden': disabled }">
                     <SpiningLoading></SpiningLoading>
@@ -31,6 +31,16 @@
                     Episode {{ thisEp.number }}
                 </span>
             </div>
+
+			<div class="text-white text-center">
+				<select class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-800 border-none text-sm mx-auto flex justify-center my-10" @change="changeVideoServer">
+					<option v-for="s in videoServer">
+						{{ s.toUpperCase() }}
+					</option>
+				</select>
+
+				<a :href="thisEp.url" target="_blank" class="bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-800 border-none text-sm flex justify-center mx-auto my-10 w-1/3 md:w-1/6 py-2">Episode Link</a>
+			</div>
 
 <!--            <div class="md:w-3/4 w-11/12 mx-auto py-3 px-5 text-white bg-slate-800 rounded-xl">-->
 <!--                <div class="font-bold">Genres:</div>-->
@@ -110,10 +120,18 @@ export default {
 		return {
 			info: null,
 			video: null,
-      caption: null,
+			caption: null,
 			thisEp: null,
 			otherServerLink: [],
 			disabled: false,
+			selectedServer: "vidstreaming",
+			videoServer: [
+				"vidstreaming",
+				"vidcloud",
+				"rapidcloud",
+				"streamsb",
+				"streamtape",
+			],
 		};
 	},
 	async mounted() {
@@ -131,13 +149,13 @@ export default {
 		// 	infoUrl = `${config.apiUrl}info/${id}`;
 		// 	watchUrl = `${config.apiUrl}watch/${epid}`;
 		// } else {
-			infoUrl = `${config.apiUrl2}info?id=${id}`;
-			watchUrl = `${config.apiUrl2}watch/episodeId=${epid}?server=vidstreaming`;
+		infoUrl = `${config.apiUrl2}info?id=${id}`;
+		watchUrl = `${config.apiUrl2}watch/episodeId=${epid}?server=${this.selectedServer}`;
 		// }
 
 		// await this.getOtherServerLink(config.apiUrl, epid);
 		await this.getInfo(infoUrl, epid);
-		await this.getEpisode(watchUrl, id, config);
+		await this.getEpisode(watchUrl);
 	},
 	methods: {
 		async getInfo(api, id) {
@@ -154,8 +172,10 @@ export default {
 					this.info = data;
 					// this.shuffle(data.genres);
 					this.info.genres = data.genres;
-          const watchId = id.split("episode$")[1].split("$")[0]
-					this.thisEp = data.episodes.filter((e) => e.id.split("$")[2] === watchId)[0];
+					const watchId = id.split("episode$")[1].split("$")[0];
+					this.thisEp = data.episodes.filter(
+						(e) => e.id.split("$")[2] === watchId,
+					)[0];
 
 					useHead({
 						title: `${data.title} - EP${this.thisEp.number}`,
@@ -168,7 +188,7 @@ export default {
 				.catch((err) => console.log(err));
 		},
 
-		async getEpisode(api, id, config) {
+		async getEpisode(api) {
 			await fetch(api, {
 				method: "GET",
 				headers: {
@@ -192,7 +212,7 @@ export default {
 					this.video = JSON.parse(JSON.stringify(data));
 					// console.log('video', this.video)
 					const filterOut = this.video.sources[0].url;
-          this.caption = this.video.subtitles
+					this.caption = this.video.subtitles;
 					this.video = `https://anime-proxy.vercel.app/hianime-hls-proxy?url=${filterOut}`;
 				})
 				.catch((err) => {
@@ -337,6 +357,13 @@ export default {
 				document.getElementById("setIframe").innerHTML = "";
 				document.getElementById("setIframe").appendChild(iframe);
 			}
+		},
+		async changeVideoServer(value) {
+			const config = useRuntimeConfig();
+			const route = useRoute();
+			const epid = route.params.watch.toString();
+			const watchUrl = `${config.apiUrl2}watch/episodeId=${epid}?server=${value.target.value}`;
+			await this.getEpisode(watchUrl);
 		},
 	},
 };
