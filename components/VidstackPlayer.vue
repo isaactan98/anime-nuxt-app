@@ -1,10 +1,9 @@
 <template>
     <media-player :title="title" :poster="poster" :src="src" aspect-ratio="16/9" crossorigin>
         <media-outlet>
-          <track v-for="s in caption" :src="s.url"
+          <track v-for="s in caption" :src="s.file"
                  kind="subtitles"
-                 :label="s.lang"
-                 default
+                 :label="s.label"
                  data-type="vtt" />
         </media-outlet>
         <media-community-skin></media-community-skin>
