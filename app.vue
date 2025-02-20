@@ -1,5 +1,5 @@
 <template>
-  <SpeedInsights/>
+  <Analytics />
   <div class="relative " style="background-color: #15151d; min-height: 100svh;">
     <CookiePopup v-if="!cookieAccepted"/>
     <Buymeacoffee/>
@@ -27,7 +27,7 @@
 
 <script>
 import {getAuth, sendEmailVerification, signOut} from "firebase/auth";
-import {SpeedInsights} from '@vercel/speed-insights/nuxt'
+import { Analytics } from '@vercel/analytics'
 
 export default {
   data() {
