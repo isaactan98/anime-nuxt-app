@@ -109,7 +109,7 @@ export default {
           <h3 class="text-white text-xl">Episodes</h3>
           <div class="mt-3 max-h-[70vh] overflow-y-auto scroll-p-0">
             <NuxtLink
-                :to="`/anime/watch/${x.id}`"
+                :to="`/anime/watch/${x.id}?animeId=${animeId}`"
                 v-for="x in animeDetails.episodes?.sort((a, b) => b.number - a.number)" :key="x.id">
               <UCard>
                 EP {{ x.number }} {{ x.title }}
