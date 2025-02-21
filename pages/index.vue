@@ -99,7 +99,7 @@ export default {
     <UCarousel v-if="spotlight?.results?.length > 0" v-slot="{ item }" :items="spotlight.results"
                :ui="{ item: 'basis-full' }" arrows indicators>
       <div class="relative">
-        <img :src="item.banner" class="object-cover h-[45vh] md:h-[75vh] w-screen" alt="">
+        <img :src="item.banner" class="object-cover h-[35vh] md:h-[75vh] w-screen" alt="">
         <div class="absolute bottom-16 md:bottom-10 left-10 w-3/4 md:w-full drop-shadow-sm text-zinc-300">
           <UContainer :ui="{ padding: 'p-1 sm:p-1 lg:p-1' }" class="hidden md:block">
             <h1 class="mb-3 text-xl md:text-4xl font-bold leading-normal text-ellipsis text-white">
@@ -128,7 +128,7 @@ export default {
         </div>
       </div>
     </UCarousel>
-    <div v-else class="relative h-[45vh] md:h-[75vh] bg-zinc-700">
+    <div v-else class="relative h-[35vh] md:h-[75vh] bg-zinc-700">
     </div>
     <UContainer class="mt-10">
       <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>

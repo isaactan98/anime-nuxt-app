@@ -39,7 +39,7 @@ async function searchAnime(value: number) {
 </script>
 
 <template>
-  <UContainer class="my-10">
+  <UContainer class="my-10 min-h-screen">
     <UInput
         :loading="loading"
         v-model="q"

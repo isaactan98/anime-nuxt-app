@@ -54,24 +54,26 @@ export default {
 
 <template>
   <div class="mt-10">
-    <UContainer v-if="videoInfo != null" class="min-h-screen">
+    <UContainer v-if="videoInfo != null" class="md:min-h-screen">
       <VideoPlayer :src="videoInfo.sources[0].url" :subtitle="videoInfo.tracks" :title="episodeTitle"/>
 
-      <div v-if="animeDetails != null" class="grid grid-cols-5 gap-3 relative my-5">
+      <div v-if="animeDetails != null" class="grid grid-cols-3 md:grid-cols-5 gap-3 relative my-5">
         <div class="col-span-1">
           <img :src="animeDetails.image" alt="" class="rounded-lg">
         </div>
-        <div class="col-span-4">
+        <div class="col-span-2 md:col-span-4">
           <h1 class="text-2xl font-bold">
             Episode {{ animeDetails.episodes.find((item: any) => item.id === episodeId)?.number }}
           </h1>
-
+          <NuxtLink :to="`/anime/${animeId}`">
+            <h3 class="text-purple-500">{{ animeDetails.title }}</h3>
+          </NuxtLink>
           <div>
             <div class="mt-3 max-h-[30vh] overflow-y-auto scroll-p-0">
               <NuxtLink
                   :to="`/anime/watch/${x.id}?animeId=${animeId}`"
                   v-for="x in animeDetails.episodes?.sort((a, b) => b.number - a.number)" :key="x.id">
-                <UCard :class="{ '!bg-purple-500' : x.id == episodeId }">
+                <UCard :class="{ '!bg-purple-500' : x.id == episodeId }" class="text-xs md:text-xl">
                   EP {{ x.number }} {{ x.title }}
                 </UCard>
               </NuxtLink>

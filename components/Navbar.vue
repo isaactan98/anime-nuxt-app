@@ -25,8 +25,8 @@ const openModel = ref(false)
 </script>
 
 <template>
-  <nav class="w-full sticky top-0 z-50">
-    <UContainer class="flex sm:hidden p-2">
+  <nav class="w-full sticky top-0 z-50 backdrop-blur">
+    <UContainer class="flex sm:hidden p-5">
       <UButton label="Open" :padded="false" color="black" variant="ghost" @click="openModel = true">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor" class="w-6 h-6 text-white">
@@ -35,7 +35,9 @@ const openModel = ref(false)
         </svg>
       </UButton>
     </UContainer>
-    <UHorizontalNavigation :links="links" class="backdrop-blur hidden md:flex"/>
+    <UContainer class="hidden md:flex p-3">
+      <UHorizontalNavigation :links="links"/>
+    </UContainer>
   </nav>
   <USlideover v-model="openModel" side="left">
     <UCard class="flex flex-col flex-1 bg-zinc-900 rounded-none"

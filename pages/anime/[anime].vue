@@ -63,13 +63,15 @@ export default {
         </div>
       </div>
       <UContainer class="z-10 relative pt-5">
-        <div class="mb-10 grid grid-cols-5">
+        <div class="mb-10 grid grid-cols-4 md:grid-cols-5 gap-3">
           <div class="relative">
             <img :src="animeDetails.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg">
           </div>
-          <div class="col-span-4 flex flex-col items-baseline justify-end">
+          <div class="col-span-3 md:col-span-4 flex flex-col items-baseline md:justify-end">
             <h1 class="font-bold gap-3 text-xl md:text-2xl pb-2">{{ animeDetails.title }}</h1>
-            <span>{{ animeDetails.japaneseTitle.length > 0 ? animeDetails.japaneseTitle : "N/A" }}</span>
+            <span class="hidden md:flex">
+              {{ animeDetails.japaneseTitle.length > 0 ? animeDetails.japaneseTitle : "N/A" }}
+            </span>
             <span class="bg-white px-3 py-1 rounded text-black mt-2 text-xs">{{ animeDetails.type }}</span>
           </div>
         </div>
@@ -112,7 +114,7 @@ export default {
                 :to="`/anime/watch/${x.id}?animeId=${animeId}`"
                 v-for="x in animeDetails.episodes?.sort((a, b) => b.number - a.number)" :key="x.id">
               <UCard>
-                EP {{ x.number }} {{ x.title }}
+                EP {{ x.number }} - {{ x.title }}
               </UCard>
             </NuxtLink>
           </div>

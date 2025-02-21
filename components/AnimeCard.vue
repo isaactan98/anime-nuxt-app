@@ -12,7 +12,7 @@ const props = defineProps({
       <div class="w-[150px] lg:w-[220px] relative">
         <img alt="" :src="props.data?.image" class="rounded-lg object-cover w-56 lg:w-96 h-64 lg:h-[24rem]"/>
         <span class="absolute right-0 top-0 p-2 bg-purple-500 rounded-tr-lg text-xs">
-        EP3
+        EP {{ props?.data?.sub }}
       </span>
         <span v-if="data?.nsfw" class="absolute left-0-0 top-0 p-2 bg-red-500 rounded-tl-lg text-xs">
         18+
