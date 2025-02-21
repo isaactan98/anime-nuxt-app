@@ -1,102 +1,34 @@
 <template>
-  <Analytics />
-  <div class="relative " style="background-color: #15151d; min-height: 100svh;">
-    <CookiePopup v-if="!cookieAccepted"/>
-    <Buymeacoffee/>
-    <Navbar class="sticky top-0" :user-id="userId"/>
+  <div>
+    <NuxtLoadingIndicator color="#c084fc"/>
+    <Analytics/>
+    <Navbar/>
     <NuxtLayout>
-      <NuxtLoadingIndicator color="#c084fc"/>
-      <NuxtPage class=" relative"/>
+      <NuxtPage class=""/>
     </NuxtLayout>
-    <Footer class="mt-10"></Footer>
-    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
-                enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-100 ease-out"
-                leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
-      <button @click="goToTop" v-show="showButton" id="goToTopButton"
-              class="fixed z-50 bg-black rounded-full bottom-4 right-4 shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-             class=" w-10 h-10 rotate-180 text-white">
-          <path fill-rule="evenodd"
-                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-.53 14.03a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V8.25a.75.75 0 00-1.5 0v5.69l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3z"
-                clip-rule="evenodd"/>
-        </svg>
-      </button>
-    </transition>
+    <footer class="p-5 bg-zinc-950">
+      <!-- This is an example component -->
+      <div class=" bg-zinc-950 rounded-lg mx-auto">
+        <div class="max-w-2xl mx-auto text-white py-5 ">
+          <div class="mt-10 flex flex-col md:flex-row md:justify-between items-center text-sm text-gray-400">
+            <p class="order-2 md:order-1 mt-8 md:mt-0"> &copy; Shadow Anime <span id="year"></span></p>
+            <div class="order-1 md:order-2">
+              <NuxtLink to="/about"><span class="px-2">About us</span></NuxtLink>
+              <span class="px-2 border-l">Contact us</span>
+              <span class="px-2 border-l">Privacy Policy</span>
+            </div>
+          </div>
+        </div>
+        <div class="text-xs text-zinc-400 container mx-auto py-5 px-5 text-center">
+          This project is a non-profit project. All the content is provided by the third party. We do not own any
+          of the content.
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
-<script>
-import {getAuth, sendEmailVerification, signOut} from "firebase/auth";
-import { Analytics } from '@vercel/analytics'
-
-export default {
-  data() {
-    return {
-      userId: '',
-      cookieAccepted: false,
-      setTimeoutVar: null,
-      showButton: false,
-    }
-  },
-  mounted() {
-    localStorage.setItem('server', 'gogoanime')
-    const auth = getAuth();
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        if (!user.emailVerified) {
-          alert("Your email address has not been verified. Please check your inbox for the verification email and follow the instructions to verify your email.")
-          if (confirm("Are you want to re-verify your email address?")) {
-            await sendEmailVerification(user)
-          }
-          signOut(auth).then(() => {
-            window.location.reload();
-          })
-
-        } else {
-          sessionStorage.setItem('userId', user.uid)
-          this.userId = user.uid
-        }
-      }
-    });
-    if (localStorage.getItem('cookie-accepted')) {
-      this.cookieAccepted = true
-    }
-    this.checkInactive();
-    this.resetTimeout();
-    window.addEventListener('scroll', () => {
-      this.showButton = window.scrollY > 100
-    });
-
-  },
-  methods: {
-    checkInactive() {
-
-      document.addEventListener('mousemove', this.resetTimeout);
-      document.addEventListener('mousedown', this.resetTimeout);
-      document.addEventListener('keydown', this.resetTimeout);
-      document.addEventListener('touchmove', this.resetTimeout);
-      document.addEventListener('touchstart', this.resetTimeout);
-
-    },
-    resetTimeout() {
-      // console.warn('resetTimeout');
-      // 2 hour timeout
-      const timeoutMinute = 2 * 60 * 60 * 1000;
-      clearTimeout(this.setTimeoutVar);
-      this.setTimeoutVar = setTimeout(() => {
-        alert('You have been inactive for 2 hour. Page will be refreshed.');
-        console.warn('refreshing');
-        window.location.href = '/';
-      }, timeoutMinute);
-
-    },
-    goToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    },
-  }
-}
-
+<script setup lang="ts">
+const colorMode = useColorMode()
+colorMode.preference = 'dark'
 </script>

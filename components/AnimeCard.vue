@@ -1,30 +1,32 @@
-<template>
-    <div v-for="anime in animeInfo" :key="anime" class="relative mb-2">
-        <a :href="'/v1/animes/' + anime.id" class="relative">
-            <div class="">
-                <img :src="anime.image" loading="lazy" alt="" class="rounded-xl object-cover h-64 lg:h-[32rem]">
-            </div>
-            <div class="relative flex justify-between items-center ">
-                <div class="w-full h-32 absolute bottom-0 bg-gradient-to-t from-black to-transparent rounded-b-xl">
-                </div>
-                <div class="px-2 py-1 rounded-md bg-purple-500 text-white absolute left-1 bottom-1">
-                    <h3 class="truncate text-xs lg:text-sm max-w-[4rem] lg:max-w-[10rem]">
-                        {{ anime.title }}
-                    </h3>
-                </div>
-                <span class="bg-white rounded-md text-sm px-2 absolute bottom-1 right-3"
-                    v-if="anime.sub || anime.episodeNum">
-                    EP {{ anime.sub ?? anime.episodeNum }}
-                </span>
-            </div>
-        </a>
-    </div>
-</template>
+<script setup lang="ts">
+import {RecentAnime} from "~/utils/Model";
 
-<script>
-export default {
-    props: ['animeInfo'],
-}
+const props = defineProps({
+  data: {type: RecentAnime},
+})
 </script>
 
-<style></style>
+<template>
+  <NuxtLink :to="`/anime/${props?.data?.id}`" class="snap-start ">
+    <UCard :ui="{ background: 'dark:bg-transparent', ring: 'dark:ring-0'}">
+      <div class="w-[150px] lg:w-[220px] relative">
+        <img alt="" :src="props.data?.image" class="rounded-lg object-cover w-56 lg:w-96 h-64 lg:h-[24rem]"/>
+        <span class="absolute right-0 top-0 p-2 bg-purple-500 rounded-tr-lg text-xs">
+        EP3
+      </span>
+        <span v-if="data?.nsfw" class="absolute left-0-0 top-0 p-2 bg-red-500 rounded-tl-lg text-xs">
+        18+
+      </span>
+      </div>
+      <template #footer>
+      <span class="line-clamp-2">
+        {{ data?.title }}
+      </span>
+      </template>
+    </UCard>
+  </NuxtLink>
+</template>
+
+<style scoped>
+
+</style>
