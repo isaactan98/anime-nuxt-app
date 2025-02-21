@@ -16,21 +16,10 @@ export default {
   methods: {
     async getEp(url: string) {
       const watchUrl = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${url}&category=${this.category}`
-      await fetch(watchUrl, {
-        method: "GET",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers":
-              "Origin, Content-Type, Accept, Authorization, X-Request-With",
-          Origin: "*",
-        },
-      }).then((res) => res.json()).then((res) => {
+      await fetch(watchUrl).then((res) => res.json()).then((res) => {
         this.videoInfo = res.data
-      }).catch(() => {
-        console.log("Error on fetching episode server. Changing server now to RAW")
-        this.category = 'raw'
-        this.getEp(url)
+      }).catch((err) => {
+        alert(err)
       })
     },
   }
@@ -39,9 +28,10 @@ export default {
 
 <template>
   <div>
-    <UContainer v-if="videoInfo != null">
+    <UContainer v-if="videoInfo != null" class="h-screen">
       <VideoPlayer :src="videoInfo.sources[0].url" :subtitle="videoInfo.tracks"/>
     </UContainer>
+    <div v-else class="h-screen"></div>
   </div>
 </template>
 

@@ -119,6 +119,7 @@ export default {
         </div>
       </UContainer>
     </div>
+    <div v-else class="h-screen"></div>
   </div>
 </template>
 
