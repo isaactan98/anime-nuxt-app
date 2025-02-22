@@ -243,3 +243,88 @@ export class Subtitle {
         this.default = isDefault;
     }
 }
+
+export class AniListInfo {
+    characters: AniListCharacter[];
+    cover: string;
+    currentEpisode: number;
+    duration: number;
+    endDate: {
+        year: number;
+        month: number;
+        day: number;
+    };
+    genres: string[];
+    nextAiringEpisode: {
+        airingTime: number;
+        episode: number;
+        timeUntilAiring: number;
+    };
+    rating: number;
+    startDate: {
+        year: number;
+        month: number;
+        day: number;
+    };
+    status: string;
+    totalEpisodes: number;
+    trailer: string;
+
+    constructor(
+        characters: AniListCharacter[],
+        cover: string,
+        currentEpisode: number,
+        duration: number,
+        endDate: { year: number; month: number; day: number },
+        genres: string[],
+        rating: number,
+        startDate: { year: number; month: number; day: number },
+        status: string,
+        totalEpisodes: number,
+        nextAiringEpisode: { airingTime: number; episode: number; timeUntilAiring: number },
+        trailer: string
+    ) {
+        this.characters = characters;
+        this.cover = cover;
+        this.currentEpisode = currentEpisode;
+        this.duration = duration;
+        this.endDate = endDate;
+        this.genres = genres;
+        this.rating = rating;
+        this.startDate = startDate;
+        this.status = status;
+        this.totalEpisodes = totalEpisodes;
+        this.nextAiringEpisode = nextAiringEpisode;
+        this.trailer = trailer;
+    }
+}
+
+export class AniListCharacter {
+    id: string;
+    image: string;
+    name: CharacterName;
+    role: string;
+
+    constructor(id: string, image: string, name: CharacterName, role: string) {
+        this.id = id;
+        this.image = image;
+        this.name = name;
+        this.role = role;
+    }
+}
+
+export class CharacterName {
+    first: string;
+    full: string;
+    last: string;
+    native: string;
+    userPreferred: string;
+
+    constructor(first: string, last: string, native: string, userPreferred: string, full: string) {
+        this.first = first;
+        this.full = full;
+        this.last = last;
+        this.native = native;
+        this.userPreferred = userPreferred;
+    }
+}

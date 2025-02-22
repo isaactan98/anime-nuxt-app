@@ -1,5 +1,6 @@
 <script lang="ts">
-import {AnimeEpisode, AnimeInfo} from "~/utils/Model";
+import {AniListInfo, AnimeEpisode, AnimeInfo} from "~/utils/Model";
+import {getCountDown} from "~/utils/Services";
 
 export default {
   data() {
@@ -7,7 +8,7 @@ export default {
       config: useRuntimeConfig(),
       animeId: this.$route.params.anime,
       animeDetails: null as AnimeInfo | null,
-      anilistDetails: null as AnimeInfo | null,
+      anilistDetails: null as AniListInfo | null,
       tabs: [
         {key: "info", label: "Info"},
         {key: "characters", label: "Characters"},
@@ -24,6 +25,7 @@ export default {
     });
   },
   methods: {
+    getCountDown,
     async getAnimeInfo() {
       const url = this.config.public.apiUrl
       await fetch(`${url}info?id=${this.animeId}`).then((res) => res.json()).then((res) => {
@@ -38,7 +40,7 @@ export default {
                 item.url
             )
           })
-          // this.getAniList(this.animeDetails?.alID)
+          this.getAniList(this.animeDetails?.alID)
         }
       })
     },
@@ -46,7 +48,8 @@ export default {
       const url = this.config.public.api
       console.log(url)
       await fetch(`${url}meta/anilist/info/${alId}?provider=zoro`).then((res) => res.json()).then((res) => {
-        console.log("anilist", res)
+        this.anilistDetails = res
+        console.log("anilist", this.anilistDetails)
       })
     }
   }
@@ -59,7 +62,7 @@ export default {
       <div class="absolute">
         <img :src="animeDetails.image" alt="" class="relative w-screen h-72 object-cover">
         <div
-            class="w-full absolute z-[1] bg-gradient-to-b from-transparent to-zinc-950 top-0 h-72 object-cover left-0 right-0">
+            class="w-full absolute z-[1] bg-gradient-to-b from-transparent to-zinc-900 top-0 h-72 object-cover left-0 right-0">
         </div>
       </div>
       <UContainer class="z-10 relative pt-5">
@@ -79,8 +82,23 @@ export default {
           <template #item="{ item }">
             <UCard v-if="item.key === 'info'">
               <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                <div class="col-span-1">
-
+                <div class="col-span-1" v-if="anilistDetails != null">
+                  <h5 class="text-white font-semibold md:text-2xl">Info</h5>
+                  <div class="grid grid-cols-3">
+                    <p class="text-zinc-300 col-span-1 capitalize">Airing</p>
+                    <p class="col-span-2">
+                      EP {{ anilistDetails.nextAiringEpisode.episode }} -
+                      {{ getCountDown(anilistDetails.nextAiringEpisode.airingTime.toString()) }}
+                    </p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2 items-center mt-3">
+                    <p class="text-zinc-300 col-span-1 font-semibold capitalize">
+                      Genres
+                    </p>
+                    <span class="text-zinc-300 col-span-2">
+                      {{ anilistDetails?.genres.join(", ") }}
+                    </span>
+                  </div>
                 </div>
                 <div class="col-span-3">
                   <div>
