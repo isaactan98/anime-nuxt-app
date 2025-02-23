@@ -1,4 +1,4 @@
-import { vite as vidstack } from'vidstack/plugins'
+import {vite as vidstack} from 'vidstack/plugins'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     compatibilityDate: "2025-02-21",
@@ -114,5 +114,11 @@ export default defineNuxtConfig({
     colorMode: {
         preference: 'dark',
         fallback: 'dark'
+    },
+    ui: {
+        notifications: {
+            // Show toasts at the top right of the screen
+            position: 'top-0 bottom-[unset]'
+        }
     }
 })

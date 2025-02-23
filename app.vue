@@ -6,6 +6,7 @@
     <NuxtLayout>
       <NuxtPage class=""/>
     </NuxtLayout>
+    <UNotifications/>
     <footer class="p-5 bg-zinc-950">
       <!-- This is an example component -->
       <div class=" bg-zinc-950 rounded-lg mx-auto">

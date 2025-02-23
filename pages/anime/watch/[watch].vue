@@ -10,13 +10,29 @@ export default {
       animeDetails: null as AnimeInfo | null,
       animeId: this.$route.query.animeId as string,
       episodeId: this.$route.params.watch.toString(),
-      episodeTitle: '' as string | undefined
+      episodeTitle: '' as string | undefined,
+      servers: [{
+        name: 'Raw',
+        value: 'raw'
+      }, {
+        name: 'Sub',
+        value: 'sub'
+      }],
+      selected: 'sub',
+      setReplace: '',
+      error: false
     }
   },
   mounted() {
+    const toast = useToast()
     const watchId = this.$route.params.watch.toString();
-    const replace = watchId.replace("$episode$", "?ep=").replace("$sub", "");
-    this.getEp(replace)
+    this.setReplace = watchId.replace("$episode$", "?ep=").replace("$sub", "");
+    this.getEp(this.setReplace).catch((err) => {
+      alert(err)
+      toast.add({
+        title: 'There was an error, please try again',
+      })
+    })
     if (this.animeId != null) {
       this.getAnimeInfo(this.animeId)
     }
@@ -24,11 +40,20 @@ export default {
   methods: {
     async getEp(url: string) {
       const watchUrl = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${url}&category=${this.category}`
-      await fetch(watchUrl).then((res) => res.json()).then((res) => {
-        this.videoInfo = res.data
-      }).catch((err) => {
-        alert(err)
-      })
+      await fetch(watchUrl)
+          .then((res) => res.json())
+          .then((res) => {
+            this.videoInfo = res.data
+            this.error = false
+          }).catch((err) => {
+            this.videoInfo = null
+            this.error = true
+            // alert(err)
+          })
+    },
+    async changeServer(value: string) {
+      this.category = value
+      await this.getEp(this.setReplace)
     },
     async getAnimeInfo(animeId: string) {
       const url = this.config.public.apiUrl
@@ -62,10 +87,13 @@ export default {
           <img :src="animeDetails.image" alt="" class="rounded-lg">
         </div>
         <div class="col-span-2 md:col-span-4">
-          <h1 class="text-2xl font-bold">
-            Episode {{ animeDetails.episodes.find((item: any) => item.id === episodeId)?.number }}
-          </h1>
-          <NuxtLink :to="`/anime/${animeId}`">
+          <div class="flex justify-between">
+            <h1 class="text-2xl font-bold">
+              Episode {{ animeDetails.episodes.find((item: any) => item.id === episodeId)?.number }}
+            </h1>
+            <USelect v-model="selected" :options="servers" option-attribute="name" @change="changeServer"/>
+          </div>
+          <NuxtLink :to="`/anime/${animeId}`" class="py-10">
             <h3 class="text-purple-500">{{ animeDetails.title }}</h3>
           </NuxtLink>
           <div>
@@ -83,7 +111,9 @@ export default {
       </div>
 
     </UContainer>
-    <div v-else class="h-screen"></div>
+    <UContainer v-else class="min-h-screen">
+      <USkeleton style="aspect-ratio: 16/9;"/>
+    </UContainer>
   </div>
 </template>
 

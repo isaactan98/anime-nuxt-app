@@ -51,11 +51,9 @@ const openModel = ref(false)
                    @click="openModel = false"/>
         </div>
       </template>
-      <Placeholder class="h-full">
-        <UVerticalNavigation :links="links" class="mt-3"
-                             :ui="{ padding: '!py-2.5', active: 'text-purple-500', size: 'text-base' }"
-                             @click="openModel = false"/>
-      </Placeholder>
+      <UVerticalNavigation :links="links" class="mt-3"
+                           :ui="{ padding: '!py-2.5', active: 'text-purple-500', size: 'text-base' }"
+                           @click="openModel = false"/>
     </UCard>
   </USlideover>
 </template>
