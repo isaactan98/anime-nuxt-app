@@ -99,13 +99,14 @@ export default {
     <UCarousel v-if="spotlight?.results?.length > 0" v-slot="{ item }" :items="spotlight.results"
                :ui="{ item: 'basis-full' }" arrows indicators>
       <div class="relative">
+        <div class="top-0 bg-gradient-to-bl from-transparent to-zinc-900 absolute h-[35vh] md:h-[75vh] w-screen"></div>
         <img :src="item.banner" class="object-cover h-[35vh] md:h-[75vh] w-screen" alt="">
-        <div class="absolute bottom-16 md:bottom-10 left-10 w-3/4 md:w-full drop-shadow-sm text-zinc-300">
-          <UContainer :ui="{ padding: 'p-1 sm:p-1 lg:p-1' }" class="hidden md:block">
-            <h1 class="mb-3 text-xl md:text-4xl font-bold leading-normal text-ellipsis text-white">
-              {{ item.title.english ?? item.title.romaji }}</h1>
-            <p class="w-1/2 text-sm md:text-base line-clamp-3" v-html="item.description"></p>
-            <div class="flex gap-3 items-center text-sm my-3">
+        <div class="absolute bottom-10 left-10 w-3/4 md:w-full drop-shadow-sm text-zinc-300">
+          <UContainer :ui="{ padding: 'p-1 sm:p-1 lg:p-1' }" class="">
+            <h1 class="mb-3 text-lg md:text-4xl font-bold leading-normal text-ellipsis text-white">
+              {{ item.title }}</h1>
+            <p class="w-1/2 text-sm md:text-base line-clamp-1 md:line-clamp-3" v-html="item.description"></p>
+            <div class="hidden md:flex gap-3 items-center text-sm my-3">
                             <span class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -118,12 +119,12 @@ export default {
                             </span>
               <span>{{ item.releaseDate }}</span>
             </div>
-            <!--          <NuxtLink :to="`/anime/${item.id}?externalId=null`">-->
-            <!--            <UButton icon="i-heroicons-play-circle" color="purple"-->
-            <!--                     :ui="{ rounded: 'rounded-full', size: 'sm' }">-->
-            <!--              Watch Now-->
-            <!--            </UButton>-->
-            <!--          </NuxtLink>-->
+            <NuxtLink :to="`/anime/${item.id}`">
+              <UButton icon="i-heroicons-play-circle" color="purple"
+                       :ui="{ rounded: 'rounded-full' }">
+                Watch Now
+              </UButton>
+            </NuxtLink>
           </UContainer>
         </div>
       </div>
