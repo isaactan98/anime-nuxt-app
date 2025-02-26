@@ -20,28 +20,43 @@ export default {
       }],
       selected: 'sub',
       setReplace: '',
-      error: false
+      error: false,
+      failCounter: 0
     }
   },
   mounted() {
     const toast = useToast()
     const watchId = this.$route.params.watch.toString();
     this.setReplace = watchId.replace("$episode$", "?ep=").replace("$sub", "");
+    if (this.animeId != null) {
+      this.getAnimeInfo(this.animeId)
+    }
     this.getEp(this.setReplace).catch((err) => {
       alert(err)
       toast.add({
         title: 'There was an error, please try again',
       })
     })
-    if (this.animeId != null) {
-      this.getAnimeInfo(this.animeId)
-    }
   },
   methods: {
     async getEp(url: string) {
       const watchUrl = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${url}&category=${this.category}`
       await fetch(watchUrl)
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.status !== 200) {
+              res.json().then(data => {
+                alert(`Error fetching episode: ${data.message}`)
+              })
+              this.category = this.selected = 'raw'
+              this.getEp(url)
+              this.failCounter++
+            }
+            if (this.failCounter > 3) {
+              alert(`Error fetching episode: ${this.episodeTitle}.`)
+              window.location.href = '/'
+            }
+            return res.json()
+          })
           .then((res) => {
             this.videoInfo = res.data
             this.error = false
