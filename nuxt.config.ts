@@ -68,7 +68,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             api: `${process.env.NUXT_PUBLIC_API}`,
-            apiUrl: `${process.env.NUXT_PUBLIC_API}anime/zoro/`,
+            apiUrl: `${process.env.NUXT_PUBLIC_API}anime/animekai/`,
         }
     },
     pwa: {

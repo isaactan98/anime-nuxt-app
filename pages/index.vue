@@ -71,7 +71,7 @@ export default {
     },
     async getTopAir() {
       const url = this.config.public.apiUrl
-      await fetch(`${url}top-airing`).then((res) => res.json()).then((res) => {
+      await fetch(`${url}recent-added`).then((res) => res.json()).then((res) => {
         this.topAiring = res
         this.topAiring.results = res.results.map((item: any) => {
           return new RecentAnime(

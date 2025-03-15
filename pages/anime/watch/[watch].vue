@@ -21,22 +21,26 @@ export default {
       selected: 'sub',
       setReplace: '',
       error: false,
-      failCounter: 0
+      failCounter: 0,
+      iframeLink: "" as string | undefined,
+      proxy: "https://m3u8proxy.iztan98.workers.dev/v2?",
+      headers: ""
     }
   },
   mounted() {
     const toast = useToast()
     const watchId = this.$route.params.watch.toString();
     this.setReplace = watchId.replace("$episode$", "?ep=").replace("$sub", "");
+    this.getWatch(watchId);
     if (this.animeId != null) {
       this.getAnimeInfo(this.animeId)
     }
-    this.getEp(this.setReplace).catch((err) => {
-      alert(err)
-      toast.add({
-        title: 'There was an error, please try again',
-      })
-    })
+    // this.getEp(this.setReplace).catch((err) => {
+    //   alert(err)
+    //   toast.add({
+    //     title: 'There was an error, please try again',
+    //   })
+    // })
   },
   methods: {
     async getEp(url: string) {
@@ -85,18 +89,33 @@ export default {
             )
           })
           this.episodeTitle = this.animeDetails.episodes.find((item: any) => item.id === this.episodeId)?.title
+          this.iframeLink = this.animeDetails.episodes.find((item: any) => item.id === this.episodeId)?.url
         }
       })
     },
-  }
+    getWatch(id: string) {
+      console.clear()
+      const newUrl = "https://consumet-a1b73be4992c.herokuapp.com/anime/animekai/"
+      fetch(`${newUrl}watch/${id}`).then((res) => res.json()).then((res) => {
+        this.videoInfo = res
+        this.headers = res.headers["Referer"]
+      })
+    }
+  },
 }
 </script>
 
 <template>
   <div class="mt-10">
-    <UContainer v-if="videoInfo != null" class="md:min-h-screen">
-      <VideoPlayer :src="videoInfo.sources[0].url" :subtitle="videoInfo.tracks" :title="episodeTitle"/>
-
+    <UContainer class="md:min-h-screen">
+      <VideoPlayer v-if="videoInfo != null"
+                   :src="proxy +'url=' + encodeURIComponent(videoInfo.sources[0].url)"
+                   :subtitle="videoInfo.tracks"
+                   :title="episodeTitle"/>
+      <a v-if="iframeLink" target="_blank" :href="iframeLink"
+         class="bg-purple-500 text-white px-3 py-2 rounded">
+        Watch Ori Site
+      </a>
       <div v-if="animeDetails != null" class="grid grid-cols-3 md:grid-cols-5 gap-3 relative my-5">
         <div class="col-span-1">
           <img :src="animeDetails.image" alt="" class="rounded-lg">
@@ -124,10 +143,9 @@ export default {
           </div>
         </div>
       </div>
-
-    </UContainer>
-    <UContainer v-else class="min-h-screen">
-      <USkeleton style="aspect-ratio: 16/9;"/>
+      <UContainer v-else class="min-h-screen">
+        <USkeleton style="aspect-ratio: 16/9;"/>
+      </UContainer>
     </UContainer>
   </div>
 </template>
