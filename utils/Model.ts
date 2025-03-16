@@ -213,10 +213,14 @@ export class AnimeEpisode {
 export class VideoMedia {
     tracks: Subtitle[];
     sources: Sources[];
+    headers: {
+        Referer: string;
+    };
 
-    constructor(tracks: Subtitle[], sources: Sources[]) {
+    constructor(tracks: Subtitle[], sources: Sources[], headers: any) {
         this.tracks = tracks;
         this.sources = sources;
+        this.headers = headers;
     }
 }
 

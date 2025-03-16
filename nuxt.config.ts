@@ -1,7 +1,7 @@
 import {vite as vidstack} from 'vidstack/plugins'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    compatibilityDate: "2025-02-21",
+    compatibilityDate: "2025-03-16",
     devtools: {enabled: true},
     modules: ['@nuxt/ui', '@vite-pwa/nuxt'],
     app: {

@@ -23,7 +23,7 @@ export default {
       error: false,
       failCounter: 0,
       iframeLink: "" as string | undefined,
-      proxy: "https://m3u8proxy.iztan98.workers.dev/v2?",
+      proxy: "https://m3-u8-proxy-ivory.vercel.app/m3u8-proxy?url=",
       headers: ""
     }
   },
@@ -98,7 +98,7 @@ export default {
       const newUrl = "https://consumet-a1b73be4992c.herokuapp.com/anime/animekai/"
       fetch(`${newUrl}watch/${id}`).then((res) => res.json()).then((res) => {
         this.videoInfo = res
-        this.headers = res.headers["Referer"]
+        this.headers = `{"referer": ${res.headers["Referer"]}`
       })
     }
   },
@@ -109,7 +109,7 @@ export default {
   <div class="mt-10">
     <UContainer class="md:min-h-screen">
       <VideoPlayer v-if="videoInfo != null"
-                   :src="proxy +'url=' + encodeURIComponent(videoInfo.sources[0].url)"
+                   :src="proxy + encodeURIComponent(videoInfo?.sources[0].url) + '&header=' + encodeURIComponent(headers)"
                    :subtitle="videoInfo.tracks"
                    :title="episodeTitle"/>
       <a v-if="iframeLink" target="_blank" :href="iframeLink"
