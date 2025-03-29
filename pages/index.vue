@@ -132,7 +132,15 @@ export default {
     <div v-else class="relative h-[35vh] md:h-[75vh] bg-zinc-700">
     </div>
     <UContainer class="mt-10">
-      <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
+      <div class="flex justify-between">
+        <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
+        <NuxtLink to="recent-release" icon="chevron-right">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+          </svg>
+        </NuxtLink>
+      </div>
       <ScrollingCard v-if="recentRelease.results?.length > 0" :data="recentRelease.results"/>
       <div class="flex w-full overflow-x-auto snap-x scroll-smooth gap-3" v-else>
         <BlackCard v-for="x in 10"/>
@@ -140,7 +148,15 @@ export default {
     </UContainer>
 
     <UContainer class="mt-10">
-      <h1 class="text-2xl font-semibold text-white mb-5">Top Airing</h1>
+      <div class="flex justify-between">
+        <h1 class="text-2xl font-semibold text-white mb-5">Top Airing</h1>
+        <NuxtLink>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+          </svg>
+        </NuxtLink>
+      </div>
       <ScrollingCard v-if="topAiring.results?.length > 0" :data="topAiring.results"/>
       <div class="flex w-full overflow-x-auto snap-x scroll-smooth gap-3" v-else>
         <BlackCard v-for="x in 10"/>
