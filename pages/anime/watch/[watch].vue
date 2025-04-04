@@ -24,17 +24,18 @@ export default {
       failCounter: 0,
       iframeLink: "" as string | undefined,
       proxy: "https://m3-u8-proxy-ivory.vercel.app/m3u8-proxy?url=",
-      headers: ""
+      headers: "",
+      setError: false,
     }
   },
   mounted() {
     const toast = useToast()
     const watchId = this.$route.params.watch.toString();
     this.setReplace = watchId.replace("$episode$", "?ep=").replace("$sub", "");
-    this.getWatch(watchId);
     if (this.animeId != null) {
       this.getAnimeInfo(this.animeId)
     }
+    this.getWatch(watchId);
     // this.getEp(this.setReplace).catch((err) => {
     //   alert(err)
     //   toast.add({
@@ -93,12 +94,18 @@ export default {
         }
       })
     },
-    getWatch(id: string) {
+    async getWatch(id: string) {
       console.clear()
       const newUrl = "https://consumet-a1b73be4992c.herokuapp.com/anime/animekai/"
-      fetch(`${newUrl}watch/${id}`).then((res) => res.json()).then((res) => {
-        this.videoInfo = res
-        this.headers = `{"referer": ${res.headers["Referer"]}`
+      await fetch(`${newUrl}watch/${id}`).then((res) => res.json()).then((res) => {
+        if (res.status == 200) {
+          this.videoInfo = res
+          this.headers = `{"referer": ${res.headers["Referer"]}`
+        } else {
+          this.setError = true
+        }
+      }).catch((err) => {
+        console.error(err)
       })
     }
   },
@@ -109,11 +116,13 @@ export default {
   <div class="mt-10">
     <UContainer class="md:min-h-screen">
       <VideoPlayer v-if="videoInfo != null"
-                   :src="proxy + encodeURIComponent(videoInfo?.sources[0].url) + '&header=' + encodeURIComponent(headers)"
+                   :src="proxy + encodeURIComponent(videoInfo.sources[0].url) + '&header=' + encodeURIComponent(headers)"
                    :subtitle="videoInfo.tracks"
                    :title="episodeTitle"/>
+      <UAlert v-if="setError" color="red"
+              variant="solid" title="Error!" description="Not able to load episode."/>
       <a v-if="iframeLink" target="_blank" :href="iframeLink"
-         class="bg-purple-500 text-white px-3 py-2 rounded">
+         class="bg-purple-500 text-white px-3 py-2 mt-5 rounded">
         Watch Ori Site
       </a>
       <div v-if="animeDetails != null" class="grid grid-cols-3 md:grid-cols-5 gap-3 relative my-5">
