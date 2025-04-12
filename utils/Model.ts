@@ -150,6 +150,7 @@ export class AnimeInfo {
     totalEpisodes: number;
     type: string;
     url: string;
+    genres: string;
 
     constructor(
         id: string,
@@ -167,7 +168,8 @@ export class AnimeInfo {
         title: string = "",
         totalEpisodes: number = 0,
         type: string = "",
-        url: string = ""
+        url: string = "",
+        genres: string = "",
     ) {
         this.id = id;
         this.image = image;
@@ -185,6 +187,7 @@ export class AnimeInfo {
         this.totalEpisodes = totalEpisodes;
         this.type = type;
         this.url = url;
+        this.genres = genres;
     }
 }
 

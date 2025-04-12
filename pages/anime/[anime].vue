@@ -86,30 +86,40 @@ export default {
           <template #item="{ item }">
             <UCard v-if="item.key === 'info'">
               <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                <div class="col-span-1" v-if="anilistDetails != null">
+                <div class="col-span-1" >
                   <h5 class="text-white font-semibold md:text-2xl">Info</h5>
-                  <div class="grid grid-cols-3" v-if="anilistDetails.nextAiringEpisode">
-                    <p class="text-zinc-300 col-span-1 capitalize">Airing</p>
-                    <p class="col-span-2">
-                      EP {{ anilistDetails.nextAiringEpisode.episode }} -
-                      {{ getCountDown(anilistDetails.nextAiringEpisode.airingTime.toString()) }}
-                    </p>
-                  </div>
-                  <div class="grid grid-cols-3" v-if="anilistDetails.endDate">
-                    <p class="text-zinc-300 col-span-1 capitalize">End</p>
-                    <p class="col-span-2">
-                      {{ anilistDetails.endDate.year }}-{{ anilistDetails.endDate.month }}-{{
-                        anilistDetails.endDate.day
-                      }}
-                    </p>
-                  </div>
                   <div class="grid grid-cols-3 gap-2 items-center mt-3">
                     <p class="text-zinc-300 col-span-1 font-semibold capitalize">
                       Genres
                     </p>
                     <span class="text-zinc-300 col-span-2">
+                      {{ animeDetails?.genres[0].split(":")[1] }}
+                    </span>
+                  </div>
+                  <div v-if="anilistDetails != null">
+                    <div class="grid grid-cols-3" v-if="anilistDetails.nextAiringEpisode">
+                      <p class="text-zinc-300 col-span-1 capitalize">Airing</p>
+                      <p class="col-span-2">
+                        EP {{ anilistDetails.nextAiringEpisode.episode }} -
+                        {{ getCountDown(anilistDetails.nextAiringEpisode.airingTime.toString()) }}
+                      </p>
+                    </div>
+                    <div class="grid grid-cols-3" v-if="anilistDetails.endDate">
+                      <p class="text-zinc-300 col-span-1 capitalize">End</p>
+                      <p class="col-span-2">
+                        {{ anilistDetails.endDate.year }}-{{ anilistDetails.endDate.month }}-{{
+                          anilistDetails.endDate.day
+                        }}
+                      </p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center mt-3">
+                      <p class="text-zinc-300 col-span-1 font-semibold capitalize">
+                        Genres
+                      </p>
+                      <span class="text-zinc-300 col-span-2">
                       {{ anilistDetails?.genres.join(", ") }}
                     </span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-span-3">
