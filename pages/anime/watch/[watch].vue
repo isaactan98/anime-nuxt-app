@@ -23,9 +23,10 @@ export default {
       error: false,
       failCounter: 0,
       iframeLink: "" as string | undefined,
-      proxy: "https://m3-u8-proxy-ivory.vercel.app/m3u8-proxy?url=",
+      proxy: "https://anime-proxy.vercel.app/m3u8-proxy", //  "https://anime-proxy.vercel.app/m3u8-proxy?url=", // "https://m3-u8-proxy-ivory.vercel.app/m3u8-proxy?url="
       headers: "",
       setError: false,
+      videoLink: "" as string | undefined,
     }
   },
   mounted() {
@@ -35,17 +36,12 @@ export default {
     if (this.animeId != null) {
       this.getAnimeInfo(this.animeId)
     }
-    this.getWatch(watchId);
-    // this.getEp(this.setReplace).catch((err) => {
-    //   alert(err)
-    //   toast.add({
-    //     title: 'There was an error, please try again',
-    //   })
-    // })
+    this.newWatch(watchId)
   },
   methods: {
     async getEp(url: string) {
-      const watchUrl = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${url}&category=${this.category}`
+      const watchUrl = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${url}?server=hd-1&category=sub`
+      // const watchUrl = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=steinsgate-3?ep=230&server=hd-1&category=dub`
       await fetch(watchUrl)
           .then((res) => {
             if (res.status !== 200) {
@@ -65,6 +61,11 @@ export default {
           .then((res) => {
             this.videoInfo = res.data
             this.error = false
+
+            // const source = this.videoInfo?.sources[0].url ?? ""
+            // const headers = '{"Referer": "https://hianimez.to"}'
+            // this.videoLink = `${this.proxy}?url=${encodeURIComponent(source)}&headers=${encodeURIComponent(headers)}`
+
           }).catch((err) => {
             this.videoInfo = null
             this.error = true
@@ -107,6 +108,15 @@ export default {
       }).catch((err) => {
         console.error(err)
       })
+    },
+    async newWatch(id: string) {
+      const url = this.config.public.apiUrl
+      await fetch(`${url}watch/${id}`).then((res) => res.json()).then(res => {
+        this.videoInfo = res
+        const encodedHeaders = encodeURIComponent(JSON.stringify(res.headers));
+        const setHeader = `headers=${encodedHeaders}`
+        this.videoLink = `${this.proxy}?url=${encodeURIComponent(res.sources[0].url)}&${setHeader}`
+      })
     }
   },
 }
@@ -116,8 +126,8 @@ export default {
   <div class="mt-10">
     <UContainer class="md:min-h-screen">
       <VideoPlayer v-if="videoInfo != null"
-                   :src="proxy + encodeURIComponent(videoInfo.sources[0].url) + '&header=' + encodeURIComponent(headers)"
-                   :subtitle="videoInfo.tracks"
+                   :src="videoLink"
+                   :subtitle="videoInfo.subtitles"
                    :title="episodeTitle"/>
       <UAlert v-if="setError" color="red"
               variant="solid" title="Error!" description="Not able to load episode."/>

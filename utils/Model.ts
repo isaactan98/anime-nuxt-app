@@ -214,14 +214,14 @@ export class AnimeEpisode {
 }
 
 export class VideoMedia {
-    tracks: Subtitle[];
+    subtitles: Subtitle[];
     sources: Sources[];
     headers: {
         Referer: string;
     };
 
     constructor(tracks: Subtitle[], sources: Sources[], headers: any) {
-        this.tracks = tracks;
+        this.subtitles = tracks;
         this.sources = sources;
         this.headers = headers;
     }
@@ -242,12 +242,16 @@ export class Subtitle {
     label: string;
     kind: string;
     default: boolean | null;
+    lang: string;
+    url: string;
 
-    constructor(file: string, label: string, kind: string = "subtitles", isDefault: boolean | null = null) {
+    constructor(file: string, label: string, kind: string = "subtitles", isDefault: boolean | null = null, lang: string, url: string = "") {
         this.file = file;
         this.label = label;
         this.kind = kind;
         this.default = isDefault;
+        this.lang = lang;
+        this.url = url;
     }
 }
 

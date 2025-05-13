@@ -20,9 +20,9 @@ const props = defineProps({
 <template>
   <media-player :title="title" :src="src" :poster="poster">
     <media-provider>
-      <track v-for="s in subtitle" :src="s.file"
+      <track v-for="s in subtitle" :src="s.url"
              kind="subtitles"
-             :label="s.label"
+             :label="s.lang"
              data-type="vtt"/>
     </media-provider>
     <media-audio-layout/>
